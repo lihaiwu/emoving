@@ -3,14 +3,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
-		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl"
-			value="jdbc:mysql://localhost:3306/myzhoubian?useUnicode=true&amp;characterEncoding=utf-8">
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:jdbc.properties</value>
+			</list>
 		</property>
-		<property name="user" value="root"></property>
-		<property name="password" value=""></property>
+	</bean>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClass}" />
+		<property name="jdbcUrl" value="${jdbc.url}"/>
+		<property name="user" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
 		<property name="minPoolSize" value="30" />
 		<property name="maxPoolSize" value="100" />
 		<property name="maxStatements" value="0" />
@@ -18,12 +22,23 @@
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-		<property name="dataSource">
-			<ref bean="dataSource" />
-		</property>
+		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation">
 			<value>classpath:hibernate.cfg.xml</value>
 		</property>
+		<property name="hibernateProperties">
+		      <props>
+			        <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+			        <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			        <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+			        <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+			        <prop key="hibernate.max_fetch_depth">${hibernate.max_fetch_depth}</prop>
+			        <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+			        <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+			        <prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+			        <prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
+		      </props>
+	    </property>
 	</bean>
 
 	<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
@@ -35,7 +50,7 @@
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+
 	<bean id="baseTransactionProxy"
 		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
 		abstract="true">
