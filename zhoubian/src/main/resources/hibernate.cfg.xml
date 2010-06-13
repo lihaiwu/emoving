@@ -26,7 +26,7 @@
 		<mapping resource="net/zhoubian/app/model/mysql/Street.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Attention.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/InformationComment.hbm.xml" />
-		<mapping resource="net/zhoubian/app/model/mysql/LocationNamed.hbm.xml" />
+		<mapping resource="net/zhoubian/app/model/mysql/Location.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Diary.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Poke.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Myapp.hbm.xml" />
