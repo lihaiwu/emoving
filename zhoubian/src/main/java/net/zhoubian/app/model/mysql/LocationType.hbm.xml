@@ -10,6 +10,16 @@
             <column name="id" />
             <generator class="native" />
         </id>
+        <property name="locationType" type="java.lang.Integer">
+            <column name="location_type" not-null="true">
+                <comment>位置类型，位置可包含多种类型，如用户位置，实体位置</comment>
+            </column>
+        </property>
+        <property name="subLocType" type="java.lang.Integer">
+        	<column name="sub_loc_type" not-null="true">
+        		<comment>如对用户位置可进一步细分为，1-居住地，2-办公地，3-旅游地，4-出差地，5-其他，对实体位置可进一步细分为1-商户，2-商圈，3-大学，4-景点，5-社区，6-居民楼，7-写字楼，8-医院</comment>
+        	</column>
+        </property>
         <property name="name" type="java.lang.String">
             <column name="name" length="20" not-null="true" />
         </property>
@@ -18,8 +28,11 @@
         </property>
         <property name="metadata" type="java.lang.String">
             <column name="metadata" length="65535">
-                <comment>瀵硅�ョ被���浣�缃����灞�绀哄舰寮�锛����������淇℃��绛�杩�琛����杩�</comment>
+                <comment>对该类型位置的展示形式，包含的信息等进行描述</comment>
             </column>
+        </property>
+        <property name="iconUrl" type="java.lang.String">
+        	<column name="icon_url" length="80"/>
         </property>
     </class>
 </hibernate-mapping>
