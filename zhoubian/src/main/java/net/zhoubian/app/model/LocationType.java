@@ -9,29 +9,23 @@ public class LocationType implements java.io.Serializable {
 	// Fields
 
 	private Integer id;
+	
+	private Integer locationType;
+	
+	private Integer subLocType;
 
 	private String name;
 
 	private String description;
 
 	private String metadata;
+	
+	private String iconUrl;
 
 	// Constructors
 
 	/** default constructor */
 	public LocationType() {
-	}
-
-	/** minimal constructor */
-	public LocationType(String name) {
-		this.name = name;
-	}
-
-	/** full constructor */
-	public LocationType(String name, String description, String metadata) {
-		this.name = name;
-		this.description = description;
-		this.metadata = metadata;
 	}
 
 	// Property accessors
@@ -67,5 +61,31 @@ public class LocationType implements java.io.Serializable {
 	public void setMetadata(String metadata) {
 		this.metadata = metadata;
 	}
+
+	public Integer getLocationType() {
+		return locationType;
+	}
+
+	public void setLocationType(Integer locationType) {
+		this.locationType = locationType;
+	}
+
+	public Integer getSubLocType() {
+		return subLocType;
+	}
+
+	public void setSubLocType(Integer subLocType) {
+		this.subLocType = subLocType;
+	}
+
+	public String getIconUrl() {
+		return iconUrl;
+	}
+
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
+	}
+	
+	
 
 }
