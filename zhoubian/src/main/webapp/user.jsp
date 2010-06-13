@@ -10,7 +10,7 @@
 <body>
 users:<br>
 <s:iterator id="u" value="users" var="u">
-	id:<s:property value="id" /><br>
+	id:<s:property value="uid" /><br>
 	name:<s:property value="name" /><br>
 	password:<s:property value="password" /><br>
 </s:iterator>
