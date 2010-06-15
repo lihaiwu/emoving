@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="Keywords" content="地图 搜索，位置管理，周边旅游，周边购物，周边交友"/>
 <meta name="description" content="我的位置管理"/>
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no"/>
 <title>我的位置管理</title>
 <style type="text/css">
 body{
@@ -19,6 +20,18 @@ body{
 #sidebar{float:left; width:200px; height:500px; background:#cf9}
 #content{margin-left:205px !important; margin-left:202px; height:500px; background:#ffa;}
 </style>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+function initialize(){
+	var latlng = new google.maps.LatLng(-34.397,150.644);
+	var myOptions = {
+		zoom: 8,
+		center: latlng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+}
+</script>
 </head>
 <body>
 <div id="container">
@@ -26,8 +39,11 @@ body{
 	<div id="menu">This is the Menu</div>
 	<div id="mainContent">
 		<div id="sidebar">This is the sidebar</div>
-		<div id="content">地图显示</div>
+		<div id="content"><div id="map_canvas" style="width:100%;height:100%"></div></div>
 	</div>
 </div>
+<script type="text/javascript">
+initialize();
+</script>
 </body>
 </html>
