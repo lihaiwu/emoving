@@ -5,9 +5,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="Keywords" content="城市首页，周边，交友"/>
-<meta name="description" content="城市首页"/>
-<title>城市首页</title>
+<meta name="Keywords" content="我的周边，交友"/>
+<meta name="description" content="我的周边首页"/>
+<title>我的周边</title>
 <style type="text/css">
 body{ font-family:Verdana; font-size:14px; margin:0; }
 
@@ -23,9 +23,9 @@ body{ font-family:Verdana; font-size:14px; margin:0; }
 <body>
 <div id="container">
 	<div id="header">This is the Header</div>
-	<div id="menu">This is the Menu</div>
+	<div id="menu"><a href="#">周边聊天</a>|<a href="#">周边论坛</a></div>
 	<div id="mainContent">
-		<div id="sidebar"><ul><li><a href="myspace.jsp">进入个人空间</a></li><li><a href="myzhoubian.jsp">进入默认位置</a></li></ul></div>
+		<div id="sidebar">this is sidebar</div>
 		<div id="content">分类信息</div>
 	</div>
 	<div id="footer" align="center">周边网版权所有</div>
