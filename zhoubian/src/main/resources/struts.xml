@@ -13,6 +13,10 @@
 	<package name="test" namespace="/" extends="struts-default">
 		<action name="user_*" method="{1}" class="userAction">
 			<result>user.jsp</result>
+			<result name="login">login.jsp</result>
+			<result name="loginsuccess">loginsuccess.jsp</result>
+			<result name="register">register.jsp</result>
+			<result name="cityindex">cityindex.jsp</result>
 		</action>
 	</package>
 </struts> 
