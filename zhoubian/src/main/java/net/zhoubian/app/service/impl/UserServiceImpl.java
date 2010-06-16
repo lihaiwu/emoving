@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService{
 	}
 	public void addUser(User user) {
 		// TODO Auto-generated method stub
-		
+		userDao.saveOrUpdate(user);
 	}
 
 	public List<User> getUsers() {
