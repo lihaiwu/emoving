@@ -18,6 +18,7 @@ body{ font-family:Verdana; font-size:14px; margin:0; }
 #sidebar{float:right; width:200px; height:500px; background:#cf9;}
 #content{ float:left; width:695px; height:500px; background:#ffa;}
 #footer{height:60px; background:#9c6;}
+iframe{margin:0; border:0; padding:0; width:200px;}
 </style>
 </head>
 <body>
@@ -25,7 +26,9 @@ body{ font-family:Verdana; font-size:14px; margin:0; }
 	<div id="header">This is the Header</div>
 	<div id="menu">This is the Menu</div>
 	<div id="mainContent">
-		<div id="sidebar"><ul><li><a href="myspace.jsp">进入个人空间</a></li><li><a href="myzhoubian.jsp">进入默认位置</a></li></ul></div>
+		<div id="sidebar">
+		<iframe id="login" src="<%=request.getContextPath()%>/user_preLogin.do" frameborder="0"></iframe>
+		</div>
 		<div id="content">分类信息</div>
 	</div>
 	<div id="footer" align="center">周边网版权所有</div>
