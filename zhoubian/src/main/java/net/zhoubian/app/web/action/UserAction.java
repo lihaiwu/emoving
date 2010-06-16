@@ -1,6 +1,7 @@
 package net.zhoubian.app.web.action;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import net.zhoubian.app.model.User;
@@ -12,6 +13,18 @@ public class UserAction extends AbstractAction {
 	private List<User> users = new ArrayList<User>();
 
 	private UserService userService;
+	
+	private User user;
+	
+	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public String list() {
 		users = userService.getUsers();
@@ -39,6 +52,11 @@ public class UserAction extends AbstractAction {
 		return "register";
 	}
 	public String submitRegister(){
+		user.setCreateTime(Calendar.getInstance().getTime());
+		user.setUserType((short)1);
+		user.setStatus((short)0);
+		user.setGrade((1));
+		userService.addUser(user);
 		return "cityindex";
 	}
 }
