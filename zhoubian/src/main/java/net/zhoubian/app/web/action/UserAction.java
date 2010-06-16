@@ -29,5 +29,16 @@ public class UserAction extends AbstractAction {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-
+	public String preLogin(){
+		return "login";
+	}
+	public String login(){
+		return "loginsuccess";
+	}
+	public String register(){
+		return "register";
+	}
+	public String submitRegister(){
+		return "cityindex";
+	}
 }
