@@ -5,4 +5,10 @@
 	<bean id="userDao" class="net.zhoubian.app.dao.mysql.UserDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="classDao" class="net.zhoubian.app.dao.mysql.ClassDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="subclassDao" class="net.zhoubian.app.dao.mysql.SubClassDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>
