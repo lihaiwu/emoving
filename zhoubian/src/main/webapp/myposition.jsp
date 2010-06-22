@@ -20,16 +20,15 @@ body{
 #sidebar{float:left; width:200px; height:500px; background:#cf9}
 #content{margin-left:205px !important; margin-left:202px; height:500px; background:#ffa;}
 </style>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.3&key=a8fd626a3e335450a30b4119ef84b44818d1bdd46c2ff9df57598c79f7ff929822d3e17a30c5bbb2"></script>
 <script type="text/javascript">
 function initialize(){
-	var latlng = new google.maps.LatLng(-34.397,150.644);
-	var myOptions = {
-		zoom: 8,
-		center: latlng,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+	var mapoption = new MMapOptions();
+	mapoption.zoom = 13;
+	mapoption.toolbar = DEFAULT;
+	mapoption.toolbarPos = new MPoint(0,0);
+	mapoption.overviewMap = SHOW;
+	var mapObj = new MMap("map_canvas",mapoption);
 }
 </script>
 </head>
