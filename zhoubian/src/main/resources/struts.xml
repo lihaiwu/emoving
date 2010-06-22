@@ -10,6 +10,8 @@
 	<constant name="struts.ui.theme" value="simple" />
 	<constant name="struts.multipart.maxSize" value="52428800" />
 	
+	<include file="struts-info.xml"></include>
+	
 	<package name="test" namespace="/" extends="struts-default">
 		<action name="user_*" method="{1}" class="userAction">
 			<result>user.jsp</result>

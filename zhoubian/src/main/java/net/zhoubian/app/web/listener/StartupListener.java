@@ -37,7 +37,7 @@ public class StartupListener implements ServletContextListener{
 		logger.info("...loading information category");
 		ClassDao classDao = (ClassDao)ctx.getBean("classDao");
 		SubClassDao subclassDao = (SubClassDao)ctx.getBean("subclassDao");
-		List<Clazz> clazzes = classDao.findAllObjects();
+		List<Clazz> clazzes = classDao.findAllClasses();
 		for(Clazz clazz : clazzes){
 			logger.info("......Clazz name:" + clazz.getClassName());
 			List<SubClass> subclasses = classDao.loadSubClasses(clazz.getClassId());

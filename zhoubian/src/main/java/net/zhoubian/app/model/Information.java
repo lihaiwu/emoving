@@ -25,7 +25,10 @@ public class Information implements java.io.Serializable {
 	private String state;
 
 	private Integer positionId;
-
+	
+	private String indexStatus; // 索引状态，默认为0,0:未索引 ，1:已索引
+	public static String UNINDEXED = "0";
+	public static String INDEXED = "1";
 	// Constructors
 
 	/** default constructor */
@@ -108,6 +111,13 @@ public class Information implements java.io.Serializable {
 
 	public void setPositionId(Integer positionId) {
 		this.positionId = positionId;
+	}
+	
+	public void setIndexStatus(String indexStatus) {
+		this.indexStatus = indexStatus;
+	}
+	public String getIndexStatus() {
+		return indexStatus;
 	}
 
 }

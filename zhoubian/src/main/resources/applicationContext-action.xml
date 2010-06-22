@@ -7,4 +7,7 @@
 		scope="prototype" autowire="byName">
 		<property name="userService" ref="userService"></property>
 	</bean>
+	<bean id="categoryAction" class="net.zhoubian.app.web.action.CategoryAction"
+		scope="prototype" autowire="byName">
+	</bean>
 </beans>

@@ -19,5 +19,8 @@
         <property name="pinyinAbstract" type="java.lang.String">
             <column name="pinyin_abstract" length="30" />
         </property>
+        <property name="indexStatus" type="java.lang.String">
+            <column name="index_status" length="1" />
+        </property>
     </class>
 </hibernate-mapping>
