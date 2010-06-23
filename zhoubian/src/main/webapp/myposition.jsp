@@ -20,7 +20,7 @@ body{
 #sidebar{float:left; width:200px; height:500px; background:#cf9}
 #content{margin-left:205px !important; margin-left:202px; height:500px; background:#ffa;}
 </style>
-<script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.3&key=a8fd626a3e335450a30b4119ef84b44818d1bdd46c2ff9df57598c79f7ff929822d3e17a30c5bbb2"></script>
+<script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.3&key=<%=net.zhoubian.app.util.SystemProperties.getProperty("mapkey")%>"></script>
 <script type="text/javascript">
 function initialize(){
 	var mapoption = new MMapOptions();
