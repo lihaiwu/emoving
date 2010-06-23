@@ -8,15 +8,15 @@
 <title>Insert title here</title>
 <style type="text/css">
 .content {
-	width: 610px;
+	width: 685px;
 }
 
 .box {
-	width: 300px;
-	height: 200px;
+	width: 330px;
+	height: 150px;
 	float: left;
 	border: 1px solid #B1C8D7;
-	margin: 2px 2px 2px 0;
+	margin: 2px;
 }
 
 .box .title {
