@@ -10,6 +10,6 @@
 		</property>
 
 	</bean>
-	<bean id="gridUtil" class="net.zhoubian.app.service.impl.GridUtil">
+	<bean id="gridUtil" class="net.zhoubian.app.util.GridUtil">
 	</bean>
 </beans>
