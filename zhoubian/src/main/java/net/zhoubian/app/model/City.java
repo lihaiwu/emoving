@@ -13,6 +13,12 @@ public class City implements java.io.Serializable {
 	private String cityName;
 
 	private String provinceId;
+	
+	private Float longitude;
+	
+	private Float latitude;
+	
+	private Float ratio;
 
 	// Constructors
 
@@ -21,9 +27,12 @@ public class City implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public City(String cityName, String provinceId) {
+	public City(String cityName, String provinceId,Float longitude,Float latitude,Float ratio) {
 		this.cityName = cityName;
 		this.provinceId = provinceId;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.ratio = ratio;
 	}
 
 	// Property accessors
@@ -51,5 +60,31 @@ public class City implements java.io.Serializable {
 	public void setProvinceId(String provinceId) {
 		this.provinceId = provinceId;
 	}
+
+	public Float getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Float longitude) {
+		this.longitude = longitude;
+	}
+
+	public Float getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Float latitude) {
+		this.latitude = latitude;
+	}
+
+	public Float getRatio() {
+		return ratio;
+	}
+
+	public void setRatio(Float ratio) {
+		this.ratio = ratio;
+	}
+	
+	
 
 }

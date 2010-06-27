@@ -24,7 +24,7 @@ public class Information implements java.io.Serializable {
 
 	private String state;
 
-	private Integer positionId;
+	private Long locationId;
 	
 	private String indexStatus; // 索引状态，默认为0,0:未索引 ，1:已索引
 	public static String UNINDEXED = "0";
@@ -37,14 +37,14 @@ public class Information implements java.io.Serializable {
 
 	/** full constructor */
 	public Information(String title, String categoryId, Float longitude,
-			Float latitude, Date createTime, String state, Integer positionId) {
+			Float latitude, Date createTime, String state, Long locationId) {
 		this.title = title;
 		this.categoryId = categoryId;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.createTime = createTime;
 		this.state = state;
-		this.positionId = positionId;
+		this.locationId = locationId;
 	}
 
 	// Property accessors
@@ -105,12 +105,12 @@ public class Information implements java.io.Serializable {
 		this.state = state;
 	}
 
-	public Integer getPositionId() {
-		return this.positionId;
+	public Long getLocationId() {
+		return this.locationId;
 	}
 
-	public void setPositionId(Integer positionId) {
-		this.positionId = positionId;
+	public void setLocationId(Long locationId) {
+		this.locationId = locationId;
 	}
 	
 	public void setIndexStatus(String indexStatus) {

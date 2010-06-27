@@ -8,7 +8,7 @@ public class LocationHot implements java.io.Serializable {
 
 	// Fields
 
-	private Integer locationId;
+	private Long locationId;
 
 	private String streetId;
 
@@ -46,11 +46,11 @@ public class LocationHot implements java.io.Serializable {
 
 	// Property accessors
 
-	public Integer getLocationId() {
+	public Long getLocationId() {
 		return this.locationId;
 	}
 
-	public void setLocationId(Integer locationId) {
+	public void setLocationId(Long locationId) {
 		this.locationId = locationId;
 	}
 
