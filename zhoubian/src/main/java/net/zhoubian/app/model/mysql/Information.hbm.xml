@@ -30,8 +30,8 @@
                 <comment>0锛�澶辨�� 1锛�������</comment>
             </column>
         </property>
-        <property name="positionId" type="java.lang.Integer">
-            <column name="position_id" />
+        <property name="locationId" type="java.lang.Long">
+            <column name="location_id" />
         </property>
     </class>
 </hibernate-mapping>

@@ -16,5 +16,14 @@
         <property name="provinceId" type="java.lang.String">
             <column name="province_id" length="6" not-null="true" />
         </property>
+        <property name="longitude" type="java.lang.Float">
+        	<column name="longitude" precision="9" scale="6"/>
+        </property>
+        <property name="latitude" type="java.lang.Float">
+        	<column name="latitude" precision="9" scale="6"/>
+        </property>
+        <property name="ratio" type="java.lang.Float">
+        	<column name="ratio"/>
+        </property>
     </class>
 </hibernate-mapping>

@@ -36,10 +36,10 @@
             <column name="street_id" length="6" />
         </property>
         <property name="longitude" type="java.lang.Float">
-            <column name="longitude" precision="12" scale="0" />
+            <column name="longitude" precision="9" scale="6" />
         </property>
         <property name="latitude" type="java.lang.Float">
-            <column name="latitude" precision="12" scale="0" />
+            <column name="latitude" precision="9" scale="6" />
         </property>
         <property name="uid" type="java.lang.Long">
             <column name="uid" />

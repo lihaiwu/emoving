@@ -6,7 +6,7 @@
 -->
 <hibernate-mapping>
     <class name="net.zhoubian.app.model.LocationHot" table="location_hot" catalog="myzhoubian">
-        <id name="locationId" type="java.lang.Integer">
+        <id name="locationId" type="java.lang.Long">
             <column name="location_id" />
             <generator class="native" />
         </id>
