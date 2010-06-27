@@ -16,12 +16,28 @@ body{font-size:14px; margin:0;}
 #gridshow br{clear:left;}
 </style>
 </head>
-<body><!--
+<body>
 <div id="btn">
-<input type="button" value="生成大网格"/>
+<form action="gridgen.jsp" method="get" name="form1">
+经度：<input type="text" name="longitude" value="<%=request.getParameter("longitude")%>"/>
+纬度：<input type="text" name="latitude" value="<%=request.getParameter("latitude")%>"/>
+<input type="submit" value="查找编码"/>
+</form>
 </div>
 <div id="result">
-</div>-->
+<%
+	String longitude = request.getParameter("longitude");
+	String latitude = request.getParameter("latitude");
+	double lngX;
+	double latY;
+	if(longitude!=null && !longitude.equals("")){
+		lngX = Double.parseDouble(longitude);
+		latY = Double.parseDouble(latitude);
+		out.print(GridUtil.getOwnGridCode(latY,lngX));
+	}
+	
+%>
+</div>
 <div id="gridshow">
 <% 
 for(int i=GridUtil.latStrips.size()-1;i>=0;i--){
