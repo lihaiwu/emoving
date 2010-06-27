@@ -7,7 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class GridUtil {
-	private static class Grid256{
+	public static class Grid256{
 		private double bottomLat;
 		private double topLat;
 		private double leftLng;
@@ -59,7 +59,7 @@ public class GridUtil {
 			return "bottomLat = "+bottomLat+", topLat = "+topLat+", leftLng = "+leftLng+", rightLng = "+rightLng+", code = "+code;
 		}
 	}
-	private static class LatStrip{
+	public static class LatStrip{
 		private double bottomLat;
 		private double topLat;
 		private double centerLat;
@@ -155,7 +155,7 @@ public class GridUtil {
 	 * 地球平均半径，以米为单位
 	 */
 	private static final double earthRadii = 6371004;
-	private static List<LatStrip> latStrips = new ArrayList<LatStrip>();
+	public static List<LatStrip> latStrips = new ArrayList<LatStrip>();
 	public static void main(String[] args){
 		//中国最东端，135.041667
 		double lngright = 135+2/60.0+30/3600.0;
