@@ -261,18 +261,18 @@ public class GridUtil {
 	 * @param range 表示周边几平方公里，一般分为三个等级，分别是1平方公里，4平方公里，16平方公里
 	 * @return
 	 */
-	public static List<Integer> getRelatedGridCode(double lngX,double latY, int range){
-		List<Integer> result = new ArrayList<Integer>();
+	public static List<Long> getRelatedGridCode(double lngX,double latY, int range){
+		List<Long> result = new ArrayList<Long>();
 		if(latY<rightbottom.getLatY() || latY>lefttop.getLatY() || lngX<lefttop.getLngX() || lngX>rightbottom.getLngX()){
 			return null;
 		}
 		int y = (int)((latY-rightbottom.getLatY())/lat256);
 		LatStrip latStrip = latStrips.get(y);
 		double lng256 = latStrip.getLng256();
-		LngLat topleft = new LngLat(lngX-128*range/lng256,latY+128*range/lat256);
-		LngLat topright = new LngLat(lngX+128*range/lng256,latY+128*range/lat256);
-		LngLat bottomleft = new LngLat(lngX-128*range/lng256,latY-128*range/lat256);
-		LngLat bottomright = new LngLat(lngX+128*range/lng256,latY-128*range/lat256);
+		LngLat topleft = new LngLat(lngX-range*lng256/512,latY+range*lat256/512);
+		LngLat topright = new LngLat(lngX+range*lng256/512,latY+range*lat256/512);
+		LngLat bottomleft = new LngLat(lngX-range*lng256/512,latY-range*lat256/512);
+		LngLat bottomright = new LngLat(lngX+range*lng256/512,latY-range*lat256/512);
 		int[] gridTopLeft = getX1Y1(topleft.getLngX(),topleft.getLatY());
 		int x1TopLeft = gridTopLeft[0];
 		int y1TopLeft = gridTopLeft[1];
@@ -320,10 +320,10 @@ public class GridUtil {
 	}
 	private static void addGrid(List result,int[] gridTopLeft,int[] gridBottomRight){
 		for(int i=gridTopLeft[0];i<=gridBottomRight[0];i++){
-			for(int j=gridTopLeft[1];j<=gridBottomRight[1];j++){
+			for(int j=gridBottomRight[1];j<=gridTopLeft[1];j++){
 				int topCode = topEncode[gridTopLeft[2]][gridTopLeft[3]];
 				int hcode = h8.hilbertCurve(i, j);
-				int code = topCode*100000+hcode;
+				long code = topCode*100000+hcode;
 				result.add(code);
 			}
 		}
@@ -357,8 +357,8 @@ public class GridUtil {
 		int[] a1 = h8.hilbertDecoding(hCode);
 		int x1 = a1[0];
 		int y1 = a1[1];
-		result[0] = new LngLat(x1*(grid256.rightLng-grid256.leftLng)/256,y1*(grid256.topLat-grid256.bottomLat)/256);
-		result[1] = new LngLat((x1+1)*(grid256.rightLng-grid256.leftLng)/256,(y1+1)*(grid256.topLat-grid256.bottomLat)/256);
+		result[0] = new LngLat(grid256.leftLng+x1*(grid256.rightLng-grid256.leftLng)/256,grid256.bottomLat+y1*(grid256.topLat-grid256.bottomLat)/256);
+		result[1] = new LngLat(grid256.leftLng+(x1+1)*(grid256.rightLng-grid256.leftLng)/256,grid256.bottomLat+(y1+1)*(grid256.topLat-grid256.bottomLat)/256);
 		return result;
 	}
 }
