@@ -14,6 +14,7 @@
 	</repositories>
 
 	<build>
+		<finalName>myzhoubian</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -35,7 +36,53 @@
 		</plugins>
 	</build>
 
-
+	<profiles>
+		<!-- ================= Production Settings Profile ================= -->
+		<!-- Use "-P prod" when you want to use the settings in this profile -->
+		<!-- =============================================================== -->
+		<profile>
+			<id>prod</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>dbunit-maven-plugin</artifactId>
+						<dependencies>
+							<!-- 是连接数据的jar包-->
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>5.1.6</version>
+							</dependency>
+						</dependencies>
+						<!-- common configurations -->
+						<!-- 连接数据库的URL等信息-->
+						<configuration>
+							<driver>com.mysql.jdbc.Driver</driver>
+							<url>jdbc:mysql://localhost:3306/myzhoubian?useUnicode=true&amp;characterEncoding=utf-8</url>
+							<username>root</username>
+							<password></password>
+						</configuration>
+						<executions>
+							<execution>
+								<!-- 执行的阶段 这个是在编译测试文件时执行-->
+								<phase>compile</phase>
+								<goals>
+									<goal>operation</goal>
+								</goals>
+								<configuration>
+									<type>CLEAN_INSERT</type>
+									<!-- 执行的文件的位置 同以前使用的dbunit 文件一样-->
+									<src>src/main/resources/default-data.xml</src>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
 	<dependencies>
 		<dependency>
 			<groupId>antlr</groupId>
@@ -177,7 +224,7 @@
 			<artifactId>xwork</artifactId>
 			<version>2.1.2</version>
 		</dependency>
-		<dependency>
+  		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.1</version>
@@ -201,7 +248,23 @@
 			<groupId>net.paoding</groupId>
 			<artifactId>paoding-for-lucene</artifactId>
 			<version>2.4</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>2.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.2.3</version>
+			<classifier>jdk15</classifier>
+		</dependency>
 	</dependencies>
 
 
