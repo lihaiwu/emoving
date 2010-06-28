@@ -56,19 +56,24 @@
 </style>
 </head>
 <body>
-<div class="content"><s:iterator value="classes.keySet()"
-	id="vkey">
-	<s:iterator value="classes.get(#vkey)">
-		<div class=box>
-		<div class=title><span><s:property value="className" /></span></div>
-		<ul>
-			<s:iterator value="subClasses">
-				<li><A href="/Article/junshicankao/14418.html" target=_blank><s:property
-					value="subclassName" /></A></li>
-			</s:iterator>
-		</ul>
-		</div>
-	</s:iterator>
+<div class="content">
+<s:iterator value="classes.keySet()" id="vkey" status="stat">
+	<s:if test="classes.keySet().size() > 10 && #stat.index+1 > 10">
+		<span style="float: right;padding-right: 20px;"><a href="#">更多&gt;&gt;</a></span>
+	</s:if>
+	<s:else>
+		<s:iterator value="classes.get(#vkey)">
+			<div class=box>
+			<div class=title><span><s:property value="className" /></span></div>
+			<ul>
+				<s:iterator value="subClasses">
+					<li><A href="/Article/junshicankao/14418.html" target=_blank><s:property
+						value="subclassName" /></A></li>
+				</s:iterator>
+			</ul>
+			</div>
+		</s:iterator>
+	</s:else>
 </s:iterator></div>
 
 </body>

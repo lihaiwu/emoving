@@ -18,13 +18,9 @@ public class PinyinAnalyzer {
 		char[] chars = chinese.toCharArray();
 		String pinyin = "";
 		String pinyinAbstract = "";
-		HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
-		format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-		format.setVCharType(HanyuPinyinVCharType.WITH_V);
-		format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
 		try {
 			for (char c : chars) {
-				String[] result = PinyinHelper.toHanyuPinyinStringArray(c, format);
+				String[] result = PinyinHelper.toHanyuPinyinStringArray(c, getFormatter());
 				pinyin += result[0];
 				pinyinAbstract += result[0].substring(0, 1);
 			}
@@ -32,6 +28,33 @@ public class PinyinAnalyzer {
 			e.printStackTrace();
 		}
 		return new String[]{pinyin, pinyinAbstract};
+	}
+	
+	/**
+	 * 获取给定中文的汉语拼音
+	 * @param chinese
+	 * @return
+	 */
+	public static String getPinyin(String chinese){
+		char[] chars = chinese.toCharArray();
+		String pinyin = "";
+		try {
+			for (char c : chars) {
+				String[] result = PinyinHelper.toHanyuPinyinStringArray(c, getFormatter());
+				pinyin += result[0];
+			}
+		} catch (BadHanyuPinyinOutputFormatCombination e) {
+			e.printStackTrace();
+		}
+		return pinyin;
+	}
+
+	private static HanyuPinyinOutputFormat getFormatter() {
+		HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+		format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+		format.setVCharType(HanyuPinyinVCharType.WITH_V);
+		format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+		return format;
 	}
 	
 	public static void main(String[] args) {

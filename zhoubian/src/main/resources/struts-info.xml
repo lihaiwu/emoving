@@ -7,5 +7,10 @@
 		<action name="category_*" method="{1}" class="categoryAction">
 			<result>info/showcategory.jsp</result>
 		</action>
+		<action name="query_*" method="{1}" class="queryHitAction">
+		</action>
+		<action name="area_*" method="{1}" class="areaAction">
+		<result name="switch">cityswitch.jsp</result>
+		</action>
 	</package>
 </struts> 

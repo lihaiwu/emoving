@@ -33,7 +33,7 @@ body {
 }
 
 #mainContent {
-	height: 1000px;
+	height: 1020px;
 	margin-bottom: 5px;
 }
 
@@ -74,7 +74,7 @@ body {
 #content {
 	float: left;
 	width: 695px;
-	height: 800px;
+	height: 820px;
 	/*background: #ffa;*/
 }
 

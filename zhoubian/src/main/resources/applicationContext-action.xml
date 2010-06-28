@@ -10,4 +10,10 @@
 	<bean id="categoryAction" class="net.zhoubian.app.web.action.CategoryAction"
 		scope="prototype" autowire="byName">
 	</bean>
+	<bean id="queryHitAction" class="net.zhoubian.app.web.action.QueryHitAction"
+		scope="prototype" autowire="byName">
+	</bean>
+	<bean id="areaAction" class="net.zhoubian.app.web.action.AreaAction"
+		scope="prototype" autowire="byName">
+	</bean>
 </beans>

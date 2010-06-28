@@ -8,7 +8,7 @@
     <class name="net.zhoubian.app.model.City" table="city" catalog="myzhoubian">
         <id name="cityId" type="java.lang.String">
             <column name="city_id" length="6" />
-            <generator class="native" />
+            <generator class="assigned" />
         </id>
         <property name="cityName" type="java.lang.String">
             <column name="city_name" length="18" not-null="true" />
@@ -24,6 +24,9 @@
         </property>
         <property name="ratio" type="java.lang.Float">
         	<column name="ratio"/>
+        </property>
+        <property name="pinyin" type="java.lang.String">
+        	<column name="pinyin"/>
         </property>
     </class>
 </hibernate-mapping>

@@ -20,6 +20,7 @@ public class City implements java.io.Serializable {
 	
 	private Float ratio;
 
+	private String pinyin;
 	// Constructors
 
 	/** default constructor */
@@ -27,12 +28,13 @@ public class City implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public City(String cityName, String provinceId,Float longitude,Float latitude,Float ratio) {
+	public City(String cityName, String provinceId,Float longitude,Float latitude,Float ratio,String pinyin) {
 		this.cityName = cityName;
 		this.provinceId = provinceId;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.ratio = ratio;
+		this.pinyin = pinyin;
 	}
 
 	// Property accessors
@@ -85,6 +87,11 @@ public class City implements java.io.Serializable {
 		this.ratio = ratio;
 	}
 	
-	
+	public String getPinyin() {
+		return pinyin;
+	}
+	public void setPinyin(String pinyin) {
+		this.pinyin = pinyin;
+	}
 
 }
