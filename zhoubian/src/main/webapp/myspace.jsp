@@ -8,6 +8,6 @@
 <title>个人空间</title>
 </head>
 <body>
-<a href="myposition.jsp">我的位置管理</a>
+<a href="map/myposition.jsp">我的位置管理</a>
 </body>
 </html>
