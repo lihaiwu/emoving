@@ -142,7 +142,7 @@ public class GridUtil {
 			//计算该条带内存在多少个网格
 			double dGridNum = (rightbottom.getLngX()-lefttop.getLngX())/lng256;
 			int gridNum = (int)Math.ceil(dGridNum);
-			if((gridNum-dGridNum)<0.1||(dGridNum-gridNum+1)<0.1){
+			if((dGridNum-gridNum+1)<0.003){
 				//如果存在过于狭窄的网格则报警
 				logger.warn("there exists small grid! code="+code);
 			}
@@ -235,7 +235,8 @@ public class GridUtil {
 	 * 右下点的经纬度坐标
 	 */
 	//private static LngLat rightbottom = new LngLat(135.041667,3.866667);
-	private static LngLat rightbottom = new LngLat(135.086,6.319);
+	//private static LngLat rightbottom = new LngLat(135.086,6.319);
+	private static LngLat rightbottom = new LngLat(135.086,3.408);
 	/**
 	 * 地球上距离256公里的纬度差
 	 */
@@ -284,12 +285,12 @@ public class GridUtil {
 	public void init(){
 		h8 = new Hilbert(8);
 		//h8.print();
-		//中国只包含21个条带，每个条带最多27个网格
-		topEncode = new int[27][21];
-		//总共可划分成480个顶级网格
-		topDecode = new ArrayList(480);
+		//中国只包含22个条带，每个条带最多27个网格
+		topEncode = new int[27][22];
+		//总共可划分成512个顶级网格
+		topDecode = new ArrayList(512);
 		for(int i=0;i<27;i++){
-			for(int j=0;j<21;j++){
+			for(int j=0;j<22;j++){
 				topEncode[i][j] = -1;
 			}
 		}
@@ -300,7 +301,7 @@ public class GridUtil {
 		logger.info("latPerDegree = "+latPerDegree);
 		double dStripNum = (lefttop.getLatY() - rightbottom.getLatY())/lat256;
 		int stripNum = (int)Math.ceil(dStripNum);
-		if((stripNum-dStripNum<0.1) || (dStripNum-stripNum+1<0.1)){
+		if(dStripNum-stripNum+1<0.1){
 			//如果存在过于狭窄的条带则报警
 			logger.warn("there is too small strip!");
 		}
