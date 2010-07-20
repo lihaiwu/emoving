@@ -208,39 +208,23 @@ function beginDrawPointOnMap(ele){
 	drawPoint();
 }
 function drawPoint(){
-	mapObj.setCurrentMouseTool(ADD_MARKER);
-	mapObj.addEventListener(mapObj,ADD_OVERLAY,pointDrawn);
+	mapObj.addEventListener(mapObj,MOUSE_CLICK,drawPoint_);
 }
-function pointDrawn(event){
-	var id = event.overlayId;
-	var object = mapObj.getOverlayById(id);
-	var type = object.TYPE;
-	mapObj.setCurrentMouseTool(PAN_WHEELZOOM);
-	mapObj.removeEventListener(mapObj,ADD_OVERLAY,pointDrawn);
-	if(type=="Marker"){
-		addPoint(object.lnglat.lngX,object.lnglat.latY,$('iconUrl').value);
-	}
-}
-function addPoint(x,y,iconU,xh){
-	drawCustomPointImg(x,y,iconU,xh);
-}
-function drawCustomPointImg(x,y,iconU,xh){
+function drawPoint_(param){
+	mapObj.removeEventListener(mapObj,MOUSE_CLICK,drawPoint_);
 	var markerOption = new MMarkerOptions();
+	markerOption.imageUrl = "<%=request.getContextPath()%>/images/list_03.png"
 	markerOption.picAgent = false;
 	markerOption.imageAlign = 5;
 	markerOption.canShowTip = false;
-	var iconUr;
-	if(iconU){
-		iconUr = iconU;
-	}else{
-		iconUr = $('iconUrl').value;
-	}
-	markerOption.imageUrl = iconUr;
-	var ll = new MLngLat(x,y);
+	var ll = new MLngLat(param.eventX,param.eventY);
 	var Mmarker = new MMarker(ll,markerOption);
-	Mmarker.id = "1";
-	mapObj.addOverlay(Mmarker,true);
+	Mmarker.id = "point1";
+	mapObj.addOverlay(Mmarker,false);
+	mapObj.setOverlayEditableById('point1',true);
+	
 }
+
 function addCookie(objName,objValue)//增加cookie值
 {
   var str = objName + "=" + escape(objValue);
