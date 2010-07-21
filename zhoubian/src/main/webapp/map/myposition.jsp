@@ -189,6 +189,8 @@ var mapObj = null;
 $(document).ready(function(){
 	var mapoption = new MMapOptions();
 	mapoption.zoom = 13;
+	mapoption.returnCoordType=COORD_TYPE_OFFSET;
+	mapoption.isCongruence = true;
 	mapoption.center = new MLngLat(116.397428,39.90923);
 	mapoption.toolbar = DEFAULT;
 	mapoption.toolbarPos = new MPoint(0,0);
@@ -251,6 +253,18 @@ function addCookie(objName,objValue)//增加cookie值
     } 
 	return  as
    }
+   function checkForm(){
+   		var error = "";
+   		var overlay = mapObj.getOverlayById("point1");
+		if(overlay==null){
+			error = error + "请在地图上进行标注！\n";
+		}else{
+			$('#lngX').val(overlay.lnglat.lngX);
+			$('#latY').val(overlay.lnglat.latY);
+		}
+   		
+   		return false;
+   }
 // -->
 </script>
 </head>
@@ -262,15 +276,16 @@ function addCookie(objName,objValue)//增加cookie值
 	</div>
 	<div id="mainContent">
 		<div id="sidebar">
-		<form method="post" name="propertyForm" action="#">
-	
+		<form method="post" name="propertyForm" action="<%=request.getContextPath()%>/mapAction_addUserLocation.do" onclick="return checkForm();">
+	<input id="lngX" type="hidden" name="lngX"/>
+	<input id="latY" type="hidden" name="latY"/>
 	<input type="hidden" name="iconUrl" id="iconUrl" value="../images/10.gif"/>
 	<label for="locationName">位置名称：</label><input type="text" name="locationName"/><br/>
 	<label for="subLocType">位置类型：</label><select name="subLocType"><option value="1">居住地</option>
 	<option value="2">办公地</option><option value="3">旅游地</option><option value="4">出差地</option><option value="5">其他</option>
 	</select><br/>
 	<label for="locationDesc">位置说明：</label><textarea name="locationDesc" rows="10" cols="20"></textarea><br/>
-	<input id="sbutton" type="button" value="保存" style="width:40px"/>&nbsp;&nbsp;<input id="rbutton" type="button" value="重置" style="width:40px"/>
+	<input id="sbutton" type="submit" value="保存" style="width:40px"/>&nbsp;&nbsp;<input id="rbutton" type="button" value="重置" style="width:40px"/>
 	</form>
 		</div>
 		<div id="content">
