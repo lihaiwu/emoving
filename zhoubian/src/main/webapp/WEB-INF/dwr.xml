@@ -10,5 +10,10 @@
 		<!-- this is a bad idea for live, but can be useful in testing -->
 		<convert converter="exception" match="java.lang.Exception" />
 		<convert converter="bean" match="java.lang.StackTraceElement" />
+		
+		<create creator="spring" scope="application" javascript="Chat">
+			<param name="beanName" value="tmessageAction" />
+		</create>
+		<convert converter="bean" match="net.zhoubian.app.model.TMessage" />
 	</allow>
 </dwr>
