@@ -9,7 +9,8 @@ import java.util.Date;
 public class Location implements java.io.Serializable {
 
 	// Fields
-
+	public static final int USER_LOCATION = 1;
+	public static final int ENTITY_LOCATION = 2;
 	private Long id;
 
 	private String locationName;
