@@ -43,12 +43,12 @@ a:active {
 	color: #0176AC;
 	text-decoration: underline;
 }
-#container{margin:auto; width:100%;}
+#container{margin:auto 0; width:100%;}
 #header{height:100px; background:#9c6; margin-bottom:5px;}
 #menu {height:30px; background:#693; margin-bottom:5px;}
-#mainContent{height:500px; margin-bottom:5px;}
+#mainContent{height:500px; margin-bottom:5px; width:100%;}
 #sidebar{float:left; width:300px; height:500px; background:#cf9}
-#content{margin-left:205px !important; margin-left:202px; height:500px; background:#ffa; position:relative;}
+#content{margin-left:305px !important; height:500px; background:#ffa; position:relative;}
 #poiTools{
 	width:52px;
 	position:absolute;
