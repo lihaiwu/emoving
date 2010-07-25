@@ -11,6 +11,7 @@
 	<constant name="struts.multipart.maxSize" value="52428800" />
 	
 	<include file="struts-info.xml"></include>
+	<include file="struts-map.xml"></include>
 	
 	<package name="test" namespace="/" extends="struts-default">
 		<action name="user_*" method="{1}" class="userAction">
