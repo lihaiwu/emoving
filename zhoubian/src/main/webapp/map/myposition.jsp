@@ -65,10 +65,10 @@ a:active {
 	text-align: center;
 	line-height: 20px;
 	height: 20px;
-	background: url(../images/gj_bg.png) no-repeat bottom center;
+	background: url(<%=request.getContextPath()%>/images/gj_bg.png) no-repeat bottom center;
 }
 .gjx_p_end{
-	background: url(../images/gj_bg_b.png) top center no-repeat;
+	background: url(<%=request.getContextPath()%>/images/gj_bg_b.png) top center no-repeat;
 	width:52px;
 	height:5px;
 }
@@ -89,86 +89,86 @@ a:active {
 	cursor:pointer;
 }
 .li1 {
-	background: url(../images/mover.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/mover.gif) no-repeat center center;
 	height: 40px;
 	width: 100%;
 }
 
 .li2 {
-	background: url(../images/put_dot.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/put_dot.gif) no-repeat center center;
 	height: 40px;
 	width: 100%;
 }
 
 .li3 {
-	background: url(../images/draw_line.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/draw_line.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 
 .li4 {
-	background: url(../images/draw_screen.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/draw_screen.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 
 .li5 {
-	background: url(../images/draw_dot2.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/draw_dot2.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 
 .li6 {
-	background: url(../images/much_out.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/much_out.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 
 .li7 {
-	background: url(../images/gps_bdd.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/gps_bdd.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 
 
 .li1_hover {
-	background: url(../images/mover_hover.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/mover_hover.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 
 .li2_hover {
-	background: url(../images/put_dot_hover.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/put_dot_hover.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 
 .li3_hover {
-	background: url(../images/draw_line_hover.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/draw_line_hover.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 
 .li4_hover {
-	background: url(../images/draw_screen_hover.gif) no-repeat center center
+	background: url(<%=request.getContextPath()%>/images/draw_screen_hover.gif) no-repeat center center
 		;
 	height: 40px;
 	width: 80%;
 }
 
 .li5_hover {
-	background: url(../images/draw_dot2_hover.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/draw_dot2_hover.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 
 .li6_hover {
-	background: url(../images/much_out_hover.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/much_out_hover.gif) no-repeat center center;
 	height: 40px;
 	width: 80%;
 }
 .li7_hover {
-	background: url(../images/gps_bdd_hover.gif) no-repeat center center;
+	background: url(<%=request.getContextPath()%>/images/gps_bdd_hover.gif) no-repeat center center;
 	height: 40px;
 	border-bottom: 1px dotted #d3d3d3;
 	width: 80%;
@@ -181,7 +181,7 @@ a:active {
 #sbutton{margin-left:20px; margin-top:5px;}
 #rbutton{margin-top:5px; }
 </style>
-<script src="../js/jquery-1.3.2.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/js/jquery-1.3.2.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.3&key=<%=net.zhoubian.app.util.SystemProperties.getProperty("mapkey")%>"></script>
 <script type="text/javascript">
 <!--
@@ -298,7 +298,7 @@ function addCookie(objName,objValue)//增加cookie值
 		<form method="post" name="propertyForm" action="<%=request.getContextPath()%>/map_addUserLocation.do" onsubmit="return checkForm();">
 	<input id="lngX" type="hidden" name="lngX"/>
 	<input id="latY" type="hidden" name="latY"/>
-	<input type="hidden" name="iconUrl" id="iconUrl" value="../images/10.gif"/>
+	<input type="hidden" name="iconUrl" id="iconUrl" value="<%=request.getContextPath()%>/images/10.gif"/>
 	<label for="locationName">位置名称：</label><input id="locationName" type="text" name="locationName"/><br/>
 	<label for="subLocType">位置类型：</label><select name="subLocType"><option value="1">居住地</option>
 	<option value="2">办公地</option><option value="3">旅游地</option><option value="4">出差地</option><option value="5">其他</option>
@@ -313,7 +313,7 @@ function addCookie(objName,objValue)//增加cookie值
 			<p class="gjx_pl" style="font-weight:normal">
 				工具箱
 			</p>
-			<div class="tool_div" style="background:url(../images/gj_bg_m.png) repeat-y center center;">
+			<div class="tool_div" style="background:url(<%=request.getContextPath()%>/images/gj_bg_m.png) repeat-y center center;">
 				<p class="li1" id="t1" onmouseover="pic_before(this)" onmouseout="pic_yihou(this)" onclick="mapObj.setCurrentMouseTool(PAN_WHEELZOOM);" title="移动"></p>
 				<p class="li2" id="t2" onmouseover="pic_before(this)" onmouseout="pic_yihou(this)" onclick="beginDrawPointOnMap()" title="标点"></p>
 			</div>
