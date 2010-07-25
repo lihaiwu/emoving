@@ -10,6 +10,13 @@
 		</property>
 
 	</bean>
+	<bean id="mapService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="net.zhoubian.app.service.impl.MapServiceImpl">
+				<property name="locationDao" ref="locationDao"/>
+			</bean>
+		</property>
+	</bean>
 	<bean id="gridUtil" class="net.zhoubian.app.util.GridUtil">
 	</bean>
 </beans>

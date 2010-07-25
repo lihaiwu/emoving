@@ -14,4 +14,7 @@
 	<bean id="cityDao" class="net.zhoubian.app.dao.mysql.CityDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="locationDao" class="net.zhoubian.app.dao.mysql.LocationDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>
