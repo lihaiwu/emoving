@@ -253,6 +253,18 @@ function addCookie(objName,objValue)//增加cookie值
     } 
 	return  as
    }
+   function isnull(str){
+   		var i;
+		if(str==null || str==undefined)
+			return true;
+		if(str.length == 0)
+			return true;
+		for(i=0;i<str.length;i++){
+			if(str.charAt(i)!=' ')
+				return false;
+		}
+		return true;
+	}
    function checkForm(){
    		var error = "";
    		var overlay = mapObj.getOverlayById("point1");
@@ -262,8 +274,15 @@ function addCookie(objName,objValue)//增加cookie值
 			$('#lngX').val(overlay.lnglat.lngX);
 			$('#latY').val(overlay.lnglat.latY);
 		}
-   		
-   		return false;
+   		if(isnull($('#locationName').val())){
+			error=error + "请输入位置名称！\n";
+		}
+		if(error == ""){
+			return true;
+		}else{
+			alert(error);
+			return false;
+		}
    }
 // -->
 </script>
@@ -276,11 +295,11 @@ function addCookie(objName,objValue)//增加cookie值
 	</div>
 	<div id="mainContent">
 		<div id="sidebar">
-		<form method="post" name="propertyForm" action="<%=request.getContextPath()%>/mapAction_addUserLocation.do" onclick="return checkForm();">
+		<form method="post" name="propertyForm" action="<%=request.getContextPath()%>/map_addUserLocation.do" onsubmit="return checkForm();">
 	<input id="lngX" type="hidden" name="lngX"/>
 	<input id="latY" type="hidden" name="latY"/>
 	<input type="hidden" name="iconUrl" id="iconUrl" value="../images/10.gif"/>
-	<label for="locationName">位置名称：</label><input type="text" name="locationName"/><br/>
+	<label for="locationName">位置名称：</label><input id="locationName" type="text" name="locationName"/><br/>
 	<label for="subLocType">位置类型：</label><select name="subLocType"><option value="1">居住地</option>
 	<option value="2">办公地</option><option value="3">旅游地</option><option value="4">出差地</option><option value="5">其他</option>
 	</select><br/>
