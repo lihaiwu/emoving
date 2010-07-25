@@ -36,6 +36,6 @@ public class MapAction extends AbstractAction{
 		location.setId(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude()));
 		logger.info("location.getId() == "+location.getId());
 		mapService.saveLocation(location);
-		return "myposition";
+		return "mylocation";
 	}
 }
