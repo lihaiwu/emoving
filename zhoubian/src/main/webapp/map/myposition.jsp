@@ -43,12 +43,12 @@ a:active {
 	color: #0176AC;
 	text-decoration: underline;
 }
-#container{margin:auto 0; width:100%;}
-#header{height:100px; background:#9c6; margin-bottom:5px;}
-#menu {height:30px; background:#693; margin-bottom:5px;}
-#mainContent{height:500px; margin-bottom:5px; width:100%;}
-#sidebar{float:left; width:300px; height:500px; background:#cf9}
-#content{margin-left:305px !important; height:500px; background:#ffa; position:relative;}
+#container{margin:auto 0; padding:0px; border:0px; width:100%; height:100%;}
+#header{height:100px; background:#9c6; width:100%;}
+#menu {height:30px; background:#693; width:100%; }
+#mainContent{margin:0px; width:100%;}
+#sidebar{float:left; width:300px; background:#cf9; height:100%}
+#content{margin-left:300px !important; background:#ffa; position:relative; height:100%}
 #poiTools{
 	width:52px;
 	position:absolute;
@@ -187,6 +187,9 @@ a:active {
 <!--
 var mapObj = null;
 $(document).ready(function(){
+	$('#mainContent').height(getViewportHeight()-130);
+	$('#sidebar').height(getViewportHeight()-130);
+	$('#content').height(getViewportHeight()-130);
 	var mapoption = new MMapOptions();
 	mapoption.zoom = 13;
 	mapoption.returnCoordType=COORD_TYPE_OFFSET;
@@ -235,6 +238,16 @@ function addCookie(objName,objValue)//增加cookie值
   
 
 }
+function getViewportHeight(){
+	        return jQuery.browser.msie ? 
+	        	   (jQuery.boxModel ? document.documentElement.clientHeight : document.body.clientHeight) :
+	        	   self.innerHeight;
+        }
+
+       function getViewportWidth() {
+	        return !jQuery.boxModel && !jQuery.browser.opera? document.body.clientWidth :
+	        	   jQuery.browser.msie ? document.documentElement.clientWidth : self.innerWidth;
+        }
  function getCookie(objName){//获取cookie
 
     var arrStr = document.cookie.split(";");
