@@ -265,6 +265,11 @@
 			<version>2.2.3</version>
 			<classifier>jdk15</classifier>
 		</dependency>
+		<dependency>
+			<groupId>com.googlecode</groupId>
+			<artifactId>jsonplugin</artifactId>
+			<version>0.33</version>
+		</dependency>
 	</dependencies>
 
 
