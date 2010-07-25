@@ -19,4 +19,8 @@
 	</bean>
 	<bean id="gridUtil" class="net.zhoubian.app.util.GridUtil">
 	</bean>
+	
+	<bean id="tmessageService" class="net.zhoubian.app.service.impl.TMessageServiceImpl">
+		<property name="tmessageDao" ref="tmessageDao" />
+	</bean>
 </beans>
