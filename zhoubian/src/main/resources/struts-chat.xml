@@ -3,12 +3,12 @@
 	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
 	"http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<package name="simple" extends="struts-default">
+	<package name="simple" namespace="/" extends="struts-default">
 		<action name="getOnlineUsers" class="tmessageAction" method="getOnlineUsers">
 			<result name="success">common/json.jsp</result>
 		</action>
 	</package>
-	<package name="json" extends="json-default">
+	<package name="json" namespace="/" extends="json-default">
 		<action name="findChatHistory" class="tmessageAction" method="findChatHistory">
 			<result type="json">
 				<param name="root">page</param>
