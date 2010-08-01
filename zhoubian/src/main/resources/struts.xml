@@ -9,7 +9,6 @@
 	<constant name="struts.objectFactory" value="spring" />
 	<constant name="struts.ui.theme" value="simple" />
 	<constant name="struts.multipart.maxSize" value="52428800" />
-	
 	<include file="struts-info.xml"></include>
 	<include file="struts-chat.xml"></include>
 	<include file="struts-map.xml"></include>
