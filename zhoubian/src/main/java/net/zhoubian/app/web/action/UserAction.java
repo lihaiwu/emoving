@@ -46,6 +46,18 @@ public class UserAction extends AbstractAction {
 		return "login";
 	}
 	public String login(){
+		String loginName = request.getParameter("loginName");
+		String password = request.getParameter("password");
+		User user = userService.getUserByLoginName(loginName);
+		if(user==null){
+			request.setAttribute("msg", "用户不存在!");
+			return "login";
+		}
+		if(!user.getPassword().equals(password)){
+			request.setAttribute("msg", "用户密码不正确!");
+			return "login";
+		}
+		request.getSession().setAttribute("user", user);
 		return "loginsuccess";
 	}
 	public String register(){
