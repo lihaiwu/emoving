@@ -7,6 +7,10 @@ import java.util.Date;
  */
 
 public class User implements java.io.Serializable {
+	
+	public static final short status_normal = 0;
+	public static final short status_forbidden = 1;
+	public static final short status_delete = 2;
 
 	// Fields
 
