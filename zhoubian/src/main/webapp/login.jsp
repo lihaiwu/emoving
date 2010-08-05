@@ -15,9 +15,14 @@ input{width:100px; border:1px solid #808080}
 form br{clear:left}
 </style>
 <body>
+<script type="text/javascript">
+<% if(request.getAttribute("msg")!=null){%>
+alert("<%=request.getAttribute("msg")%>");
+<% }%>
+</script>
 <form action="<%=request.getContextPath()%>/user_login.do" method="post">
-<label for="user">姓名：</label><input type="text" id="user" name="user"/><br/>
-<label for="password">密码：</label><input type="password" id="password"/><br/>
+<label for="loginName">姓名：</label><input type="text" id="loginName" name="loginName"/><br/>
+<label for="password">密码：</label><input type="password" id="password" name="password"/><br/>
 <input type="submit" id="sbutton" value="登录"/>&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/user_register.do" target="_top">没有注册</a>
 </form>
 </body>
