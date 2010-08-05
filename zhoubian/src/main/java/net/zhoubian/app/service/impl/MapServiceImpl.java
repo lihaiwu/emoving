@@ -1,5 +1,7 @@
 package net.zhoubian.app.service.impl;
 
+import java.util.List;
+
 import net.zhoubian.app.dao.LocationDao;
 import net.zhoubian.app.model.Location;
 import net.zhoubian.app.service.MapService;
@@ -13,5 +15,8 @@ public class MapServiceImpl implements MapService{
 
 	public void saveLocation(Location location){
 		locationDao.addObject(location);
+	}
+	public List<Location> findLocationsByUid(long uid){
+		return locationDao.findLocationsByUid(uid);
 	}
 }

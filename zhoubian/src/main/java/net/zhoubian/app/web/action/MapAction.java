@@ -2,8 +2,10 @@ package net.zhoubian.app.web.action;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import net.zhoubian.app.model.Location;
+import net.zhoubian.app.model.User;
 import net.zhoubian.app.service.MapService;
 import net.zhoubian.app.util.GridUtil;
 
@@ -34,8 +36,17 @@ public class MapAction extends AbstractAction{
 		location.setLongitude(Float.parseFloat(longitude));
 		location.setLatitude(Float.parseFloat(latitude));
 		location.setId(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude()));
+		User user = (User)request.getSession().getAttribute("user");
+		location.setUid(user.getUid());
+		location.setStatus(Location.status_valid);
 		logger.info("location.getId() == "+location.getId());
 		mapService.saveLocation(location);
+		return mylocation();
+	}
+	public String mylocation(){
+		User user = (User)request.getSession().getAttribute("user");
+		List<Location> l = mapService.findLocationsByUid(user.getUid());
+		request.setAttribute("locations", l);
 		return "mylocation";
 	}
 }
