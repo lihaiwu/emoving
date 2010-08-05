@@ -174,15 +174,19 @@ a:active {
 	width: 80%;
 }
 
-#sidebar form{margin:0px}
-#sidebar label{float:left; width:60px;}
-#sidebar input{width:100px; border:1px solid #808080}
-#sidebar form br{clear:left}
+#tabs-1 form{margin:0px}
+#tabs-1 label{float:left; width:80px;}
+#tabs-1 input{width:100px; border:1px solid #808080}
+#tabs-1 form br{clear:left}
 #sbutton{margin-left:20px; margin-top:5px;}
 #rbutton{margin-top:5px; }
 </style>
+<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.7.3.custom.css" rel="stylesheet"/>
 <script src="<%=request.getContextPath()%>/js/jquery-1.3.2.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.3&key=<%=net.zhoubian.app.util.SystemProperties.getProperty("mapkey")%>"></script>
+
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/ui.core.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/ui.tabs.js"></script>
 <script type="text/javascript">
 <!--
 var mapObj = null;
@@ -200,7 +204,9 @@ $(document).ready(function(){
 	mapoption.overviewMap = SHOW;
 	mapObj = new MMap("map_canvas",mapoption);
 	$(".MFMP_Business").css("display","none");
-	
+	$("#tabs").tabs({
+		event: 'mouseover'
+	});
 });
 
 function pic_before(obj){
@@ -308,6 +314,12 @@ function getViewportHeight(){
 	</div>
 	<div id="mainContent">
 		<div id="sidebar">
+		<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">添加位置</a></li>
+			<li><a href="#tabs-2">位置列表</a></li>
+		</ul>
+		<div id="tabs-1">
 		<form method="post" name="propertyForm" action="<%=request.getContextPath()%>/map_addUserLocation.do" onsubmit="return checkForm();">
 	<input id="lngX" type="hidden" name="lngX"/>
 	<input id="latY" type="hidden" name="latY"/>
@@ -319,6 +331,11 @@ function getViewportHeight(){
 	<label for="locationDesc">位置说明：</label><textarea name="locationDesc" rows="10" cols="20"></textarea><br/>
 	<input id="sbutton" type="submit" value="保存" style="width:40px"/>&nbsp;&nbsp;<input id="rbutton" type="button" value="重置" style="width:40px"/>
 	</form>
+	</div>
+	<div id="tabs-2">
+		test
+	</div>
+	</div>
 		</div>
 		<div id="content">
 		<div id="map_canvas" style="width:100%;height:100%"></div>
