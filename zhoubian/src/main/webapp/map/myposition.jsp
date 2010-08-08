@@ -229,7 +229,7 @@ function mapAddChk(id,x,y,stf){
 		var ll = new MLngLat(x,y);
 		var Mmarker = new MMarker(ll,markerOption);
 		Mmarker.id = id;
-		mapObj.addOverlay(Mmarker,false);
+		mapObj.addOverlay(Mmarker,true);
 	}else{
 		mapObj.removeOverlayById(id);
 	}
