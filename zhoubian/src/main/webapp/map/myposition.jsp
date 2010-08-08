@@ -348,7 +348,7 @@ function getViewportHeight(){
 	<input id="sbutton" type="submit" value="保存" style="width:40px"/>&nbsp;&nbsp;<input id="rbutton" type="button" value="重置" style="width:40px"/>
 	</form>
 	</div>
-	<div id="tabs-2">
+	<div id="tabs-2" style="overflow:scroll">
 		<table width="450px" border="1" cellpadding="0" cellspacing="0">
 		<thead>
 		<th width="50px">显示</th><th width="100px">名称</th><th width="50px">类型</th><th width="50px">经度</th><th width="50px">纬度</th><th width="50px">创建时间</th><th width="150px">描述</th>
