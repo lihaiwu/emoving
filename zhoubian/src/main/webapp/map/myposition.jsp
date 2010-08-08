@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -218,6 +219,21 @@ function pic_yihou(obj){
 function beginDrawPointOnMap(ele){
 	drawPoint();
 }
+function mapAddChk(id,x,y,stf){
+	if(stf){
+		var markerOption = new MMarkerOptions();
+		markerOption.imageUrl = "<%=request.getContextPath()%>/images/list_03.png"
+		markerOption.picAgent = false;
+		markerOption.imageAlign = 5;
+		markerOption.canShowTip = false;
+		var ll = new MLngLat(x,y);
+		var Mmarker = new MMarker(ll,markerOption);
+		Mmarker.id = id;
+		mapObj.addOverlay(Mmarker,false);
+	}else{
+		mapObj.removeOverlayById(id);
+	}
+}
 function drawPoint(){
 	mapObj.addEventListener(mapObj,MOUSE_CLICK,drawPoint_);
 }
@@ -310,7 +326,7 @@ function getViewportHeight(){
 <div id="container">
 	<div id="header">This is the Header</div>
 	<div id="menu">
-	
+		This is the Menu
 	</div>
 	<div id="mainContent">
 		<div id="sidebar">
@@ -333,7 +349,18 @@ function getViewportHeight(){
 	</form>
 	</div>
 	<div id="tabs-2">
-		test
+		<table width="450px" border="1" cellpadding="0" cellspacing="0">
+		<thead>
+		<th width="50px">显示</th><th width="100px">名称</th><th width="50px">类型</th><th width="50px">经度</th><th width="50px">纬度</th><th width="50px">创建时间</th><th width="150px">描述</th>
+		</thead>
+		<tbody>
+		<s:iterator value="#request.locations">
+		<tr>
+		<td><input type="checkbox" value="<s:property value='id'/>" onClick="mapAddChk(this.value,'<s:property value="longitude"/>','<s:property value="latitude"/>',this.checked);"/></td><td><s:property value='locationName'/></td><td><s:property value="subLocType"/></td><td><s:property value="longitude"/></td><td><s:property value="latitude"/></td><td><s:property value="createTime"/></td><td><s:property value="locationDesc"/></td>
+		</tr>
+		</s:iterator>
+		</tbody>
+		</table>
 	</div>
 	</div>
 		</div>
