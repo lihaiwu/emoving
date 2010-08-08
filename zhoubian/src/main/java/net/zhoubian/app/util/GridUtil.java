@@ -242,6 +242,10 @@ public class GridUtil {
 	 */
 	private static double lat256;
 	/**
+	 * 地球上距离1公里的纬度差
+	 */
+	private static double lat1;
+	/**
 	 * 每纬度代表地球上的多少米
 	 */
 	private static double latPerDegree = 111195;
@@ -296,6 +300,8 @@ public class GridUtil {
 		}
 		//每256公里代表纬度上的几度
 		lat256 = (256000/(2*Math.PI*earthRadii))*360;
+		//每1公里代表纬度上的几度
+		lat1 = (1000/(2*Math.PI*earthRadii))*360;
 		logger.info("lat256 = "+lat256);
 		latPerDegree = 2*Math.PI*earthRadii/360;
 		logger.info("latPerDegree = "+latPerDegree);
@@ -489,5 +495,22 @@ public class GridUtil {
 		result[0] = new LngLat(grid256.leftLng+x1*(grid256.rightLng-grid256.leftLng)/256,grid256.bottomLat+y1*(grid256.topLat-grid256.bottomLat)/256);
 		result[1] = new LngLat(grid256.leftLng+(x1+1)*(grid256.rightLng-grid256.leftLng)/256,grid256.bottomLat+(y1+1)*(grid256.topLat-grid256.bottomLat)/256);
 		return result;
+	}
+	/**
+	 * 获取地球上垂直方向上一公里差距代表纬度差多少度
+	 * @return
+	 */
+	public static double getLat1(){
+		return lat1;
+	}
+	/**
+	 * 获取所在纬度上水平一公里差距代表纬度差多少度
+	 * @param latitude 所在的纬度
+	 * @return
+	 */
+	public static double getLng1(double latitude){
+		double radii = earthRadii*Math.cos(latitude*2*Math.PI/360);
+		double lng1 = (1000/(2*Math.PI*radii))*360;
+		return lng1;
 	}
 }
