@@ -270,5 +270,23 @@
 			<artifactId>jsonplugin</artifactId>
 			<version>0.33</version>
 		</dependency>
+		<dependency>
+	         <groupId>net.sourceforge.jwebunit</groupId>
+	         <artifactId>jwebunit-core</artifactId>
+	         <version>2.0</version>
+	         <scope>test</scope>
+	     </dependency>
+	     <dependency>
+	         <groupId>net.sourceforge.jwebunit</groupId>
+	         <artifactId>jwebunit-htmlunit-plugin</artifactId>
+	         <version>2.0</version>
+	         <scope>test</scope>
+	         <exclusions>
+	             <exclusion>
+	                 <groupId>xom</groupId>
+	                 <artifactId>xom</artifactId>
+	             </exclusion>
+	         </exclusions>
+	     </dependency>
 	</dependencies>
 </project>
