@@ -223,6 +223,8 @@ function pic_yihou(obj){
 function beginDrawPointOnMap(ele){
 	drawPoint();
 }
+function around_search(id,name,x,y){//显示周边搜索页面
+}
 function mapAddChk(id,name,desc,x,y,stf){
 	if(stf){
 		var markerOption = new MMarkerOptions();
@@ -238,7 +240,7 @@ function mapAddChk(id,name,desc,x,y,stf){
 		tipOption.tipType=DIVTIP;
 		var sContent = "<font color='#000000'>名称： "+name+"<br/>";
 		sContent += "描述： "+desc+"<br/>";
-		sContent += "</font>";
+		sContent += "<a href=\"javascript:around_search('"+id+"','"+name+"','"+x+"','"+y+"');\">周边搜索</a></font>";
 		tipOption.content=sContent;
 		markerOption.tipOption = tipOption;
 		markerOption.canShowTip = true;
