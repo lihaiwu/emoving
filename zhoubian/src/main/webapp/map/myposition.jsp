@@ -49,7 +49,7 @@ a:active {
 #menu {height:30px; background:#693; width:100%; }
 #mainContent{margin:0px; width:100%;}
 #sidebar{float:left; width:400px; background:#cf9; height:100%}
-#content{margin-left:300px !important; background:#ffa; position:relative; height:100%}
+#content{margin-left:400px !important; background:#ffa; position:relative; height:100%}
 #poiTools{
 	width:52px;
 	position:absolute;
@@ -183,15 +183,15 @@ a:active {
 #rbutton{margin-top:5px; }
 </style>
 <link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.8.4.custom.css" rel="stylesheet"/>
-<link type="text/css" href="<%=request.getContextPath()%>/css/ui.jqgrid.css" rel="stylesheet"/>
+<!--<link type="text/css" href="<%=request.getContextPath()%>/css/ui.jqgrid.css" rel="stylesheet"/>-->
 <script src="<%=request.getContextPath()%>/js/jquery-1.4.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.3&key=<%=net.zhoubian.app.util.SystemProperties.getProperty("mapkey")%>"></script>
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.widget.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.tabs.min.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/grid-locale-cn.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.jqGrid.min.js"></script>
+<!--<script type="text/javascript" src="<%=request.getContextPath()%>/js/grid-locale-cn.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.jqGrid.min.js"></script>-->
 <script type="text/javascript">
 <!--
 var mapObj = null;
@@ -345,7 +345,7 @@ function getViewportHeight(){
 	</div>
 	<div id="mainContent">
 		<div id="sidebar">
-		<div id="tabs">
+		<div id="tabs" style="height:100%;">
 		<ul>
 			<li><a href="#tabs-1">添加位置</a></li>
 			<li><a href="#tabs-2">位置列表</a></li>
@@ -363,19 +363,32 @@ function getViewportHeight(){
 	<input id="sbutton" type="submit" value="保存" style="width:40px"/>&nbsp;&nbsp;<input id="rbutton" type="button" value="重置" style="width:40px"/>
 	</form>
 	</div>
-	<div id="tabs-2" style="overflow:scroll">
-		<table width="450px" border="1" cellpadding="0" cellspacing="0">
-		<thead>
-		<th width="50px">显示</th><th width="100px">名称</th><th width="50px">类型</th><th width="50px">经度</th><th width="50px">纬度</th><th width="50px">创建时间</th><th width="150px">描述</th>
-		</thead>
-		<tbody>
-		<s:iterator value="#request.locations">
-		<tr>
-		<td><input type="checkbox" value="<s:property value='id'/>" onClick="mapAddChk(this.value,'<s:property value="locationName"/>','<s:property value="locationDesc"/>','<s:property value="longitude"/>','<s:property value="latitude"/>',this.checked);"/></td><td><s:property value='locationName'/></td><td><s:property value="subLocType"/></td><td><s:property value="longitude"/></td><td><s:property value="latitude"/></td><td><s:property value="createTime"/></td><td><s:property value="locationDesc"/></td>
-		</tr>
-		</s:iterator>
-		</tbody>
+	<div id="tabs-2" style="height:85%; overflow:auto;">
+	<div>&nbsp;&nbsp;共<%=((java.util.List)request.getAttribute("locations")).size()%>条结果</div>
+	<s:iterator value="#request.locations" status="rowstatus">
+	<s:if test="#rowstatus.odd==true">
+		<div style="background-color:#FFFFE5;">
+	</s:if>
+	<s:else>
+		<div style="background-color:#F2FFE5;">
+	</s:else>
+		<table width="90%" border="0" cellpadding="0" cellspacing="0">
+		<tr><td width="20%"><input type="checkbox" value="<s:property value='id'/>" onClick="mapAddChk(this.value,'<s:property value="locationName"/>','<s:property value="locationDesc"/>','<s:property value="longitude"/>','<s:property value="latitude"/>',this.checked);"/></td><td><s:property value='locationName'/></td></tr>
+		<tr><td>类型：</td><td>
+		<s:if test="subLocType==1">居住地</s:if>
+		<s:if test="subLocType==2">办公地</s:if>
+		<s:if test="subLocType==3">旅游地</s:if>
+		<s:if test="subLocType==4">出差地</s:if>
+		<s:if test="subLocType==5">其他</s:if>
+		<s:property value="subLocType"/></td></tr>
+		<tr><td>经度：</td><td><s:property value="longitude"/></td></tr>
+		<tr><td>纬度：</td><td><s:property value="latitude"/></td></tr>
+		<tr><td>创建时间：</td><td><s:property value="createTime"/></td></tr>
+		<tr><td>描述：</td><td><s:property value="locationDesc"/></td></tr>
 		</table>
+	</div>
+	</s:iterator>
+	<div>&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</div>
 	</div>
 	</div>
 		</div>
