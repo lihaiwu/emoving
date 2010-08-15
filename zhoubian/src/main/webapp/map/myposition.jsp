@@ -373,7 +373,7 @@ function getViewportHeight(){
 		<div style="background-color:#F2FFE5;">
 	</s:else>
 		<table width="90%" border="0" cellpadding="0" cellspacing="0">
-		<tr><td width="20%"><input type="checkbox" value="<s:property value='id'/>" onClick="mapAddChk(this.value,'<s:property value="locationName"/>','<s:property value="locationDesc"/>','<s:property value="longitude"/>','<s:property value="latitude"/>',this.checked);"/></td><td><s:property value='locationName'/></td></tr>
+		<tr><td width="20%"><input type="checkbox" value="<s:property value='id'/>" onclick="mapAddChk(this.value,'<s:property value="locationName"/>','<s:property value="locationDesc"/>','<s:property value="longitude"/>','<s:property value="latitude"/>',this.checked);"/></td><td><s:property value='locationName'/></td></tr>
 		<tr><td>类型：</td><td>
 		<s:if test="subLocType==1">居住地</s:if>
 		<s:if test="subLocType==2">办公地</s:if>
