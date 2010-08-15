@@ -182,12 +182,16 @@ a:active {
 #sbutton{margin-left:20px; margin-top:5px;}
 #rbutton{margin-top:5px; }
 </style>
-<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.7.3.custom.css" rel="stylesheet"/>
-<script src="<%=request.getContextPath()%>/js/jquery-1.3.2.js" type="text/javascript"></script>
+<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.8.4.custom.css" rel="stylesheet"/>
+<link type="text/css" href="<%=request.getContextPath()%>/css/ui.jqgrid.css" rel="stylesheet"/>
+<script src="<%=request.getContextPath()%>/js/jquery-1.4.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.3&key=<%=net.zhoubian.app.util.SystemProperties.getProperty("mapkey")%>"></script>
 
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/ui.core.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/ui.tabs.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.core.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.widget.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.tabs.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/grid-locale-cn.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.jqGrid.min.js"></script>
 <script type="text/javascript">
 <!--
 var mapObj = null;
@@ -219,7 +223,7 @@ function pic_yihou(obj){
 function beginDrawPointOnMap(ele){
 	drawPoint();
 }
-function mapAddChk(id,x,y,stf){
+function mapAddChk(id,name,desc,x,y,stf){
 	if(stf){
 		var markerOption = new MMarkerOptions();
 		markerOption.imageUrl = "<%=request.getContextPath()%>/images/list_03.png"
@@ -229,6 +233,15 @@ function mapAddChk(id,x,y,stf){
 		var ll = new MLngLat(x,y);
 		var Mmarker = new MMarker(ll,markerOption);
 		Mmarker.id = id;
+		var tipOption = new MTipOptions();
+		tipOption.title="位置信息";
+		tipOption.tipType=DIVTIP;
+		var sContent = "<font color='#000000'>名称： "+name+"<br/>";
+		sContent += "描述： "+desc+"<br/>";
+		sContent += "</font>";
+		tipOption.content=sContent;
+		markerOption.tipOption = tipOption;
+		markerOption.canShowTip = true;
 		mapObj.addOverlay(Mmarker,true);
 	}else{
 		mapObj.removeOverlayById(id);
@@ -356,7 +369,7 @@ function getViewportHeight(){
 		<tbody>
 		<s:iterator value="#request.locations">
 		<tr>
-		<td><input type="checkbox" value="<s:property value='id'/>" onClick="mapAddChk(this.value,'<s:property value="longitude"/>','<s:property value="latitude"/>',this.checked);"/></td><td><s:property value='locationName'/></td><td><s:property value="subLocType"/></td><td><s:property value="longitude"/></td><td><s:property value="latitude"/></td><td><s:property value="createTime"/></td><td><s:property value="locationDesc"/></td>
+		<td><input type="checkbox" value="<s:property value='id'/>" onClick="mapAddChk(this.value,'<s:property value="locationName"/>','<s:property value="locationDesc"/>','<s:property value="longitude"/>','<s:property value="latitude"/>',this.checked);"/></td><td><s:property value='locationName'/></td><td><s:property value="subLocType"/></td><td><s:property value="longitude"/></td><td><s:property value="latitude"/></td><td><s:property value="createTime"/></td><td><s:property value="locationDesc"/></td>
 		</tr>
 		</s:iterator>
 		</tbody>
