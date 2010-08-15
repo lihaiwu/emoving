@@ -48,7 +48,7 @@ a:active {
 #header{height:100px; background:#9c6; width:100%;}
 #menu {height:30px; background:#693; width:100%; }
 #mainContent{margin:0px; width:100%;}
-#sidebar{float:left; width:300px; background:#cf9; height:100%}
+#sidebar{float:left; width:400px; background:#cf9; height:100%}
 #content{margin-left:300px !important; background:#ffa; position:relative; height:100%}
 #poiTools{
 	width:52px;
@@ -355,11 +355,11 @@ function getViewportHeight(){
 	<input id="lngX" type="hidden" name="lngX"/>
 	<input id="latY" type="hidden" name="latY"/>
 	<input type="hidden" name="iconUrl" id="iconUrl" value="<%=request.getContextPath()%>/images/10.gif"/>
-	<label for="locationName">位置名称：</label><input id="locationName" type="text" name="locationName"/><br/>
+	<label for="locationName">位置名称：</label><input style="width:250px" id="locationName" type="text" name="locationName"/><br/>
 	<label for="subLocType">位置类型：</label><select name="subLocType"><option value="1">居住地</option>
 	<option value="2">办公地</option><option value="3">旅游地</option><option value="4">出差地</option><option value="5">其他</option>
 	</select><br/>
-	<label for="locationDesc">位置说明：</label><textarea name="locationDesc" rows="10" cols="20"></textarea><br/>
+	<label for="locationDesc">位置说明：</label><textarea name="locationDesc" rows="10" cols="40"></textarea><br/>
 	<input id="sbutton" type="submit" value="保存" style="width:40px"/>&nbsp;&nbsp;<input id="rbutton" type="button" value="重置" style="width:40px"/>
 	</form>
 	</div>
