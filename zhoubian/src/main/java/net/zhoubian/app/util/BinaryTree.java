@@ -27,7 +27,7 @@ public class BinaryTree {
 
 	private Node root; // the only data field in Tree
 
-	public Node find(long code) // find Node with given code
+	public synchronized Node find(long code) // find Node with given code
 	{ // (assumes non-empty tree)
 		Node current = root; // start at root
 		while (current.code != code) // while no match,
@@ -45,7 +45,7 @@ public class BinaryTree {
 	public synchronized boolean findUser(long code, User user) // find User with given code and User
 	{ // (assumes non-empty tree)
 		Node current = find(code);
-		Map map = current.data;
+		Map<Long, User> map = current.data;
 		return map.containsKey(user.getUid())?true:false;
 	}
 
@@ -63,11 +63,11 @@ public class BinaryTree {
 
 	public synchronized void insert(long code, User user) {
 		Node newNode = null;
-		Map map = null;
+		Map<Long, User> map = null;
 		if (root == null){
 			newNode = new Node(); // make new Node
 			newNode.code = code; // insert data
-			map = new HashMap();
+			map = new HashMap<Long, User>();
 			map.put(user.getUid(), user);
 			newNode.data = map;
 			root = newNode;// no Node in root
@@ -95,7 +95,7 @@ public class BinaryTree {
 					{ // insert on left
 						newNode = new Node(); // make new Node
 						newNode.code = code; // insert data
-						map = new HashMap();
+						map = new HashMap<Long, User>();
 						map.put(user.getUid(), user);
 						newNode.data = map;
 						parent.leftChild = newNode;
@@ -109,7 +109,7 @@ public class BinaryTree {
 					{ // insert on right
 						newNode = new Node(); // make new Node
 						newNode.code = code; // insert data
-						map = new HashMap();
+						map = new HashMap<Long, User>();
 						map.put(user.getUid(), user);
 						newNode.data = map;
 						parent.rightChild = newNode;
@@ -125,7 +125,7 @@ public class BinaryTree {
 	{ // (assumes non-empty list)
 		Node current = root;
 		Node parent = root;
-		Map map = null;
+		Map<Long, User> map = null;
 		boolean isLeftChild = true;
 		while (current.code != code) // search for Node
 		{
@@ -270,7 +270,6 @@ public class BinaryTree {
 		testBinaryTree();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static void testBinaryTree(){
 		BinaryTree biTree = new BinaryTree();
 		User user = new User();
