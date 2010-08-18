@@ -40,6 +40,14 @@
 			<param-name>maxWaitAfterWrite</param-name>
 			<param-value>100</param-value>
 		</init-param>
+		<init-param>  
+            <param-name>logLevel</param-name>  
+			<param-value>WARN</param-value>  
+		</init-param>
+		<init-param>
+			<param-name>org.directwebremoting.extend.ScriptSessionManager</param-name>  
+            <param-value>net.zhoubian.app.web.listener.CustomSSManager</param-value>
+        </init-param>
 		<load-on-startup>4</load-on-startup>
 	</servlet>
 	<servlet-mapping>
