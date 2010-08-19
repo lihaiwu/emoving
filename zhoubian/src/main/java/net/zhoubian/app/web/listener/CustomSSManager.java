@@ -34,12 +34,13 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 				HttpSession httpSession = WebContextFactory.get().getSession();// 获取构造SS的用户的HttpSession
 				System.out.println("httpSession:" + httpSession.getId());
 				User user = (User) httpSession.getAttribute("user");
-				System.out.println("user:" + user.getUid());
+				
 				if (user == null) {
 					scriptSession.invalidate();
 					httpSession.invalidate();
 					return;
 				}
+				System.out.println("user:" + user.getUid());
 				String ssId = (String) httpSession.getAttribute(SS_ID);
 				System.out.println("ssId:" + ssId);
 				if (ssId != null) {
@@ -47,7 +48,7 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 					for(RealScriptSession old : col){
 						System.out.println("old:" + old.getId());
 						if(old.getId().equals(ssId)){
-							CustomSSManager.this.invalidate(old);
+							old.invalidate();
 						}
 					}
 				}
@@ -60,7 +61,7 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 				HttpSession httpSession = WebContextFactory.get().getSession();
 				Collection<RealScriptSession> col= CustomSSManager.this.getScriptSessionsByHttpSessionId(httpSession.getId());
 				for(RealScriptSession old : col){
-					CustomSSManager.this.invalidate(old);
+					old.invalidate();
 				}
 			}
 		});
