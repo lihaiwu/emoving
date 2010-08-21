@@ -80,6 +80,9 @@ public class TMessageAction extends AbstractAction {
 			String currentPage = wctx.getCurrentPage();
 			logger.debug("currentPage:" + currentPage);
 			Collection<ScriptSession> sessions = wctx.getScriptSessionsByPage(currentPage);
+			for(ScriptSession ss:sessions){
+				logger.debug("ss:" + ss.getId());
+			}
 			ScriptProxy s = new ScriptProxy(sessions);
 			s.addFunctionCall("receiveTMessages", msg);
 		}
