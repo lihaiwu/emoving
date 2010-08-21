@@ -41,24 +41,36 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 //					httpSession.invalidate();
 //					return;
 //				}
-				System.out.println("user:" + user);
+//				System.out.println("user:" + user);
+				Collection<RealScriptSession> col= CustomSSManager.this.getScriptSessionsByHttpSessionId(httpSession.getId());
+				for(RealScriptSession old : col){
+					System.out.println("col:" + old.getId());
+				}
+				
 				String ssId = (String) httpSession.getAttribute(SS_ID);
 				System.out.println("ssId:" + ssId);
 				if (ssId != null) {
 					DefaultScriptSession old=sessionMap.get(ssId);
-                    if(old!=null)CustomSSManager.this.invalidate(old);
+                    if(old!=null){
+//                    	CustomSSManager.this.invalidate(old);
+                    }
 				}
+				
 				httpSession.setAttribute(SS_ID, scriptSession.getId());
+				System.out.println("new:" + scriptSession.getId());
 //				scriptSession.setAttribute("uid", user.getUid());// 此处将uid和scriptSession绑定
+				System.out.println("sessionCreated end");
 			}
 
 			public void sessionDestroyed(ScriptSessionEvent event) {
 				System.out.println("sessionDestroyed");
 				HttpSession httpSession = WebContextFactory.get().getSession();
+				System.out.println("httpSession:" + httpSession.getId());
 				Collection<RealScriptSession> col= CustomSSManager.this.getScriptSessionsByHttpSessionId(httpSession.getId());
 				for(RealScriptSession old : col){
-					old.invalidate();
+					System.out.println("col:" + old.getId());
 				}
+				System.out.println("sessionDestroyed end");
 			}
 		});
 		
