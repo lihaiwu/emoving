@@ -4,18 +4,35 @@
 	"http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="simple" namespace="/" extends="struts-default">
-		<action name="getOnlineUsers" class="tmessageAction" method="getOnlineUsers">
+		<action name="getOnlineUsers" class="chatAction" method="getOnlineUsers">
+			<result name="success">common/json.jsp</result>
+		</action>
+		<action name="chatLogin" class="chatAction" method="login">
+			<result name="success">index.html</result>
+		</action>
+		<action name="chatIndex" class="chatAction" method="chatIndex">
+			<result name="success">chat/chat.jsp</result>
+		</action>
+		<action name="chatWithIndex" class="chatWithAction" method="chatIndex">
+			<result name="success">chat/chatWith.jsp</result>
+		</action>
+		<action name="getWithUsers" class="chatWithAction" method="getOnlineUsers">
 			<result name="success">common/json.jsp</result>
 		</action>
 	</package>
 	<package name="json" namespace="/" extends="json-default">
-		<action name="findChatHistory" class="tmessageAction" method="findChatHistory">
+		<action name="findChatHistory" class="chatAction" method="findChatHistory">
 			<result type="json">
 				<param name="root">page</param>
 				<param name="includeProperties">root.*,success,totalProperty</param>
 			</result>
 		</action>
-		<action name="addUser" class="tmessageAction" method="addUser">
+		<action name="addUser" class="chatAction" method="addUser">
+			<result type="json">
+				<param name="includeProperties">success</param>
+			</result>
+		</action>
+		<action name="addWithUser" class="chatWithAction" method="addUser">
 			<result type="json">
 				<param name="includeProperties">success</param>
 			</result>

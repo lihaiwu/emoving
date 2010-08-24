@@ -17,8 +17,12 @@
 		scope="prototype" autowire="byName">
 	</bean>
 	<bean id="page" class="net.zhoubian.app.util.Page" />
-	<bean name="tmessageAction" class="net.zhoubian.app.web.action.TMessageAction" scope="prototype">
-		<property name="tmessageService" ref="tmessageService" />
+	<bean name="chatAction" class="net.zhoubian.app.web.action.ChatAction" scope="prototype">
+		<property name="chatService" ref="chatService" />
+		<property name="page" ref="page" />
+	</bean>
+	<bean name="chatWithAction" class="net.zhoubian.app.web.action.ChatWithAction" scope="prototype">
+		<property name="chatService" ref="chatService" />
 		<property name="page" ref="page" />
 	</bean>
 	<bean id="mapAction" class="net.zhoubian.app.web.action.MapAction"

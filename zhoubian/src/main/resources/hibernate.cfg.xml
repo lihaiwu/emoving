@@ -64,7 +64,7 @@
 		<mapping resource="net/zhoubian/app/model/mysql/Gift.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/City.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Friend.hbm.xml" />
-		<mapping resource="net/zhoubian/app/model/mysql/TMessage.hbm.xml" />
+		<mapping resource="net/zhoubian/app/model/mysql/Chat.hbm.xml" />
 		
 	</session-factory>
 </hibernate-configuration>

@@ -10,34 +10,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.zhoubian.app.model.TMessage;
+import net.zhoubian.app.model.Chat;
 import net.zhoubian.app.model.User;
-import net.zhoubian.app.service.TMessageService;
+import net.zhoubian.app.service.ChatService;
 import net.zhoubian.app.util.Page;
+import net.zhoubian.app.web.listener.CustomSSManager;
 
 import org.apache.log4j.Logger;
 import org.directwebremoting.ScriptSession;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
 import org.directwebremoting.proxy.ScriptProxy;
-import org.hibernate.criterion.DetachedCriteria;
 
 @SuppressWarnings("serial")
-public class TMessageAction extends AbstractAction {
-	private static Logger logger = Logger.getLogger(TMessageAction.class);
+public class ChatAction extends AbstractAction {
+	private static Logger logger = Logger.getLogger(ChatAction.class);
 	
 	public static Map<String, TreeNode> onlineUsers = new TreeMap<String, TreeNode>();
 
 	private Map<String, Object> infos = new HashMap<String, Object>();
 
-	public static Map<Long, TMessage> TMessages = new TreeMap<Long, TMessage>();
+	public static Map<Long, Chat> chats = new TreeMap<Long, Chat>();
 
-	private TMessage msg;
+	private Chat chat;
 
 	private Page page;
 
-	private TMessageService tmessageService;
+	private ChatService chatService;
 	
+	public static CustomSSManager customSSManager;
+	
+	public void setChatService(ChatService chatService) {
+		this.chatService = chatService;
+	}
+
+
 	private String jsonString;
 
 	public String getJsonString() {
@@ -46,10 +53,6 @@ public class TMessageAction extends AbstractAction {
 
 	public void setJsonString(String jsonString) {
 		this.jsonString = jsonString;
-	}
-
-	public void setTmessageService(TMessageService tmessageService) {
-		this.tmessageService = tmessageService;
 	}
 
 
@@ -62,18 +65,18 @@ public class TMessageAction extends AbstractAction {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public String addTMessage(String text, String sender) throws Exception {
+	public String addChat(String text, String sender) throws Exception {
 		if (text != null) {
-			msg = new TMessage();
-			msg.setDate(new Date());
-			msg.setSender(sender);
-			msg.setText(text);
-			TMessages.put(msg.getId(), msg);
-			if (TMessages.size() >= 5) {
+			chat = new Chat();
+			chat.setDate(new Date());
+			chat.setSender(sender);
+			chat.setText(text);
+			chats.put(chat.getId(), chat);
+			if (chats.size() >= 5) {
 				List list = new ArrayList();
-				list.addAll(TMessages.values());
-				tmessageService.saveAll(list);
-				TMessages.clear();
+				list.addAll(chats.values());
+				chatService.saveAll(list);
+				chats.clear();
 			}
 
 			WebContext wctx = WebContextFactory.get();
@@ -84,7 +87,7 @@ public class TMessageAction extends AbstractAction {
 				logger.debug("ss:" + ss.getId());
 			}
 			ScriptProxy s = new ScriptProxy(sessions);
-			s.addFunctionCall("receiveTMessages", msg);
+			s.addFunctionCall("receiveChats", chat);
 		}
 		return NONE;
 	}
@@ -95,6 +98,14 @@ public class TMessageAction extends AbstractAction {
 //		page.setResult(dc);
 //		page = messageService.findByCriteria(page);
 //		tmessageService.
+		return SUCCESS;
+	}
+	
+	public String login() {
+		return SUCCESS;
+	}
+	
+	public String chatIndex() {
 		return SUCCESS;
 	}
 
@@ -111,7 +122,7 @@ public class TMessageAction extends AbstractAction {
 		System.out.println(tn.getText());
 		onlineUsers.put(tn.getId(), tn); // 用户下线,则从map中移除
 		
-		this.setSuccess(true);
+		this.setSuccess(false);
 		return SUCCESS;
 	}
 

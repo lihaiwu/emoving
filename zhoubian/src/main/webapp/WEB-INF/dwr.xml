@@ -11,9 +11,12 @@
 		<convert converter="exception" match="java.lang.Exception" />
 		<convert converter="bean" match="java.lang.StackTraceElement" />
 		
-		<create creator="spring" scope="application" javascript="Chat">
-			<param name="beanName" value="tmessageAction" />
+		<create creator="spring" scope="application" javascript="ChatAction">
+			<param name="beanName" value="chatAction" />
 		</create>
-		<convert converter="bean" match="net.zhoubian.app.model.TMessage" />
+		<convert converter="bean" match="net.zhoubian.app.model.Chat" />
+		<create creator="spring" scope="application" javascript="ChatWithAction">
+			<param name="beanName" value="chatWithAction" />
+		</create>
 	</allow>
 </dwr>

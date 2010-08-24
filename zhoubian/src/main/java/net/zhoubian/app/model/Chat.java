@@ -14,7 +14,7 @@ import com.googlecode.jsonplugin.annotations.JSON;
  * @version
  */
 @SuppressWarnings("serial")
-public class TMessage implements Serializable {
+public class Chat implements Serializable {
 	private Integer mid;
 
 	private Long id = System.currentTimeMillis();

@@ -2,7 +2,7 @@
 		
 Ext.onReady(function() {
 	dwr.engine.setActiveReverseAjax(true);
-
+	
 	Ext.QuickTips.init();
 
 	// Login window
@@ -43,7 +43,6 @@ Ext.onReady(function() {
 			}]
 		}
 	});
-
 	login.show();
 
 	function doLogin() {
@@ -51,11 +50,12 @@ Ext.onReady(function() {
 		if (form.isValid()) {
 			var o = form.getFieldValues();
 			Ext.Ajax.request({
-				url : 'addUser.do',
+				url : 'addWithUser.do',
 				params : {
 					'userName' : o.userName
 				},
-				success : function() {
+				success : function(result) {
+//					alert(result.responseText);
 					form.ownerCt.close();
 					showChatWindow(o.userName);
 				}
@@ -344,7 +344,7 @@ Ext.onReady(function() {
 							items : {
 								xtype : 'treepanel',
 								border : false,
-								dataUrl : 'getOnlineUsers.do',
+								dataUrl : 'getWithUsers.do',
 								rootVisible : false,
 								root : {
 									nodeType : 'async',
@@ -370,7 +370,7 @@ Ext.onReady(function() {
 							text : 'Send',
 							tooltip : 'CTRL + ENTER',
 							handler : function() {
-								sendMessage(this, userName);
+								sendChat(this, userName);
 							}
 						}]
 					}]
@@ -401,14 +401,14 @@ Ext.onReady(function() {
 });
 
 // 发送聊天信息
-function sendMessage(cmp, userName) {
+function sendChat(cmp, userName) {
 	var textarea = cmp.ownerCt.items.first().items.first();
 //	alert(textarea);
 	var value = textarea.getValue();
 	if (value.length > 0) {
 		var el = cmp.ownerCt.el;
 		el.mask('Sending...', 'x-mask-loading');
-		Chat.addTMessage(value, userName, function() {
+		ChatWithAction.addChat(value, userName, function() {
 			el.unmask();
 			textarea.setValue('');
 		});
@@ -417,7 +417,7 @@ function sendMessage(cmp, userName) {
 };
 
 // 接受消息
-function receiveTMessages(msg) {
+function receiveChats(chat) {
 	var chatlog = Ext.getCmp('chatlog');
 	var tpl = new Ext.XTemplate(
 			'<p><font color="green">{sender}: </font>{date:this.parseDate} </p><p style="padding:1 1 10 5">{text:this.parseText}</p>',
@@ -427,11 +427,11 @@ function receiveTMessages(msg) {
 					return Ext.util.Format.date(date, 'H:i:s');
 				},
 				parseText : function(text) {
-					alert(text);
+//					alert(text);
 					return Ext.util.Format.htmlDecode(text);
 					//return Ext.util.Format.nl2br(Ext.util.Format.htmlEncode(text));
 				}
 			});
-	tpl.append(chatlog.body, msg);
+	tpl.append(chatlog.body, chat);
 	chatlog.body.scroll('b', 100000, true);
 }
