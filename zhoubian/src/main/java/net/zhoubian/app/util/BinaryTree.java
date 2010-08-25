@@ -5,12 +5,12 @@ import java.util.Map;
 
 import net.zhoubian.app.model.User;
 
-public class BinaryTree {
+public class BinaryTree<T,V> {
 
-	private static class Node {
+	private static class Node<K,L> {
 
 		long code; // data used as key value
-		Map<Long, User> data; // other data
+		Map<K, L> data; // other data
 		Node leftChild; // this Node's left child
 		Node rightChild; // this Node's right child
 
@@ -41,13 +41,6 @@ public class BinaryTree {
 		}
 		return current; // found it
 	}
-	
-	public synchronized boolean findUser(long code, User user) // find User with given code and User
-	{ // (assumes non-empty tree)
-		Node current = find(code);
-		Map<Long, User> map = current.data;
-		return map.containsKey(user.getUid())?true:false;
-	}
 
 	public Node minimum() // returns Node with minimum code value
 	{
@@ -61,14 +54,14 @@ public class BinaryTree {
 		return last;
 	}
 
-	public synchronized void insert(long code, User user) {
+	public synchronized void insert(long code, T t, V v) {
 		Node newNode = null;
-		Map<Long, User> map = null;
+		Map<T, V> map = null;
 		if (root == null){
 			newNode = new Node(); // make new Node
 			newNode.code = code; // insert data
-			map = new HashMap<Long, User>();
-			map.put(user.getUid(), user);
+			map = new HashMap<T, V>();
+			map.put(t, v);
 			newNode.data = map;
 			root = newNode;// no Node in root
 		}
@@ -82,10 +75,10 @@ public class BinaryTree {
 				parent = current;
 				if (code == current.code){
 					map = current.data;
-					if(map.containsKey(user.getUid())){
+					if(map.containsKey(t)){
 						return;
 					}
-					map.put(user.getUid(), user);
+					map.put(t, v);
 					return;
 				}
 				else if (code < current.code) // go left?
@@ -95,8 +88,8 @@ public class BinaryTree {
 					{ // insert on left
 						newNode = new Node(); // make new Node
 						newNode.code = code; // insert data
-						map = new HashMap<Long, User>();
-						map.put(user.getUid(), user);
+						map = new HashMap<T, V>();
+						map.put(t, v);
 						newNode.data = map;
 						parent.leftChild = newNode;
 						return;
@@ -109,8 +102,8 @@ public class BinaryTree {
 					{ // insert on right
 						newNode = new Node(); // make new Node
 						newNode.code = code; // insert data
-						map = new HashMap<Long, User>();
-						map.put(user.getUid(), user);
+						map = new HashMap<T, V>();
+						map.put(t, v);
 						newNode.data = map;
 						parent.rightChild = newNode;
 						return;
@@ -121,11 +114,11 @@ public class BinaryTree {
 	} // end insert()
 
 	// 用被删除节点A的右子树的最左节点作为替代A的节点，并修改相应的最左或最右节点的父节点的指针
-	public synchronized boolean delete(long code, User user) // delete Node with given code
+	public synchronized boolean delete(long code, T t, V v) // delete Node with given code
 	{ // (assumes non-empty list)
 		Node current = root;
 		Node parent = root;
-		Map<Long, User> map = null;
+		Map<T, V> map = null;
 		boolean isLeftChild = true;
 		while (current.code != code) // search for Node
 		{
@@ -146,7 +139,7 @@ public class BinaryTree {
 		// continues...
 		
 		map = current.data;
-		map.remove(user.getUid());
+		map.remove(t);
 
 		if(map.isEmpty()){//如果节点上没有数据
 			// delete() continued...
@@ -274,42 +267,42 @@ public class BinaryTree {
 		BinaryTree biTree = new BinaryTree();
 		User user = new User();
 		user.setUid(new Long(500));
-		biTree.insert(50, user);
+		biTree.insert(50, user.getUid(), user);
 		user = new User();
 		user.setUid(new Long(300));
-		biTree.insert(30, user);
+		biTree.insert(30, user.getUid(), user);
 		
 		user = new User();
 		user.setUid(new Long(3000));
-		biTree.insert(30, user);
+		biTree.insert(30, user.getUid(), user);
 		
 		user = new User();
 		user.setUid(new Long(250));
-		biTree.insert(25, user);
+		biTree.insert(25, user.getUid(), user);
 		user = new User();
 		user.setUid(new Long(350));
-		biTree.insert(35, user);
+		biTree.insert(35, user.getUid(), user);
 		user = new User();
 		user.setUid(new Long(550));
-		biTree.insert(55, user);
+		biTree.insert(55, user.getUid(), user);
 		user = new User();
 		user.setUid(new Long(530));
-		biTree.insert(53, user);
+		biTree.insert(53, user.getUid(), user);
 		user = new User();
 		user.setUid(new Long(600));
-		biTree.insert(60, user);
+		biTree.insert(60, user.getUid(), user);
 		user = new User();
 		user.setUid(new Long(100));
-		biTree.insert(10, user);
+		biTree.insert(10, user.getUid(), user);
 		user = new User();
 		user.setUid(new Long(150));
-		biTree.insert(15, user);
+		biTree.insert(15, user.getUid(), user);
 		user = new User();
 		user.setUid(new Long(320));
-		biTree.insert(32, user);
+		biTree.insert(32, user.getUid(), user);
 		user = new User();
 		user.setUid(new Long(330));
-		biTree.insert(33, user);
+		biTree.insert(33, user.getUid(), user);
 
 		Node found = biTree.find(30);
 		if (found != null)
@@ -321,7 +314,7 @@ public class BinaryTree {
 		System.out.println("删除后...");
 		user = new User();
 		user.setUid(new Long(300));
-		biTree.delete(30, user);
+		biTree.delete(30, user.getUid(), user);
 		biTree.printTree();
 		
 		//删除前树结构图，只列出key

@@ -1,11 +1,13 @@
 package net.zhoubian.app.web.listener;
 
 import java.util.Collection;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
 import net.zhoubian.app.model.User;
 import net.zhoubian.app.util.BinaryTree;
+import net.zhoubian.app.util.GridUtil;
 
 import org.directwebremoting.Container;
 import org.directwebremoting.ScriptSession;
@@ -17,7 +19,8 @@ import org.directwebremoting.impl.DefaultScriptSession;
 import org.directwebremoting.impl.DefaultScriptSessionManager;
 
 public class CustomSSManager extends DefaultScriptSessionManager implements org.directwebremoting.extend.InitializingBean {
-	private BinaryTree bt = new BinaryTree();
+	public static BinaryTree<String, HttpSession> bt = new BinaryTree<String, HttpSession>();
+	private Random random = new Random();
 
 	public CustomSSManager() {
 		System.out.println("CustomSSManager()");
@@ -39,11 +42,10 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 				System.out.println("httpSession:" + httpSession.getId());
 				User user = (User) httpSession.getAttribute("user");
 				
-//				if (user == null) {
-//					scriptSession.invalidate();
-//					httpSession.invalidate();
-//					return;
-//				}
+				if (user == null) {
+					scriptSession.invalidate();
+					return;
+				}
 //				System.out.println("user:" + user);
 				Collection<RealScriptSession> col= CustomSSManager.this.getScriptSessionsByHttpSessionId(httpSession.getId());
 				for(RealScriptSession old : col){
@@ -52,16 +54,19 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 				
 				String currentPage = scriptSession.getPage();
 				System.out.println("currentPage:" + currentPage);
-				String ssId = (String) httpSession.getAttribute(currentPage);
-				System.out.println("ssId:" + ssId);
-				if (ssId != null) {
-					DefaultScriptSession old = sessionMap.get(ssId);
+				ScriptSession ss = (ScriptSession) httpSession.getAttribute(currentPage);
+				if (ss != null) {
+					DefaultScriptSession old = sessionMap.get(ss.getId());
                     if(old!=null){
                     	CustomSSManager.this.invalidate(old);
                     }
 				}
 				
-				httpSession.setAttribute(currentPage, scriptSession.getId());
+				httpSession.setAttribute(currentPage, scriptSession);
+				double latY = random.nextDouble();
+				double lngY = random.nextDouble();
+				httpSession.setAttribute("latY", latY);
+				bt.insert(GridUtil.getOwnGridCode(latY, lngY), httpSession.getId(), httpSession);
 				System.out.println("new:" + scriptSession.getId());
 //				scriptSession.setAttribute("uid", user.getUid());// 此处将uid和scriptSession绑定
 				System.out.println("sessionCreated end");

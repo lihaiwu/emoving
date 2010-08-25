@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.servlet.http.HttpServletRequest;
-
 import net.zhoubian.app.model.Chat;
 import net.zhoubian.app.model.User;
 import net.zhoubian.app.service.ChatService;
@@ -25,8 +23,8 @@ import org.directwebremoting.WebContextFactory;
 import org.directwebremoting.proxy.ScriptProxy;
 
 @SuppressWarnings("serial")
-public class ChatAction extends AbstractAction {
-	private static Logger logger = Logger.getLogger(ChatAction.class);
+public class ChatWithAction extends AbstractAction {
+	private static Logger logger = Logger.getLogger(ChatWithAction.class);
 	
 	public static Map<String, TreeNode> onlineUsers = new TreeMap<String, TreeNode>();
 
@@ -67,7 +65,7 @@ public class ChatAction extends AbstractAction {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public String addChat(String text, String sender, HttpServletRequest req) throws Exception {
+	public String addChat(String text, String sender) throws Exception {
 		if (text != null) {
 			chat = new Chat();
 			chat.setDate(new Date());
@@ -84,8 +82,6 @@ public class ChatAction extends AbstractAction {
 			WebContext wctx = WebContextFactory.get();
 			String currentPage = wctx.getCurrentPage();
 			logger.debug("currentPage:" + currentPage);
-			logger.debug("ssid:" + req.getSession().getAttribute(currentPage));
-			logger.debug("sessionid:" + req.getSession().getId());
 			Collection<ScriptSession> sessions = wctx.getScriptSessionsByPage(currentPage);
 			for(ScriptSession ss:sessions){
 				logger.debug("ss:" + ss.getId());
