@@ -56,8 +56,11 @@ Ext.onReady(function() {
 				},
 				success : function(result) {
 //					alert(result.responseText);
-					form.ownerCt.close();
-					showChatWindow(o.userName);
+					var flag = Ext.decode(result.responseText).success;
+					if(flag){
+						form.ownerCt.close();
+						showChatWindow(o.userName);
+					}
 				}
 			});
 		}

@@ -19,4 +19,8 @@ public class MapServiceImpl implements MapService{
 	public List<Location> findLocationsByUid(long uid){
 		return locationDao.findLocationsByUid(uid);
 	}
+
+	public Location findLocationsById(long id) {
+		return locationDao.getObjectByID(id);
+	}
 }

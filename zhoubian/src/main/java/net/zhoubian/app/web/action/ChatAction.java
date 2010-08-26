@@ -11,10 +11,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import net.zhoubian.app.model.Chat;
+import net.zhoubian.app.model.Location;
 import net.zhoubian.app.model.User;
 import net.zhoubian.app.service.ChatService;
+import net.zhoubian.app.service.MapService;
+import net.zhoubian.app.service.UserService;
+import net.zhoubian.app.util.GridUtil;
 import net.zhoubian.app.util.Page;
 import net.zhoubian.app.web.listener.CustomSSManager;
 
@@ -22,6 +27,8 @@ import org.apache.log4j.Logger;
 import org.directwebremoting.ScriptSession;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
+import org.directwebremoting.extend.RealScriptSession;
+import org.directwebremoting.impl.DefaultScriptSession;
 import org.directwebremoting.proxy.ScriptProxy;
 
 @SuppressWarnings("serial")
@@ -40,10 +47,23 @@ public class ChatAction extends AbstractAction {
 
 	private ChatService chatService;
 	
+	private UserService userService;
+
+	private MapService mapService;
+	
 	public static CustomSSManager customSSManager;
 	
 	public void setChatService(ChatService chatService) {
 		this.chatService = chatService;
+	}
+
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public void setMapService(MapService mapService) {
+		this.mapService = mapService;
 	}
 
 
@@ -68,6 +88,7 @@ public class ChatAction extends AbstractAction {
 	 */
 	@SuppressWarnings("unchecked")
 	public String addChat(String text, String sender, HttpServletRequest req) throws Exception {
+		HttpSession httpSession = req.getSession();
 		if (text != null) {
 			chat = new Chat();
 			chat.setDate(new Date());
@@ -86,6 +107,11 @@ public class ChatAction extends AbstractAction {
 			logger.debug("currentPage:" + currentPage);
 			logger.debug("ssid:" + req.getSession().getAttribute(currentPage));
 			logger.debug("sessionid:" + req.getSession().getId());
+			Location location = (Location) httpSession.getAttribute("location");
+			
+			List<Long> codes = GridUtil.getRelatedGridCode(location.getLatitude(), location.getLongitude(), 4);
+			customSSManager.bt.find(GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude()));
+			
 			Collection<ScriptSession> sessions = wctx.getScriptSessionsByPage(currentPage);
 			for(ScriptSession ss:sessions){
 				logger.debug("ss:" + ss.getId());
@@ -115,18 +141,48 @@ public class ChatAction extends AbstractAction {
 
 	public String addUser() {
 		System.out.println("addUser");
-		TreeNode tn = new TreeNode();
-		tn.setId(java.util.UUID.randomUUID().toString());
 		try {
-			tn.setText(this.getRequestParameter("userName", null));
+			HttpSession httpSession = request.getSession();
+			String loginName = this.getRequestParameter("userName", "error");
+			User user = userService.getUserByLoginName(loginName);
+			if(user != null){
+				TreeNode tn = new TreeNode();
+				tn.setId(user.getUid().toString());
+				tn.setText(user.getName());
+				System.out.println(tn.getText());
+				onlineUsers.put(tn.getId(), tn); // 用户下线,则从map中移除
+				
+				request.getSession().setAttribute("user", user);
+				Location location = mapService.findLocationsById(user.getCurrentLocationId());
+				request.getSession().setAttribute("location", location);
+				
+				//插入到二叉树
+				Collection<RealScriptSession> col= customSSManager.getScriptSessionsByHttpSessionId(httpSession.getId());
+				for(RealScriptSession old : col){
+					System.out.println("col:" + old.getId());
+				}
+				
+				String currentPage = request.getRequestURI();
+				System.out.println("currentPage:" + currentPage);
+				ScriptSession ss = (ScriptSession) httpSession.getAttribute(currentPage);
+				if (ss != null) {
+					System.out.println("ss:" + ss.getId());
+				}
+				customSSManager.bt.insert(GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude()), httpSession.getId(), httpSession);
+				
+				customSSManager.bt.printTree();
+				this.setSuccess(true);
+				return SUCCESS;
+			}else{
+				this.setSuccess(false);
+				return SUCCESS;
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(tn.getText());
-		onlineUsers.put(tn.getId(), tn); // 用户下线,则从map中移除
 		
-		this.setSuccess(false);
 		return SUCCESS;
 	}
 
