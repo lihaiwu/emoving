@@ -6,6 +6,7 @@
 	<bean id="userAction" class="net.zhoubian.app.web.action.UserAction"
 		scope="prototype" autowire="byName">
 		<property name="userService" ref="userService"></property>
+		<property name="mapService" ref="mapService" />
 	</bean>
 	<bean id="categoryAction" class="net.zhoubian.app.web.action.CategoryAction"
 		scope="prototype" autowire="byName">

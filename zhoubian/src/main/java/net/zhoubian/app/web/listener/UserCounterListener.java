@@ -6,10 +6,15 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
+import net.zhoubian.app.model.Location;
 import net.zhoubian.app.model.User;
+import net.zhoubian.app.util.GridUtil;
 
 
 /**
@@ -20,7 +25,7 @@ import net.zhoubian.app.model.User;
  *
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
  */
-public class UserCounterListener implements ServletContextListener, HttpSessionAttributeListener {
+public class UserCounterListener implements ServletContextListener, HttpSessionAttributeListener, HttpSessionListener {
     /**
      * Name of user counter variable
      */
@@ -126,4 +131,23 @@ public class UserCounterListener implements ServletContextListener, HttpSessionA
     public void attributeReplaced(HttpSessionBindingEvent event) {
 //    	TODO
     }
+
+	public void sessionCreated(HttpSessionEvent se) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void sessionDestroyed(HttpSessionEvent se) {
+		// TODO Auto-generated method stub
+		System.out.println("UserCounterListener sessionDestroyed");
+		HttpSession httpSession = se.getSession();
+		System.out.println("httpSession:" + httpSession.getId());
+		Location location = (Location) httpSession.getAttribute("location");
+		if(location == null){
+			return;
+		}
+		long code = GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude());
+		CustomSSManager.bt.delete(code, httpSession.getId());
+		System.out.println("UserCounterListener sessionDestroyed end");
+	}
 }

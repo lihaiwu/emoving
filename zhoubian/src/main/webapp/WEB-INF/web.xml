@@ -88,6 +88,10 @@
 		<listener-class>net.zhoubian.app.web.listener.StartupListener</listener-class>
 	</listener>
 	
+	<session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
+	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

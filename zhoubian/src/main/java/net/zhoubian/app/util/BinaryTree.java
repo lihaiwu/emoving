@@ -2,17 +2,18 @@ package net.zhoubian.app.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import net.zhoubian.app.model.User;
 
 public class BinaryTree<T,V> {
 
-	private static class Node<K,L> {
+	public static final class Node<K,L> {
 
 		long code; // data used as key value
 		Map<K, L> data; // other data
-		Node leftChild; // this Node's left child
-		Node rightChild; // this Node's right child
+		Node<K,L> leftChild; // this Node's left child
+		Node<K,L> rightChild; // this Node's right child
 
 		public void displayNode() {
 			// (see Listing 8.1 for method body)
@@ -22,14 +23,18 @@ public class BinaryTree<T,V> {
 			}
 			System.out.print("} ");
 		}
+		
+		public Map<K, L> getData() {
+			return data;
+		}
 
 	}
 
-	private Node root; // the only data field in Tree
+	private Node<T,V> root; // the only data field in Tree
 
-	public synchronized Node find(long code) // find Node with given code
+	public synchronized Node<T,V> find(long code) // find Node with given code
 	{ // (assumes non-empty tree)
-		Node current = root; // start at root
+		Node<T,V> current = root; // start at root
 		while (current.code != code) // while no match,
 		{
 			if (code < current.code) // go left?
@@ -42,9 +47,9 @@ public class BinaryTree<T,V> {
 		return current; // found it
 	}
 
-	public Node minimum() // returns Node with minimum code value
+	public Node<T,V> minimum() // returns Node with minimum code value
 	{
-		Node current, last = null;
+		Node<T,V> current, last = null;
 		current = root; // start at root
 		while (current != null) // until the bottom,
 		{
@@ -55,10 +60,10 @@ public class BinaryTree<T,V> {
 	}
 
 	public synchronized void insert(long code, T t, V v) {
-		Node newNode = null;
+		Node<T,V> newNode = null;
 		Map<T, V> map = null;
 		if (root == null){
-			newNode = new Node(); // make new Node
+			newNode = new Node<T,V>(); // make new Node
 			newNode.code = code; // insert data
 			map = new HashMap<T, V>();
 			map.put(t, v);
@@ -68,8 +73,8 @@ public class BinaryTree<T,V> {
 			
 		else // root occupied
 		{
-			Node current = root; // start at root
-			Node parent;
+			Node<T,V> current = root; // start at root
+			Node<T,V> parent;
 			while (true) // (exits internally)
 			{
 				parent = current;
@@ -86,7 +91,7 @@ public class BinaryTree<T,V> {
 					current = current.leftChild;
 					if (current == null) // if end of the line,
 					{ // insert on left
-						newNode = new Node(); // make new Node
+						newNode = new Node<T,V>(); // make new Node
 						newNode.code = code; // insert data
 						map = new HashMap<T, V>();
 						map.put(t, v);
@@ -100,7 +105,7 @@ public class BinaryTree<T,V> {
 					current = current.rightChild;
 					if (current == null) // if end of the line
 					{ // insert on right
-						newNode = new Node(); // make new Node
+						newNode = new Node<T,V>(); // make new Node
 						newNode.code = code; // insert data
 						map = new HashMap<T, V>();
 						map.put(t, v);
@@ -114,10 +119,10 @@ public class BinaryTree<T,V> {
 	} // end insert()
 
 	// 用被删除节点A的右子树的最左节点作为替代A的节点，并修改相应的最左或最右节点的父节点的指针
-	public synchronized boolean delete(long code, T t, V v) // delete Node with given code
+	public synchronized boolean delete(long code, T t) // delete Node with given code
 	{ // (assumes non-empty list)
-		Node current = root;
-		Node parent = root;
+		Node<T,V> current = root;
+		Node<T,V> parent = root;
 		Map<T, V> map = null;
 		boolean isLeftChild = true;
 		while (current.code != code) // search for Node
@@ -184,7 +189,7 @@ public class BinaryTree<T,V> {
 			else // two children, so replace with inorder successor
 			{
 				// get successor of Node to delete (current)
-				Node successor = getSuccessor(current);
+				Node<T,V> successor = getSuccessor(current);
 				// connect parent of current to successor instead
 				if (current == root)
 					root = successor;
@@ -216,10 +221,10 @@ public class BinaryTree<T,V> {
 	// returns Node with next-highest value after delNode
 	// goes to right child, then right child's left descendants
 	// 获得右子树的最左节点
-	private Node getSuccessor(Node delNode) {
-		Node successorParent = delNode;
-		Node successor = delNode;
-		Node current = delNode.rightChild; // go to right child
+	private Node<T,V> getSuccessor(Node<T,V> delNode) {
+		Node<T,V> successorParent = delNode;
+		Node<T,V> successor = delNode;
+		Node<T,V> current = delNode.rightChild; // go to right child
 		while (current != null) // until no more
 		{ // left children,
 			successorParent = successor;
@@ -235,7 +240,7 @@ public class BinaryTree<T,V> {
 		return successor;
 	}
 
-	private void preOrder(Node localRoot) {
+	private void preOrder(Node<T,V> localRoot) {
 		if (localRoot != null) {
 			localRoot.displayNode();
 			preOrder(localRoot.leftChild);
@@ -243,7 +248,7 @@ public class BinaryTree<T,V> {
 		}
 	}
 
-	private void inOrder(Node localRoot) {
+	private void inOrder(Node<T,V> localRoot) {
 		if (localRoot != null) {
 			inOrder(localRoot.leftChild);
 			localRoot.displayNode();
@@ -251,7 +256,7 @@ public class BinaryTree<T,V> {
 		}
 	}
 
-	private void postOrder(Node localRoot) {
+	private void postOrder(Node<T,V> localRoot) {
 		if (localRoot != null) {
 			postOrder(localRoot.leftChild);
 			postOrder(localRoot.rightChild);
@@ -264,47 +269,73 @@ public class BinaryTree<T,V> {
 	}
 	
 	public static void testBinaryTree(){
-		BinaryTree biTree = new BinaryTree();
+		TreeMap<Long,Object> treeMap = new TreeMap<Long,Object>();
+		
+		BinaryTree<Long,User> biTree = new BinaryTree<Long,User>();
 		User user = new User();
 		user.setUid(new Long(500));
 		biTree.insert(50, user.getUid(), user);
+		treeMap.put(new Long(50), user);
+		
 		user = new User();
 		user.setUid(new Long(300));
 		biTree.insert(30, user.getUid(), user);
+		treeMap.put(new Long(30), user);
 		
 		user = new User();
 		user.setUid(new Long(3000));
 		biTree.insert(30, user.getUid(), user);
+		treeMap.put(new Long(30), user);
 		
 		user = new User();
 		user.setUid(new Long(250));
 		biTree.insert(25, user.getUid(), user);
+		treeMap.put(new Long(25), user);
+		
 		user = new User();
 		user.setUid(new Long(350));
 		biTree.insert(35, user.getUid(), user);
+		treeMap.put(new Long(35), user);
+		
 		user = new User();
 		user.setUid(new Long(550));
 		biTree.insert(55, user.getUid(), user);
+		treeMap.put(new Long(55), user);
+		
 		user = new User();
 		user.setUid(new Long(530));
 		biTree.insert(53, user.getUid(), user);
+		treeMap.put(new Long(53), user);
+		
 		user = new User();
 		user.setUid(new Long(600));
 		biTree.insert(60, user.getUid(), user);
+		treeMap.put(new Long(60), user);
+		
 		user = new User();
 		user.setUid(new Long(100));
 		biTree.insert(10, user.getUid(), user);
+		treeMap.put(new Long(10), user);
+		
 		user = new User();
 		user.setUid(new Long(150));
 		biTree.insert(15, user.getUid(), user);
+		treeMap.put(new Long(15), user);
+		
 		user = new User();
 		user.setUid(new Long(320));
 		biTree.insert(32, user.getUid(), user);
+		treeMap.put(new Long(32), user);
+		
 		user = new User();
 		user.setUid(new Long(330));
 		biTree.insert(33, user.getUid(), user);
+		treeMap.put(new Long(33), user);
+		
+		System.out.println(treeMap);
+		System.out.println(treeMap.ceilingEntry(new Long(33)));
 
-		Node found = biTree.find(30);
+		Node<Long,User> found = biTree.find(30);
 		if (found != null)
 			System.out.println("Found the Node with key 30");
 		else
@@ -314,7 +345,7 @@ public class BinaryTree<T,V> {
 		System.out.println("删除后...");
 		user = new User();
 		user.setUid(new Long(300));
-		biTree.delete(30, user.getUid(), user);
+		biTree.delete(30, user.getUid());
 		biTree.printTree();
 		
 		//删除前树结构图，只列出key

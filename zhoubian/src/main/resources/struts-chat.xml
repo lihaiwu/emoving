@@ -10,6 +10,8 @@
 		<action name="chatLogin" class="chatAction" method="login">
 			<result name="success">index.html</result>
 		</action>
+		<action name="chatLogout" class="chatAction" method="logout">
+		</action>
 		<action name="chatIndex" class="chatAction" method="chatIndex">
 			<result name="success">chat/chat.jsp</result>
 		</action>

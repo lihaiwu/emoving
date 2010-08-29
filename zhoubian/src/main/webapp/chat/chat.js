@@ -1,10 +1,25 @@
 
-		
 Ext.onReady(function() {
 	dwr.engine.setActiveReverseAjax(true);
 
 	Ext.QuickTips.init();
 
+	function window::onbeforeunload(){
+		   if   (event.clientY<0   &&
+		event.clientX>document.body.clientWidth-20   ||   event.clientY<0   &&
+		event.clientX<20   ||   event.altKey     ||
+		event.clientY>document.body.clientHeight)   {
+		           if(confirm("是否退出聊天室？")) {
+		        	   Ext.Ajax.request({
+		   				url : 'chatLogout.do'
+		   			});
+		                   return;
+		           }
+		           else{
+		                   return;
+		           }
+		   }
+		}
 	// Login window
 	var login = new Ext.Window({
 		title : 'Sign In',
@@ -43,7 +58,7 @@ Ext.onReady(function() {
 			}]
 		}
 	});
-	login.show();
+	
 
 	function doLogin() {
 		var form = login.get(0).getForm();
@@ -64,6 +79,12 @@ Ext.onReady(function() {
 				}
 			});
 		}
+	}
+	
+	if(loginName == ""){
+		login.show();
+	}else{
+		showChatWindow(loginName);
 	}
 
 	// Chat window
@@ -345,6 +366,7 @@ Ext.onReady(function() {
 							maxWidth : 200,
 							width : 150,
 							items : {
+								id: 'usertree',
 								xtype : 'treepanel',
 								border : false,
 								dataUrl : 'getOnlineUsers.do',
@@ -437,4 +459,18 @@ function receiveChats(chat) {
 			});
 	tpl.append(chatlog.body, chat);
 	chatlog.body.scroll('b', 100000, true);
+}
+
+//添加新进入聊天室用户
+function addUser(user) {
+	var usertree = Ext.getCmp('usertree');
+	var node=new Ext.tree.TreeNode(Ext.decode(user))
+	usertree.getRootNode().appendChild(node);
+}
+
+//删除退出聊天室用户
+function removeUser(id) {
+	var usertree = Ext.getCmp('usertree');
+	var node=usertree.getNodeById(Ext.decode(id))
+	usertree.getRootNode().removeChild(node,true);
 }

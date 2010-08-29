@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import net.zhoubian.app.model.Location;
 import net.zhoubian.app.model.User;
+import net.zhoubian.app.service.MapService;
 import net.zhoubian.app.service.UserService;
 
 public class UserAction extends AbstractAction {
@@ -14,6 +16,11 @@ public class UserAction extends AbstractAction {
 
 	private UserService userService;
 	
+	private MapService mapService;
+	
+	public void setMapService(MapService mapService) {
+		this.mapService = mapService;
+	}
 	private User user;
 	
 	
@@ -43,6 +50,9 @@ public class UserAction extends AbstractAction {
 		this.userService = userService;
 	}
 	public String preLogin(){
+		if(request.getSession().getAttribute("user") != null){
+			return "loginsuccess";
+		}
 		return "login";
 	}
 	public String login(){
@@ -58,6 +68,8 @@ public class UserAction extends AbstractAction {
 			return "login";
 		}
 		request.getSession().setAttribute("user", user);
+		Location location = mapService.findLocationsById(user.getCurrentLocationId());
+		request.getSession().setAttribute("location", location);
 		return "loginsuccess";
 	}
 	public String register(){
