@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +14,7 @@ import net.zhoubian.app.util.BinaryTree;
 import net.zhoubian.app.util.GridUtil;
 import net.zhoubian.app.web.action.ChatAction;
 
+import org.apache.log4j.Logger;
 import org.directwebremoting.Container;
 import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.ScriptSession;
@@ -26,12 +26,13 @@ import org.directwebremoting.impl.DefaultScriptSession;
 import org.directwebremoting.impl.DefaultScriptSessionManager;
 
 public class CustomSSManager extends DefaultScriptSessionManager implements org.directwebremoting.extend.InitializingBean {
+	private static Logger logger = Logger.getLogger(CustomSSManager.class);
 	public static int count = 0;
 	public static String CHAT_ROOM = "/zhoubian/chatIndex.do";
 	public static BinaryTree<String, HttpSession> bt = new BinaryTree<String, HttpSession>();
 
 	public CustomSSManager() {
-		System.out.println("CustomSSManager()");
+		logger.debug("CustomSSManager()");
 		count++;
 		ChatAction.customSSManager = this;//将自己暴露ReverseAjax业务处理类
 
@@ -39,26 +40,26 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 
 	public void afterContainerSetup(Container container) {
 		// TODO Auto-generated method stub
-		System.out.println("afterContainerSetup");
+		logger.debug("afterContainerSetup");
 		this.addScriptSessionListener(new ScriptSessionListener() {
 			public void sessionCreated(ScriptSessionEvent event) {
-				System.out.println("sessionCreated");
-				System.out.println("event.getSource():" + event.getSource());
-				System.out.println("event.toString():" + event.toString());
+				logger.debug("sessionCreated");
+				logger.debug("event.getSource():" + event.getSource());
+				logger.debug("event.toString():" + event.toString());
 				ScriptSession scriptSession = event.getSession(); // 获取新创建的SS
 				HttpSession httpSession = WebContextFactory.get().getSession();// 获取构造SS的用户的HttpSession
-				System.out.println("httpSession:" + httpSession.getId());
+				logger.debug("httpSession:" + httpSession.getId());
 				User user = (User) httpSession.getAttribute("user");
 				
 				
-//				System.out.println("user:" + user);
+//				logger.debug("user:" + user);
 				Collection<RealScriptSession> col= CustomSSManager.this.getScriptSessionsByHttpSessionId(httpSession.getId());
 				for(RealScriptSession old : col){
-					System.out.println("col:" + old.getId());
+					logger.debug("col:" + old.getId());
 				}
 				
 				String currentPage = scriptSession.getPage();
-				System.out.println("currentPage:" + currentPage);
+				logger.debug("currentPage:" + currentPage);
 				if(!CHAT_ROOM.equals(currentPage)){
 					return;
 				}
@@ -77,21 +78,21 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 				}
 				Location location = (Location) httpSession.getAttribute("location");
 				bt.insert(GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude()), httpSession.getId(), httpSession);
-				System.out.println("new:" + scriptSession.getId());
+				logger.debug("new:" + scriptSession.getId());
 //				scriptSession.setAttribute("uid", user.getUid());// 此处将uid和scriptSession绑定
-				System.out.println("sessionCreated end");
+				logger.debug("sessionCreated end");
 			}
 
 			public void sessionDestroyed(ScriptSessionEvent event) {
-				System.out.println("sessionDestroyed");
+				logger.debug("sessionDestroyed");
 				HttpSession httpSession = WebContextFactory.get().getSession();
-				System.out.println("httpSession:" + httpSession.getId());
+				logger.debug("httpSession:" + httpSession.getId());
 				Collection<RealScriptSession> col= CustomSSManager.this.getScriptSessionsByHttpSessionId(httpSession.getId());
 				for(RealScriptSession old : col){
-					System.out.println("col:" + old.getId());
+					logger.debug("col:" + old.getId());
 				}
 				ScriptSession scriptSession = event.getSession();
-				System.out.println("scriptSession:" + scriptSession.getId());
+				logger.debug("scriptSession:" + scriptSession.getId());
 				User user = (User) httpSession.getAttribute("user");
 				if(user == null){
 					return;
@@ -110,7 +111,7 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 				HttpSession hs = null;
 				ScriptSession ss = null;
 				for(Long code:codes){
-					System.out.println("code:" + code);
+					logger.debug("code:" + code);
 					node = CustomSSManager.bt.find(code);
 					data = node.getData();
 					Iterator it = data.entrySet().iterator();
@@ -118,15 +119,15 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 			        	entry = (Map.Entry<String, HttpSession>) it.next();
 			        	hs = entry.getValue();
 			        	ss = (ScriptSession) hs.getAttribute(CustomSSManager.CHAT_ROOM);
-			        	System.out.println("hs:" + hs.getId() + " ss:" + ss.getId());
+			        	logger.debug("hs:" + hs.getId() + " ss:" + ss.getId());
 			        	ss.addScript(new ScriptBuffer().appendScript("removeUser").appendScript("(").appendData(user.getUid()).appendScript(");"));
 			        }
 				}
 				
-				System.out.println("sessionDestroyed end");
+				logger.debug("sessionDestroyed end");
 			}
 		});
 		
-		System.out.println("----------------------");
+		logger.debug("----------------------");
 	}
 }

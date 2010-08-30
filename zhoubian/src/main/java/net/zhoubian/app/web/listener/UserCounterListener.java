@@ -16,6 +16,8 @@ import net.zhoubian.app.model.Location;
 import net.zhoubian.app.model.User;
 import net.zhoubian.app.util.GridUtil;
 
+import org.apache.log4j.Logger;
+
 
 /**
  * UserCounterListener class used to count the current number
@@ -26,6 +28,7 @@ import net.zhoubian.app.util.GridUtil;
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
  */
 public class UserCounterListener implements ServletContextListener, HttpSessionAttributeListener, HttpSessionListener {
+	private static Logger logger = Logger.getLogger(UserCounterListener.class);
     /**
      * Name of user counter variable
      */
@@ -139,15 +142,15 @@ public class UserCounterListener implements ServletContextListener, HttpSessionA
 
 	public void sessionDestroyed(HttpSessionEvent se) {
 		// TODO Auto-generated method stub
-		System.out.println("UserCounterListener sessionDestroyed");
+		logger.debug("UserCounterListener sessionDestroyed");
 		HttpSession httpSession = se.getSession();
-		System.out.println("httpSession:" + httpSession.getId());
+		logger.debug("httpSession:" + httpSession.getId());
 		Location location = (Location) httpSession.getAttribute("location");
 		if(location == null){
 			return;
 		}
 		long code = GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude());
 		CustomSSManager.bt.delete(code, httpSession.getId());
-		System.out.println("UserCounterListener sessionDestroyed end");
+		logger.debug("UserCounterListener sessionDestroyed end");
 	}
 }
