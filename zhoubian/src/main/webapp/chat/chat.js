@@ -4,27 +4,11 @@ Ext.onReady(function() {
 
 	Ext.QuickTips.init();
 
-	function window::onbeforeunload(){
-		   if   (event.clientY<0   &&
-		event.clientX>document.body.clientWidth-20   ||   event.clientY<0   &&
-		event.clientX<20   ||   event.altKey     ||
-		event.clientY>document.body.clientHeight)   {
-		           if(confirm("是否退出聊天室？")) {
-		        	   Ext.Ajax.request({
-		   				url : 'chatLogout.do'
-		   			});
-		                   return;
-		           }
-		           else{
-		                   return;
-		           }
-		   }
-		}
 	// Login window
 	var login = new Ext.Window({
-		title : 'Sign In',
+		title : '登录聊天室',
 		width : 340,
-		height : 120,
+		height : 140,
 		resizable : false,
 		hideBorders : true,
 		layout:'fit',
@@ -35,19 +19,30 @@ Ext.onReady(function() {
 			labelWidth : 70,
 			baseCls : 'x-plain',
 			items : [{
-				id : 'userName',
+				id : 'loginName',
 				xtype : 'textfield',
-				name : 'userName',
-				anchor : '98%',
+				name : 'loginName',
+				anchor : '78%',
 				maxLength : 15,
-				fieldLabel : 'Nickname',
+				fieldLabel : '用户名',
+				validationEvent : false,
+				validateOnBlur : false,
+				allowBlank : false
+			},{
+				id : 'password',
+				xtype : 'textfield',
+				inputType:"password",
+				name : 'password',
+				anchor : '78%',
+				maxLength : 15,
+				fieldLabel : '密&nbsp;&nbsp;码',
 				validationEvent : false,
 				validateOnBlur : false,
 				allowBlank : false
 			}],
 			buttons : [{
 				id : 'signin',
-				text : 'Sign In',
+				text : '登录',
 				disabled : true,
 				formBind : true,
 				handler : doLogin
@@ -67,7 +62,8 @@ Ext.onReady(function() {
 			Ext.Ajax.request({
 				url : 'addUser.do',
 				params : {
-					'userName' : o.userName
+					'loginName' : o.loginName,
+					'password' : o.password
 				},
 				success : function(result) {
 //					alert(result.responseText);
@@ -75,6 +71,8 @@ Ext.onReady(function() {
 					if(flag){
 						form.ownerCt.close();
 						showChatWindow(o.userName);
+					}else{
+						alert(Ext.decode(result.responseText).errorMessage);
 					}
 				}
 			});
@@ -443,6 +441,7 @@ function sendChat(cmp, userName) {
 
 // 接受消息
 function receiveChats(chat) {
+//	alert(chat);
 	var chatlog = Ext.getCmp('chatlog');
 	var tpl = new Ext.XTemplate(
 			'<p><font color="green">{sender}: </font>{date:this.parseDate} </p><p style="padding:1 1 10 5">{text:this.parseText}</p>',
@@ -464,7 +463,8 @@ function receiveChats(chat) {
 //添加新进入聊天室用户
 function addUser(user) {
 	var usertree = Ext.getCmp('usertree');
-	var node=new Ext.tree.TreeNode(Ext.decode(user))
+	var node=new Ext.tree.TreeNode(Ext.decode(user));
+	usertree.getRootNode().removeChild(node,true);
 	usertree.getRootNode().appendChild(node);
 }
 
@@ -473,4 +473,15 @@ function removeUser(id) {
 	var usertree = Ext.getCmp('usertree');
 	var node=usertree.getNodeById(Ext.decode(id))
 	usertree.getRootNode().removeChild(node,true);
+}
+
+window.onbeforeunload = function checkLeave(e){
+//	if (event.clientY<0 && event.clientX>document.body.clientWidth-20 
+//		   || event.clientY<0 && event.clientX<20 || event.altKey 
+//		   || event.clientY>document.body.clientHeight) {
+        
+//	}
+//		var evt = e ? e : (window.event ? window.event : null);        //此方法为了在firefox中的兼容
+//		window.event.returnValue="确认结束当前会话？"; 
+		Ext.Ajax.request({url : 'chatLogout.do'});
 }

@@ -6,7 +6,10 @@ import java.util.TreeMap;
 
 import net.zhoubian.app.model.User;
 
+import org.apache.log4j.Logger;
+
 public class BinaryTree<T,V> {
+	private static Logger logger = Logger.getLogger(BinaryTree.class);
 
 	public static final class Node<K,L> {
 
@@ -60,6 +63,7 @@ public class BinaryTree<T,V> {
 	}
 
 	public synchronized void insert(long code, T t, V v) {
+		logger.debug("insert:code=" + code + "T:" + t);
 		Node<T,V> newNode = null;
 		Map<T, V> map = null;
 		if (root == null){
@@ -121,6 +125,7 @@ public class BinaryTree<T,V> {
 	// 用被删除节点A的右子树的最左节点作为替代A的节点，并修改相应的最左或最右节点的父节点的指针
 	public synchronized boolean delete(long code, T t) // delete Node with given code
 	{ // (assumes non-empty list)
+		logger.debug("delete:code=" + code + "T:" + t);
 		Node<T,V> current = root;
 		Node<T,V> parent = root;
 		Map<T, V> map = null;

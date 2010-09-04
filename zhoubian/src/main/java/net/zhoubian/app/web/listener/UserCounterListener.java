@@ -87,12 +87,13 @@ public class UserCounterListener implements ServletContextListener, HttpSessionA
         if (users == null) {
             users = new LinkedHashSet<User>();
         }
-
+        logger.debug("users.contains(user):" + users.contains(user));
         if (!users.contains(user)) {
             users.add(user);
             servletContext.setAttribute(USERS_KEY, users);
             incrementUserCounter();
         }
+        logger.debug("users:" + users.size());
     }
 
     @SuppressWarnings("unchecked")
@@ -114,6 +115,11 @@ public class UserCounterListener implements ServletContextListener, HttpSessionA
      */
     public void attributeAdded(HttpSessionBindingEvent event) {
 //    	TODO
+    	logger.debug("attributeAdded");
+    	logger.debug("event name:" + event.getName() + " source:" + event.getSource() + " value:" + event.getValue());
+    	if(event.getName().equals("user")){
+    		addUsername((User)event.getValue());
+    	}
     }
 
     /**
@@ -123,6 +129,11 @@ public class UserCounterListener implements ServletContextListener, HttpSessionA
      */
     public void attributeRemoved(HttpSessionBindingEvent event) {
 //    	TODO
+    	logger.debug("attributeRemoved");
+    	logger.debug("event name:" + event.getName() + " source:" + event.getSource() + " value:" + event.getValue());
+    	if(event.getName().equals("user")){
+    		removeUsername((User)event.getValue());
+    	}
     }
 
     /**
@@ -143,14 +154,14 @@ public class UserCounterListener implements ServletContextListener, HttpSessionA
 	public void sessionDestroyed(HttpSessionEvent se) {
 		// TODO Auto-generated method stub
 		logger.debug("UserCounterListener sessionDestroyed");
-		HttpSession httpSession = se.getSession();
-		logger.debug("httpSession:" + httpSession.getId());
-		Location location = (Location) httpSession.getAttribute("location");
-		if(location == null){
-			return;
-		}
-		long code = GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude());
-		CustomSSManager.bt.delete(code, httpSession.getId());
+//		HttpSession httpSession = se.getSession();
+//		logger.debug("httpSession:" + httpSession.getId());
+//		Location location = (Location) httpSession.getAttribute("location");
+//		if(location == null){
+//			return;
+//		}
+//		long code = GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude());
+//		CustomSSManager.bt.delete(code, httpSession.getId());
 		logger.debug("UserCounterListener sessionDestroyed end");
 	}
 }

@@ -331,4 +331,42 @@ public class User implements java.io.Serializable {
 		this.buyCredit = buyCredit;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		System.out.println("equals(Object obj):" + obj);
+		if(obj == null){
+			return false;
+		}
+		if (this == obj){
+			return true;
+		}
+		if (getClass() != obj.getClass()){
+			return false;
+		}
+		final User other = (User) obj;
+		if(this.uid.longValue() != other.getUid().longValue()){
+			return false;
+		}
+		if(!this.loginName.equals(other.getLoginName())){
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		System.out.println("hashCode():");
+		final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + (int) (uid ^ (uid >>> 32));
+        result = PRIME * result + ((loginName == null) ? 0 : loginName.hashCode());
+        return result;
+
+	}
+	
+	
+
 }

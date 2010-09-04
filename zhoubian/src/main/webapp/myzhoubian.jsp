@@ -23,7 +23,7 @@ body{ font-family:Verdana; font-size:14px; margin:0; }
 <body>
 <div id="container">
 	<div id="header">This is the Header</div>
-	<div id="menu"><a href="index.html">周边聊天</a>|<a href="#">周边论坛</a></div>
+	<div id="menu"><a href="chatIndex.do">周边聊天</a>|<a href="#">周边论坛</a></div>
 	<div id="mainContent">
 		<div id="sidebar">this is sidebar</div>
 		<div id="content">分类信息</div>

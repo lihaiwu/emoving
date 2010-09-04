@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,10 +19,10 @@ import net.zhoubian.app.model.User;
 import net.zhoubian.app.service.ChatService;
 import net.zhoubian.app.service.MapService;
 import net.zhoubian.app.service.UserService;
-import net.zhoubian.app.util.BinaryTree;
 import net.zhoubian.app.util.GridUtil;
 import net.zhoubian.app.util.Page;
 import net.zhoubian.app.web.listener.CustomSSManager;
+import net.zhoubian.app.web.listener.UserCounterListener;
 
 import org.apache.log4j.Logger;
 import org.directwebremoting.ScriptBuffer;
@@ -34,8 +34,6 @@ import org.directwebremoting.extend.RealScriptSession;
 @SuppressWarnings("serial")
 public class ChatAction extends AbstractAction {
 	private static Logger logger = Logger.getLogger(ChatAction.class);
-	
-	public static Map<String, TreeNode> onlineUsers = new TreeMap<String, TreeNode>();
 
 	private Map<String, Object> infos = new HashMap<String, Object>();
 
@@ -79,6 +77,18 @@ public class ChatAction extends AbstractAction {
 
 
 	private boolean success;
+	
+	private String errorMessage;
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
 
 	private User user;
 
@@ -88,7 +98,9 @@ public class ChatAction extends AbstractAction {
 	 */
 	@SuppressWarnings("unchecked")
 	public String addChat(String text, String sender, HttpServletRequest req) throws Exception {
+		logger.debug("addChat:" + text);
 		HttpSession httpSession = req.getSession();
+		User user = (User) httpSession.getAttribute("user");
 		if (text != null) {
 			chat = new Chat();
 			chat.setDate(new Date());
@@ -109,32 +121,33 @@ public class ChatAction extends AbstractAction {
 			logger.debug("sessionid:" + req.getSession().getId());
 			Location location = (Location) httpSession.getAttribute("location");
 			
-			List<Long> codes = GridUtil.getRelatedGridCode(location.getLatitude(), location.getLongitude(), 4);
-			if(codes == null){
-				codes = new ArrayList<Long>();
-				codes.add(new Long(GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude())));
-			}
-			BinaryTree.Node<String, HttpSession> node = null;
-			Map<String, HttpSession> data = null;
-			Map.Entry<String, HttpSession> entry = null;
-			HttpSession hs = null;
-			ScriptSession ss = null;
-			for(Long code:codes){
-				logger.debug("code:" + code);
-				node = CustomSSManager.bt.find(code);
-				data = node.getData();
-				Iterator it = data.entrySet().iterator();
-		        while (it.hasNext()) {
-		        	entry = (Map.Entry<String, HttpSession>) it.next();
-		        	hs = entry.getValue();
-		        	if(hs == null){
-		        		logger.debug("hs----------------");
-		        	}
-		        	ss = (ScriptSession) hs.getAttribute(CustomSSManager.CHAT_ROOM);
-		        	logger.debug("hs:" + hs.getId() + " ss:" + ss.getId());
-		        	ss.addScript(new ScriptBuffer().appendScript("receiveChats").appendScript("(").appendData(chat).appendScript(");"));
-		        }
-			}
+			ScriptBuffer sb = new ScriptBuffer().appendScript("receiveChats").appendScript("(").appendData(chat).appendScript(");");
+			logger.debug("sb:" + sb);
+			CustomSSManager.addScriptToRelatedUser(user, location, 4, true, sb);
+			
+//			List<Long> codes = GridUtil.getRelatedGridCode(location.getLatitude(), location.getLongitude(), 4);
+//			if(codes == null){
+//				codes = new ArrayList<Long>();
+//				codes.add(new Long(GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude())));
+//			}
+//			BinaryTree.Node<String, ScriptSession> node = null;
+//			Map<String, ScriptSession> data = null;
+//			Map.Entry<String, ScriptSession> entry = null;
+//			ScriptSession ss = null;
+//			for(Long code:codes){
+//				logger.debug("code:" + code);
+//				node = CustomSSManager.bt.find(code);
+//				data = node.getData();
+//				Iterator<Map.Entry<String, ScriptSession>> it = data.entrySet().iterator();
+//		        while (it.hasNext()) {
+//		        	entry = it.next();
+//		        	ss = entry.getValue();
+//		        	logger.debug("ss:" + ss.getId());
+//		        	if(!ss.isInvalidated()){
+//		        		ss.addScript(new ScriptBuffer().appendScript("receiveChats").appendScript("(").appendData(chat).appendScript(");"));
+//		        	}
+//		        }
+//			}
 			
 //			s.addFunctionCall("receiveChats", chat);
 		}
@@ -158,55 +171,16 @@ public class ChatAction extends AbstractAction {
 		logger.debug("logout()");
 		HttpSession httpSession = request.getSession();
 		User user = (User) httpSession.getAttribute("user");
-		TreeNode tn = new TreeNode();
-		tn.setId(user.getUid().toString());
-		tn.setText(user.getName());
-		logger.debug(tn.getText());
-		onlineUsers.remove(user.getUid().toString());
-		
-		String tnjson = "";
-    	tnjson += "{id:'" + tn.getId() + "'";
-    	tnjson += ",leaf:true,iconCls:'icon-user',";
-    	tnjson += "text:'" + tn.getText() + "'}";
     	
 		Location location = (Location) httpSession.getAttribute("location");
 		
-		List<Long> codes = GridUtil.getRelatedGridCode(location.getLatitude(), location.getLongitude(), 4);
-		if(codes == null){
-			codes = new ArrayList<Long>();
-			codes.add(new Long(GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude())));
-		}
-		BinaryTree.Node<String, HttpSession> node = null;
-		Map<String, HttpSession> data = null;
-		Map.Entry<String, HttpSession> entry = null;
-		HttpSession hs = null;
-		ScriptSession ss = null;
-		for(Long code:codes){
-			logger.debug("code:" + code);
-			node = CustomSSManager.bt.find(code);
-			data = node.getData();
-			Iterator it = data.entrySet().iterator();
-	        while (it.hasNext()) {
-	        	entry = (Map.Entry<String, HttpSession>) it.next();
-	        	hs = entry.getValue();
-	        	ss = (ScriptSession) hs.getAttribute(CustomSSManager.CHAT_ROOM);
-	        	logger.debug("hs:" + hs.getId() + " ss:" + ss.getId());
-	        	ss.addScript(new ScriptBuffer().appendScript("removeUser").appendScript("(").appendData(user.getUid()).appendScript(");"));
-	        }
-		}
+		ScriptBuffer sb = new ScriptBuffer().appendScript("removeUser").appendScript("(").appendData(user.getUid()).appendScript(");");
+		CustomSSManager.addScriptToRelatedUser(user, location, 4, false, sb);
 		return NONE;
 	}
 	
 	public String chatIndex() {
-		HttpSession httpSession = request.getSession();
-		User user = (User) httpSession.getAttribute("user");
-		if(null != user){
-			TreeNode tn = new TreeNode();
-			tn.setId(user.getUid().toString());
-			tn.setText(user.getName());
-			logger.debug(tn.getText());
-			onlineUsers.put(tn.getId(), tn);
-		}
+		//直接到聊天室jsp页面，在CustomSSManager的sessionCreated里插入信息到二叉树里，并给相关用户发送登录js代码
 		return SUCCESS;
 	}
 
@@ -214,23 +188,32 @@ public class ChatAction extends AbstractAction {
 		logger.debug("addUser");
 		try {
 			HttpSession httpSession = request.getSession();
-			String loginName = this.getRequestParameter("userName", "error");
-			User user = userService.getUserByLoginName(loginName);
+			User user = (User) httpSession.getAttribute("user");
+			String loginName = null;
+			String password = null;
+			if(null == user){
+				loginName = this.getRequestParameter("loginName", "error");
+				password = this.getRequestParameter("password", "error");
+				logger.debug("loginName:" + loginName + " password:" + password);
+				user = userService.getUserByLoginName(loginName);
+				if(!user.getPassword().equals(password)){
+					this.setErrorMessage("用户名密码错误");
+	        		this.setSuccess(false);
+					return SUCCESS;
+				}
+			}
 			if(user != null){
-				TreeNode tn = new TreeNode();
-				tn.setId(user.getUid().toString());
-				tn.setText(user.getName());
-				logger.debug(tn.getText());
-				onlineUsers.put(tn.getId(), tn); // 用户下线,则从map中移除
-				
-				String tnjson = "";
-	        	tnjson += "{id:'" + tn.getId() + "'";
-	        	tnjson += ",leaf:true,iconCls:'icon-user',";
-	        	tnjson += "text:'" + tn.getText() + "'}";
-				
-				request.getSession().setAttribute("user", user);
+				Set<User> users = (Set<User>) context.getAttribute(UserCounterListener.USERS_KEY);
+	        	logger.debug("users:" + users);
+	        	if (users != null && users.contains(user)) {
+	        		this.setErrorMessage("用户已登录");
+	        		this.setSuccess(false);
+					return SUCCESS;
+	        	}
+	        	
+				httpSession.setAttribute("user", user);
 				Location location = mapService.findLocationsById(user.getCurrentLocationId());
-				request.getSession().setAttribute("location", location);
+				httpSession.setAttribute("location", location);
 				
 				//插入到二叉树
 				Collection<RealScriptSession> col= customSSManager.getScriptSessionsByHttpSessionId(httpSession.getId());
@@ -240,52 +223,30 @@ public class ChatAction extends AbstractAction {
 				
 				String currentPage = request.getRequestURI();
 				logger.debug("currentPage:" + currentPage);
-				ScriptSession ss = (ScriptSession) httpSession.getAttribute(CustomSSManager.CHAT_ROOM);
-				if (ss != null) {
-					logger.debug("ss:" + ss.getId());
+				ScriptSession scriptSession = (ScriptSession) httpSession.getAttribute(CustomSSManager.CHAT_ROOM);
+				if (scriptSession != null) {
+					logger.debug("ss:" + scriptSession.getId());
 				}
+				scriptSession.setAttribute(CustomSSManager.HTTP_SESSION, httpSession);
 				long  code = GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude());
 				logger.debug("code:" + code);
-				CustomSSManager.bt.insert(code, httpSession.getId(), httpSession);
+				CustomSSManager.bt.insert(code, scriptSession.getId(), scriptSession);
 				
 				CustomSSManager.bt.printTree();
 				
 				//添加新进入聊天室用户到列表
-				List<Long> codes = GridUtil.getRelatedGridCode(location.getLatitude(), location.getLongitude(), 4);
-				if(codes == null){
-					codes = new ArrayList<Long>();
-					codes.add(new Long(GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude())));
-				}
-				BinaryTree.Node<String, HttpSession> node = null;
-				Map<String, HttpSession> data = null;
-				Map.Entry<String, HttpSession> entry = null;
-				HttpSession hs = null;
-				for(Long c:codes){
-					logger.debug("code:" + c);
-					node = CustomSSManager.bt.find(c);
-					data = node.getData();
-					Iterator it = data.entrySet().iterator();
-			        while (it.hasNext()) {
-			        	entry = (Map.Entry<String, HttpSession>) it.next();
-			        	hs = entry.getValue();
-			        	if(hs == null){
-			        		logger.debug("hs----------------");
-			        	}
-			        	if(httpSession.getId().equals(hs.getId())){
-			        		continue;
-			        	}
-			        	ss = (ScriptSession) hs.getAttribute(CustomSSManager.CHAT_ROOM);
-			        	logger.debug("hs:" + hs.getId() + " ss:" + ss.getId());
-			        	
-						
-			        	ss.addScript(new ScriptBuffer().appendScript("addUser").appendScript("(").appendData(tnjson).appendScript(");"));
-			        }
-				}
+				String tnjson = "";
+	        	tnjson += "{id:'" + user.getUid() + "'";
+	        	tnjson += ",leaf:true,iconCls:'icon-user',";
+	        	tnjson += "text:'" + user.getLoginName() + "'}";
+				ScriptBuffer sb = new ScriptBuffer().appendScript("addUser").appendScript("(").appendData(tnjson).appendScript(");");
+				CustomSSManager.addScriptToRelatedUser(user, location, 4, false, sb);
 				
 				
 				this.setSuccess(true);
 				return SUCCESS;
 			}else{
+				this.setErrorMessage("此用户不存在");
 				this.setSuccess(false);
 				return SUCCESS;
 			}
@@ -299,18 +260,22 @@ public class ChatAction extends AbstractAction {
 	}
 
 	public String getOnlineUsers() {
-		this.jsonString = "[";
-		for (Iterator it = onlineUsers.entrySet().iterator(); it.hasNext();) {
-			Map.Entry en = (Map.Entry) it.next();
-			TreeNode tn = (TreeNode) en.getValue();
-			this.jsonString += "{id:'" + tn.getId() + "'";
-			this.jsonString += ",leaf:true,iconCls:'icon-user',";
-			this.jsonString += "text:'" + tn.getText() + "'}";
-			if (it.hasNext()) {
-				this.jsonString += ",";
-			}
-		}
-		this.jsonString += "]";
+		HttpSession httpSession = request.getSession();
+		Location location = (Location) httpSession.getAttribute("location");
+		this.jsonString = CustomSSManager.getRelatedUser(location, 4);
+		
+//		this.jsonString = "[";
+//		for (Iterator<Map.Entry<String, TreeNode>> it = onlineUsers.entrySet().iterator(); it.hasNext();) {
+//			Map.Entry<String, TreeNode> en = it.next();
+//			TreeNode tn = en.getValue();
+//			this.jsonString += "{id:'" + tn.getId() + "'";
+//			this.jsonString += ",leaf:true,iconCls:'icon-user',";
+//			this.jsonString += "text:'" + tn.getText() + "'}";
+//			if (it.hasNext()) {
+//				this.jsonString += ",";
+//			}
+//		}
+//		this.jsonString += "]";
 		logger.debug("jsonString:" + this.jsonString);
 //		this.outJson(null);
 		return SUCCESS;

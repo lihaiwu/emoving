@@ -31,7 +31,7 @@
 		</action>
 		<action name="addUser" class="chatAction" method="addUser">
 			<result type="json">
-				<param name="includeProperties">success</param>
+				<param name="includeProperties">success,errorMessage</param>
 			</result>
 		</action>
 		<action name="addWithUser" class="chatWithAction" method="addUser">
