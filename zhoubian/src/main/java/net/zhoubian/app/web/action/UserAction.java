@@ -68,8 +68,10 @@ public class UserAction extends AbstractAction {
 			return "login";
 		}
 		request.getSession().setAttribute("user", user);
-		Location location = mapService.findLocationsById(user.getCurrentLocationId());
-		request.getSession().setAttribute("location", location);
+		if(user.getCurrentLocationId()!=null){
+			Location location = mapService.findLocationsById(user.getCurrentLocationId());
+			request.getSession().setAttribute("location", location);
+		}
 		return "loginsuccess";
 	}
 	public String register(){
