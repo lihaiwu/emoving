@@ -348,7 +348,9 @@ function getViewportHeight(){
 		<div id="tabs" style="height:100%;">
 		<ul>
 			<li><a href="#tabs-1">添加位置</a></li>
+			<s:if test="#request.locations!=null">
 			<li><a href="#tabs-2">位置列表</a></li>
+			</s:if>
 		</ul>
 		<div id="tabs-1">
 		<form method="post" name="propertyForm" action="<%=request.getContextPath()%>/map_addUserLocation.do" onsubmit="return checkForm();">
@@ -363,6 +365,7 @@ function getViewportHeight(){
 	<input id="sbutton" type="submit" value="保存" style="width:40px"/>&nbsp;&nbsp;<input id="rbutton" type="button" value="重置" style="width:40px"/>
 	</form>
 	</div>
+	<s:if test="#request.locations!=null">
 	<div id="tabs-2" style="height:85%; overflow:auto;">
 	<div>&nbsp;&nbsp;共<%=((java.util.List)request.getAttribute("locations")).size()%>条结果</div>
 	<s:iterator value="#request.locations" status="rowstatus">
@@ -390,6 +393,7 @@ function getViewportHeight(){
 	</s:iterator>
 	<div>&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</div>
 	</div>
+	</s:if>
 	</div>
 		</div>
 		<div id="content">
