@@ -45,8 +45,10 @@ public class MapAction extends AbstractAction{
 	}
 	public String mylocation(){
 		User user = (User)request.getSession().getAttribute("user");
-		List<Location> l = mapService.findLocationsByUid(user.getUid());
-		request.setAttribute("locations", l);
+		if(user!=null){
+			List<Location> l = mapService.findLocationsByUid(user.getUid());
+			request.setAttribute("locations", l);
+		}
 		return "mylocation";
 	}
 }
