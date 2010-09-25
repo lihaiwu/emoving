@@ -23,6 +23,11 @@ input{width:160px; border:1px solid #808080}
 br{clear:left}
 
 </style>
+<script type="text/javascript">
+function setup(){
+	window.open("<%=request.getContextPath()%>/map_mylocation.do","我的位置","location=no;menubar=no;toolbar=no;");
+}
+</script>
 </head>
 <body>
 <div id="container">
@@ -36,7 +41,7 @@ br{clear:left}
 		<label for="password">密码：</label><input id="password" type="password" name="user.password"/><br/>
 		<label for="email">电子邮件：</label><input id="email" type="text" name="user.email" /><br/>
 		<label for="sex">性别：</label><select id="sex" name="user.sex"><option value="1">男</option><option value="2">女</option></select><br/>
-		<label for="position">居住地：</label><input type="button" id="position" value="设置"/><br/>
+		<label for="position">居住地：</label><input type="button" id="position" value="设置" onclick="javascript:setup()"/><br/>
 		</fieldset>
 		<fieldset>
 		<legend>高级信息</legend>
