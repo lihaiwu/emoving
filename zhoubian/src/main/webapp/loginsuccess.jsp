@@ -8,6 +8,8 @@
 <title>login success</title>
 </head>
 <body>
-<ul><li><a href="myspace.jsp" target="_top">进入个人空间</a></li><li><a href="myzhoubian.jsp" target="_top">进入默认位置</a></li></ul>
+<ul><li><a href="myspace.jsp" target="_top">进入个人空间</a></li><li><a href="myzhoubian.jsp" target="_top">进入默认位置</a></li>
+<li><a href="<%=request.getContextPath()%>/user_logout.do?flag=true">退出登录</a></li>
+</ul>
 </body>
 </html>

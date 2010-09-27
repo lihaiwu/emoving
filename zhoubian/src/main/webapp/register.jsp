@@ -23,9 +23,35 @@ input{width:160px; border:1px solid #808080}
 br{clear:left}
 
 </style>
+<script src="<%=request.getContextPath()%>/js/jquery-1.4.2.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 function setup(){
-	window.open("<%=request.getContextPath()%>/map_mylocation.do","我的位置","location=no;menubar=no;toolbar=no;");
+	window.open("<%=request.getContextPath()%>/map_mylocation.do","我的位置","menubar=no,toolbar=no,resizable=yes,location=no");
+}
+function checkForm(){
+	var error = "";
+	var loginName = $("#loginName").val();
+	var password = $("#password").val();
+	var email = $("#email").val();
+	var locationName = $("#locationName").val();
+	if(loginName == null || loginName == ""){
+		error = error + "用户名不能为空！\n";
+	}
+	if(password == null || password == ""){
+		error = error + "密码不能为空！\n";
+	}
+	if(email == null || email == ""){
+		error = error + "电子邮件不能为空！\n";
+	}
+	if(locationName == null || locationName == ""){
+		error = error + "请设置居住地！\n";
+	}
+	if(error==""){
+		return true;
+	}else{
+		alert(error);
+		return false;
+	}
 }
 </script>
 </head>
@@ -34,7 +60,7 @@ function setup(){
 	<div id="header">This is the Header</div>
 	<div id="menu">This is the Menu</div>
 	<div id="mainContent">
-		<form name="form1" action="<%=request.getContextPath()%>/user_submitRegister.do" method="post">
+		<form name="form1" action="<%=request.getContextPath()%>/user_submitRegister.do" method="post" onsubmit="return checkForm();">
 		<fieldset>
 		<legend>基本信息</legend>
 		<label for="loginNname">用户名：</label><input id="loginName" type="text" name="user.loginName"/><br/>
@@ -42,6 +68,11 @@ function setup(){
 		<label for="email">电子邮件：</label><input id="email" type="text" name="user.email" /><br/>
 		<label for="sex">性别：</label><select id="sex" name="user.sex"><option value="1">男</option><option value="2">女</option></select><br/>
 		<label for="position">居住地：</label><input type="button" id="position" value="设置" onclick="javascript:setup()"/><br/>
+        <input type="hidden" id="locationName" name="locationName"/>
+        <input type="hidden" id="subLocType" name="subLocType"/>
+        <input type="hidden" id="locationDesc" name="locationDesc"/>
+        <input type="hidden" id="lngX" name="lngX"/>
+        <input type="hidden" id="latY" name="latY"/>
 		</fieldset>
 		<fieldset>
 		<legend>高级信息</legend>
