@@ -328,7 +328,18 @@ function getViewportHeight(){
 			error=error + "请输入位置名称！\n";
 		}
 		if(error == ""){
+			<s:if test="#request.locations!=null">
 			return true;
+			</s:if>
+			<s:else>
+			window.opener.document.getElementById("locationName").value = $('#locationName').val();
+			window.opener.document.getElementById("subLocType").value = $('#subLocType').val();
+			window.opener.document.getElementById("locationDesc").value = $('#locationDesc').val();
+			window.opener.document.getElementById("lngX").value = $('#lngX').val();
+			window.opener.document.getElementById("latY").value = $('#latY').val();
+			window.close();
+			return false;
+			</s:else>
 		}else{
 			alert(error);
 			return false;
@@ -341,7 +352,9 @@ function getViewportHeight(){
 <div id="container">
 	<div id="header">This is the Header</div>
 	<div id="menu">
-		This is the Menu
+    	<s:if test="#request.locations!=null">
+		<a href="<%=request.getContextPath()%>/user_logout.do">退出登录</a>
+        </s:if>
 	</div>
 	<div id="mainContent">
 		<div id="sidebar">
@@ -358,10 +371,10 @@ function getViewportHeight(){
 	<input id="latY" type="hidden" name="latY"/>
 	<input type="hidden" name="iconUrl" id="iconUrl" value="<%=request.getContextPath()%>/images/10.gif"/>
 	<label for="locationName">位置名称：</label><input style="width:250px" id="locationName" type="text" name="locationName"/><br/>
-	<label for="subLocType">位置类型：</label><select name="subLocType"><option value="1">居住地</option>
+	<label for="subLocType">位置类型：</label><s:if test="#request.locations!=null"><select id="subLocType" name="subLocType"><option value="1">居住地</option>
 	<option value="2">办公地</option><option value="3">旅游地</option><option value="4">出差地</option><option value="5">其他</option>
-	</select><br/>
-	<label for="locationDesc">位置说明：</label><textarea name="locationDesc" rows="10" cols="40"></textarea><br/>
+	</select></s:if><s:else><select id="subLocType" name="subLocType"><option value="1" selected="selected">居住地</option></select></s:else><br/>
+	<label for="locationDesc">位置说明：</label><textarea id="locationDesc" name="locationDesc" rows="10" cols="40"></textarea><br/>
 	<input id="sbutton" type="submit" value="保存" style="width:40px"/>&nbsp;&nbsp;<input id="rbutton" type="button" value="重置" style="width:40px"/>
 	</form>
 	</div>
