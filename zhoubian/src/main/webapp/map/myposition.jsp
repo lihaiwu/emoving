@@ -364,6 +364,7 @@ function getViewportHeight(){
 			<s:if test="#request.locations!=null">
 			<li><a href="#tabs-2">位置列表</a></li>
 			</s:if>
+            <li><a href="#tabs-3">地图搜索</a></li>
 		</ul>
 		<div id="tabs-1">
 		<form method="post" name="propertyForm" action="<%=request.getContextPath()%>/map_addUserLocation.do" onsubmit="return checkForm();">
@@ -407,6 +408,11 @@ function getViewportHeight(){
 	<div>&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</div>
 	</div>
 	</s:if>
+    <div id="tabs-3">
+    <form action="<%=request.getContextPath()%>/map_searchLocation.do" method="post" name="searchForm">
+    <input type="text" name="key" size="40"/><input type="button" value="搜索地图"/>
+    </form>
+    </div>
 	</div>
 		</div>
 		<div id="content">
