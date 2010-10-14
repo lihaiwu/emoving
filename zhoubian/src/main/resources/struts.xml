@@ -20,6 +20,7 @@
 			<result name="loginsuccess">loginsuccess.jsp</result>
 			<result name="register">register.jsp</result>
 			<result name="cityindex">cityindex.jsp</result>
+			<result name="myzhoubian">myzhoubian.jsp</result>
 		</action>
 	</package>
 </struts> 
