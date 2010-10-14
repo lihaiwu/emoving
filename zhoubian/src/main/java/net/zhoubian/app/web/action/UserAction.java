@@ -74,10 +74,6 @@ public class UserAction extends AbstractAction {
 			return "login";
 		}
 		request.getSession().setAttribute("user", user);
-		if(user.getCurrentLocationId()!=null){
-			Location location = mapService.findLocationsById(user.getCurrentLocationId());
-			request.getSession().setAttribute("location", location);
-		}
 		return "loginsuccess";
 	}
 	public String logout(){
@@ -117,6 +113,26 @@ public class UserAction extends AbstractAction {
 		location.setStatus(Location.status_valid);
 		logger.info("location.getId() == "+location.getId());
 		mapService.saveLocation(location);
+		user.setDefaultLocationId(location.getId());
+		user.setHomeLocationId(location.getId());
+		userService.updateUser(user);
 		return "cityindex";
+	}
+	public String goDefaultLocation(){
+		User user = (User)request.getSession().getAttribute("user");
+		user.setCurrentLocationId(user.getDefaultLocationId());
+		userService.updateUser(user);
+		Location location = mapService.findLocationsById(user.getCurrentLocationId());
+		request.getSession().setAttribute("location", location);
+		return "myzhoubian";
+	}
+	public String goSpecificLocation(){
+		String locationId = request.getParameter("locationId");
+		User user = (User)request.getSession().getAttribute("user");
+		user.setCurrentLocationId(Long.parseLong(locationId));
+		userService.updateUser(user);
+		Location location = mapService.findLocationsById(user.getCurrentLocationId());
+		request.getSession().setAttribute("location", location);
+		return "myzhoubian";
 	}
 }
