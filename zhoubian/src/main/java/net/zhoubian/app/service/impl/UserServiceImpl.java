@@ -23,5 +23,9 @@ public class UserServiceImpl implements UserService{
 	public User getUserByLoginName(String loginName){
 		return userDao.getUserByLoginName(loginName);
 	}
+	
+	public void updateUser(User user){
+		userDao.updateObject(user);
+	}
 
 }
