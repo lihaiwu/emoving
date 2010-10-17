@@ -9,7 +9,7 @@
 </head>
 <body>
 <script type="text/javascript">
-location.href = "cityindex.jsp";
+location.href = "<%=request.getContextPath()%>/user_cityindex.do";
 </script>
 </body>
 </html>
