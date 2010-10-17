@@ -6,6 +6,7 @@
 	<package name="map" namespace="/" extends="struts-default">
 		<action name="map_*" method="{1}" class="mapAction">
 			<result name="mylocation">map/myposition.jsp</result>
+			<result name="citylist">map/citylist.jsp</result>
 		</action>
 	</package>
 </struts> 
