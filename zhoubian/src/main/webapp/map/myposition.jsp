@@ -345,6 +345,20 @@ function getViewportHeight(){
 			return false;
 		}
    }
+   function searchPoiBase(){
+	   var mls = new MLocalSearch();
+	   var mlsp = new MLocalSearchOptions();
+	   mlsp.recordsPerPage = 10;
+	   mls.setCallbackFunction(searchPoiR);
+	   mls.poiSearchByKeywords($("searchValue").value,$("cityName").value,mlsp);
+   }
+   function searchPoiR(data){
+	   
+   }
+   function clearSearch(){
+   }
+   function selectCity(){
+   }
 // -->
 </script>
 </head>
@@ -352,7 +366,13 @@ function getViewportHeight(){
 <div id="container">
 	<div id="header">This is the Header</div>
 	<div id="menu">
-    	<s:if test="#request.locations!=null">
+    	<div id="searchDiv" style="float:left">
+        <form name="searchForm" method="post" action="#" onsubmit="searchPoiBase();return false;">
+    	<label for="cityName">当前城市：</label><input type="text" name="cityName" id="cityName" value="<%=session.getAttribute("cityName")%>" size="8"/>
+        <a href="selectCity()">切换城市</a>&nbsp;&nbsp;<input type="text" name="searchValue" id="searchValue" size="20"/><img align="bottom" src="<%=request.getContextPath()%>/images/lb_ss.gif" alt="搜索定位" onclick="searchPoiBase();" /><a href="javascript:clearSearch();">清除搜索</a>
+        </form>
+        </div>&nbsp;&nbsp;
+        <s:if test="#request.locations!=null">
 		<a href="<%=request.getContextPath()%>/user_logout.do">退出登录</a>
         </s:if>
 	</div>
@@ -364,7 +384,6 @@ function getViewportHeight(){
 			<s:if test="#request.locations!=null">
 			<li><a href="#tabs-2">位置列表</a></li>
 			</s:if>
-            <li><a href="#tabs-3">地图搜索</a></li>
 		</ul>
 		<div id="tabs-1">
 		<form method="post" name="propertyForm" action="<%=request.getContextPath()%>/map_addUserLocation.do" onsubmit="return checkForm();">
@@ -408,11 +427,6 @@ function getViewportHeight(){
 	<div>&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</div>
 	</div>
 	</s:if>
-    <div id="tabs-3">
-    <form action="<%=request.getContextPath()%>/map_searchLocation.do" method="post" name="searchForm">
-    <input type="text" name="key" size="40"/><input type="button" value="搜索地图"/>
-    </form>
-    </div>
 	</div>
 		</div>
 		<div id="content">
