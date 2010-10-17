@@ -135,4 +135,9 @@ public class UserAction extends AbstractAction {
 		request.getSession().setAttribute("location", location);
 		return "myzhoubian";
 	}
+	public String cityindex(){
+		request.getSession().setAttribute("cityId", "432");
+		request.getSession().setAttribute("cityName", "北京");
+		return "cityindex";
+	}
 }
