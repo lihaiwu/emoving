@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<div id="cityListDiv" title="全国城市列表" style="display:none">
+<style type="text/css">
+.cityListDiv ul li{ float: left; list-style:none; margin:0 0 4px 11px; padding:0;}
+</style>
+<div id="cityListDiv" title="全国城市列表" style="display:none" class="cityListDiv">
 <div id="cityTabs" style="width:100%">
 <ul>
 <li><a href="#pinyinTab">按拼音排序</a></li>
