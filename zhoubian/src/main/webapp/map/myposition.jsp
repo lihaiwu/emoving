@@ -352,7 +352,9 @@ function getViewportHeight(){
 	   var mlsp = new MLocalSearchOptions();
 	   mlsp.recordsPerPage = 10;
 	   mls.setCallbackFunction(searchPoiR);
-	   mls.poiSearchByKeywords($("#searchValue").val,$("#cityName").val,mlsp);
+	   console.log($("#searchValue").val());
+	   console.log($("#cityName").val());
+	   mls.poiSearchByKeywords($("#searchValue").val(),$("#cityName").val(),mlsp);
    }
    function searchPoiR(data){
 	   var ss = new Array();
@@ -393,7 +395,7 @@ function getViewportHeight(){
 		   mapObj.addOverlays(Mmarker,true);
 	   }else{
 		   if(i==1){
-			   mapObj.setCenter(new MLngLat(data.poilist[0].x,data.poilist[1].y));
+			   mapObj.setCenter(new MLngLat(data.poilist[0].x,data.poilist[0].y));
 			   mapObj.setZoomLevel(14);
 		   }else{
 			   alert("没有找到相关结果。");
@@ -414,7 +416,7 @@ function getViewportHeight(){
 	   return str;
    }
    function clearSearch(){
-	   mabObj.removeAllOverlays();
+	   mapObj.removeAllOverlays();
    }
    function setCurrentCity(cityName){
 	   $("#cityName").val(cityName);
