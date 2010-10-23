@@ -190,6 +190,8 @@ a:active {
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.widget.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.tabs.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.bgiframe-2.1.1.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.dialog.min.js"></script>
 <!--<script type="text/javascript" src="<%=request.getContextPath()%>/js/grid-locale-cn.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.jqGrid.min.js"></script>-->
 <script type="text/javascript">
@@ -353,23 +355,82 @@ function getViewportHeight(){
 	   mls.poiSearchByKeywords($("searchValue").value,$("cityName").value,mlsp);
    }
    function searchPoiR(data){
-	   
+	   var ss = new Array();
+	   var i = 0;
+	   var Mmarker = new Array();
+	   for(i=0;i<data.poilist.length;i++){
+		   var markerOption = new MMarkerOptions();
+		   markerOption.imageUrl = "<%=request.getContextPath()%>/images/lan_"+(i+1)+".png";
+		   markerOption.picAgent = false;
+		   markerOption.isDraggable = false;
+		   var tipOption = new MTipOptions();
+		   tipOption.title = (i+1) + "." + data.poilist[i].name;
+		   var tipC = TipContents(data.poilist[i].type,data.poilist[i].address,data.poilist[i].tel);
+		   tipOption.content = tipC;
+		   tipOption.hasShadow = true;
+		   tipOption.borderStyle.thickness = 2;
+		   tipOption.borderStyle.color = 0x005cb5;
+		   tipOption.borderStyle.alpha = 1;
+		   tipOption.titleFontStyle.name = "Arial";
+		   tipOption.titleFontStyle.size = 12;
+		   tipOption.titleFontStyle.color = 0xffffff;
+		   tipOption.titleFontStyle.bold = true;
+		   tipOption.contentFontStyle.name = "Arial";
+		   tipOption.contentFontStyle.size = 13;
+		   tipOption.contentFontStyle.color = 0x000000;
+		   tipOption.contentFontStyle.bold = false;
+		   tipOption.contentFontStyle.color = 0xFFFFFF;//填充色
+		   tipOption.fillStyle.alpha = 1;
+		   
+		   markerOption.tipOption = tipOption;
+		   markerOption.canShowTip = true;
+		   markerOption.hasShadow = true;
+		   var ll = new MLngLat(data.poilist[i].x,data.poilist[i].y);
+		   Mmarker[i] = new MMarker(ll,markerOption);
+		   Mmarker[i].id = (i);
+	   }
+	   if(i>1){
+		   mapObj.addOverlays(Mmarker,true);
+	   }else{
+		   if(i==1){
+			   mapObj.setCenter(new MLngLat(data.poilist[0].x,data.poilist[1].y));
+			   mapObj.setZoomLevel(14);
+		   }else{
+			   alert("没有找到相关结果。");
+		   }
+	   }
+   }
+   function TipContents(type,address,tel){
+	   if(type=="" || type=="undefined" || type==null || type==undefined || typeof type=="undefined"){
+		   type = "暂无";
+	   }
+	   if(address=="" || address=="undefined" || address==null || address==undefined || typeof address=="undefined"){
+		   address = "暂无";
+	   }
+	   if(tel=="" || tel=="undefined" || tel==null || tel==undefined || typeof tel=="undefined"){
+		   tel = "暂无";
+	   }
+	   var str = "<br/>地址："+address+"<br/>电话："+tel+"<br/>类型："+type;
+	   return str;
    }
    function clearSearch(){
+	   mabObj.removeAllOverlays();
    }
-   function selectCity(){
+   function setCurrentCity(cityName){
+	   $("#cityName").val(cityName);
    }
 // -->
 </script>
 </head>
 <body>
+<%@ include file="citylist.jsp"%>
 <div id="container">
 	<div id="header">This is the Header</div>
 	<div id="menu">
     	<div id="searchDiv" style="float:left">
         <form name="searchForm" method="post" action="#" onsubmit="searchPoiBase();return false;">
     	<label for="cityName">当前城市：</label><input type="text" name="cityName" id="cityName" value="<%=session.getAttribute("cityName")%>" size="8"/>
-        <a href="selectCity()">切换城市</a>&nbsp;&nbsp;<input type="text" name="searchValue" id="searchValue" size="20"/><img align="bottom" src="<%=request.getContextPath()%>/images/lb_ss.gif" alt="搜索定位" onclick="searchPoiBase();" /><a href="javascript:clearSearch();">清除搜索</a>
+        <a href="javascript:citylistBox()">切换城市</a>&nbsp;&nbsp;<input type="text" name="searchValue" id="searchValue" size="20"/><img align="bottom" src="<%=request.getContextPath()%>/images/lb_ss.gif" alt="搜索定位" onclick="searchPoiBase();" /><a href="javascript:clearSearch();">清除搜索</a>
         </form>
         </div>&nbsp;&nbsp;
         <s:if test="#request.locations!=null">
