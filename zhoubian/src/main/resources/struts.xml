@@ -21,6 +21,7 @@
 			<result name="register">register.jsp</result>
 			<result name="cityindex">cityindex.jsp</result>
 			<result name="myzhoubian">myzhoubian.jsp</result>
+			<result name="index">index.jsp</result>
 		</action>
 	</package>
 </struts> 
