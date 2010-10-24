@@ -82,7 +82,7 @@ public class UserAction extends AbstractAction {
 		if(flag!=null && flag.equals("true")){
 			return "login";
 		}else{
-			return "cityindex";
+			return "index";
 		}
 	}
 	public String register(){
