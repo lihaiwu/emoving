@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <style type="text/css">
+.cityListDiv ul{padding:0; margin:3px 0; width:670px; white-space:nowrap; float:left;}
 .cityListDiv ul li{ float: left; list-style:none; margin:0 0 4px 11px; padding:0;}
+.letters{color:#E53E16;font-weight:bold;font-size:14px;}
+
 </style>
 <div id="cityListDiv" title="全国城市列表" style="display:none" class="cityListDiv">
 <div id="cityTabs" style="width:100%">
@@ -86,7 +89,34 @@ for(var h=0;h<citylist.hot_city.length;++h){
 	htmlContent += "<li><strong><a style=\"color:#ff3399\" href=\"javascript:selectCity('"+citylist.hot_city[h]+"')\">"+citylist.hot_city[h]+"</a></strong></li>";
 }
 htmlContent += "</ul>";
+
+var cities = citylist.city;
+for(var t in cities){
+	if(cities[t].length>0){
+		htmlContent += "<ul><li class='letters'>"+t+"</li>";
+		for(var i=0;i<cities[t].length;++i){
+			htmlContent += "<li><a href=\"javascript:selectCity('"+cities[t][i]+"')\">"+cities[t][i]+"</a></li>";
+		}
+		htmlContent += "</ul>";
+	}
+}
 $("#pinyinTab").append($(htmlContent));
+htmlContent = "<ul>";
+for(var h=0;h<citylist.hot_areacity.length;++h){
+	htmlContent += "<li><strong><a style=\"color:#ff3399\" href=\"javascript:selectCity('"+citylist.hot_areacity[h]+"')\">"+citylist.hot_areacity[h]+"</a></strong></li>";
+}
+htmlContent += "</ul>";
+cities = citylist.areacity;
+for(var t in cities){
+	if(cities[t].length>0){
+		htmlContent += "<ul><li class='letters'>"+t+"</li>";
+		for(var i=0;i<cities[t].length;++i){
+			htmlContent += "<li><a href=\"javascript:selectCity('"+cities[t][i]+"')\">"+cities[t][i]+"</a></li>";
+		}
+		htmlContent += "</ul>";
+	}
+}
+$("#areaTab").append($(htmlContent));
 $("#cityTabs").tabs({
 	event: 'mouseover'	
 });
