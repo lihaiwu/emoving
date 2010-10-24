@@ -435,13 +435,14 @@ function getViewportHeight(){
 	<div id="menu">
     	<div id="searchDiv" style="float:left">
         <form name="searchForm" method="post" action="#" onsubmit="searchPoiBase();return false;">
-    	<label for="cityName">当前城市：</label><input type="text" name="cityName" id="cityName" value="<%=session.getAttribute("cityName")%>" size="8"/>
-        <a href="javascript:citylistBox()">切换城市</a>&nbsp;&nbsp;<input type="text" name="searchValue" id="searchValue" size="20"/><img align="bottom" src="<%=request.getContextPath()%>/images/lb_ss.gif" alt="搜索定位" onclick="searchPoiBase();" /><a href="javascript:clearSearch();">清除搜索</a>
-        </form>
-        </div>&nbsp;&nbsp;
+    	<label for="cityName">当前城市：</label><input type="text" name="cityName" id="cityName" value="<%=session.getAttribute("cityName")%>" size="8" style="vertical-align:bottom"/>
+        <a href="javascript:citylistBox()">切换城市</a>&nbsp;&nbsp;<input type="text" name="searchValue" id="searchValue" style="vertical-align:bottom" size="20"/><img style="vertical-align:bottom;" src="<%=request.getContextPath()%>/images/lb_ss.gif" alt="搜索定位" onclick="searchPoiBase();" />&nbsp;&nbsp;<a href="javascript:clearSearch();">清除搜索</a>
+        &nbsp;&nbsp;
         <s:if test="#request.locations!=null">
-		<a href="<%=request.getContextPath()%>/user_logout.do">退出登录</a>
+		<a href="<%=request.getContextPath()%>/user_logout.do" style="color:red;">退出登录</a>
         </s:if>
+        </form>
+        </div>
 	</div>
 	<div id="mainContent">
 		<div id="sidebar">

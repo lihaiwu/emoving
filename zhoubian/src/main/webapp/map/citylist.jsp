@@ -4,7 +4,9 @@
 .cityListDiv ul{padding:0; margin:3px 0; width:670px; white-space:nowrap; float:left;}
 .cityListDiv ul li{ float: left; list-style:none; margin:0 0 4px 11px; padding:0;}
 .letters{color:#E53E16;font-weight:bold;font-size:14px;}
-
+#cityTabs{margin:0; padding:0;}
+#pinyinTab{padding-left:0; padding-right:0;}
+#areaTab{padding-left:0; padding-right:0;}
 </style>
 <div id="cityListDiv" title="全国城市列表" style="display:none" class="cityListDiv">
 <div id="cityTabs" style="width:100%">
