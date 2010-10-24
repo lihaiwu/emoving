@@ -356,8 +356,6 @@ function getViewportHeight(){
 	   var mlsp = new MLocalSearchOptions();
 	   mlsp.recordsPerPage = 10;
 	   mls.setCallbackFunction(searchPoiR);
-	   console.log($("#searchValue").val());
-	   console.log($("#cityName").val());
 	   mls.poiSearchByKeywords($("#searchValue").val(),$("#cityName").val(),mlsp);
    }
    function searchPoiR(data){
