@@ -1,10 +1,12 @@
 package net.zhoubian.app.web.action;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.json.JSONArray;
 import net.zhoubian.app.model.Location;
 import net.zhoubian.app.model.User;
 import net.zhoubian.app.service.MapService;
@@ -114,6 +116,7 @@ public class UserAction extends AbstractAction {
 		logger.info("location.getId() == "+location.getId());
 		mapService.saveLocation(location);
 		user.setDefaultLocationId(location.getId());
+		user.setCurrentLocationId(user.getDefaultLocationId());
 		user.setHomeLocationId(location.getId());
 		userService.updateUser(user);
 		return "cityindex";
@@ -122,6 +125,13 @@ public class UserAction extends AbstractAction {
 		User user = (User)request.getSession().getAttribute("user");
 		user.setCurrentLocationId(user.getDefaultLocationId());
 		userService.updateUser(user);
+		Location location = mapService.findLocationsById(user.getCurrentLocationId());
+		request.getSession().setAttribute("location", location);
+		return "myzhoubian";
+	}
+
+	public String goPreviousLocation(){
+		User user = (User)request.getSession().getAttribute("user");
 		Location location = mapService.findLocationsById(user.getCurrentLocationId());
 		request.getSession().setAttribute("location", location);
 		return "myzhoubian";
@@ -139,5 +149,21 @@ public class UserAction extends AbstractAction {
 		request.getSession().setAttribute("cityId", "432");
 		request.getSession().setAttribute("cityName", "北京");
 		return "cityindex";
+	}
+	public String getLocationsByUser(){
+		User user = (User)request.getSession().getAttribute("user");
+		List<Location> locations = mapService.findLocationsByUid(user.getUid());
+		JSONArray jsonArray = JSONArray.fromObject(locations);
+		logger.info(jsonArray);
+		try{
+			response.setContentType("text/json;charset=utf-8");
+			PrintWriter out = response.getWriter();
+			out.println(jsonArray);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
 	}
 }
