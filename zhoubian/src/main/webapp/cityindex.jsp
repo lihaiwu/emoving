@@ -8,6 +8,17 @@
 <meta name="Keywords" content="城市首页，周边，交友" />
 <meta name="description" content="城市首页" />
 <title>城市首页</title>
+<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.8.4.custom.css" rel="stylesheet"/>
+<script src="<%=request.getContextPath()%>/js/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.bgiframe-2.1.1.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.core.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.widget.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.mouse.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.draggable.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.position.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.resizable.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.tabs.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.dialog.min.js"></script>
 <style type="text/css">
 body {
 	font-family: Verdana;
@@ -86,6 +97,20 @@ body {
 </style>
 </head>
 <body>
+<script type="text/javascript">
+function selectLocation(){
+	$.getJSON("<%=request.getContextPath()%>/user_getLocationsByUser.do",function(data){
+		var html = '<ul>';
+		$.each(data,function(i,location){
+			html += "<li><a href=\"<%=request.getContextPath()%>/user_goSpecificLocation.do?locationId="+location['id']+"\">"+location['locationName']+"</a></li>";
+		});
+		html += "</ul>";
+		$("#locationDiv").html(html);
+		$("#locationDiv").dialog();
+	});
+}
+</script>
+<div id="locationDiv" title="选择进入的位置"></div>
 <div id="container">
 <div id="header">This is the Header</div>
 <div id="menu">This is the Menu</div>
