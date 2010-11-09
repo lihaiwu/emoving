@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONArray;
+import net.zhoubian.app.model.Clazz;
 import net.zhoubian.app.model.Location;
 import net.zhoubian.app.model.User;
 import net.zhoubian.app.service.MapService;
 import net.zhoubian.app.service.UserService;
 import net.zhoubian.app.util.GridUtil;
+import net.zhoubian.app.web.cache.CategoryCache;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,6 +24,8 @@ public class UserAction extends AbstractAction {
 	private static final long serialVersionUID = -2893833894715924382L;
 	private static Log logger = LogFactory.getLog(UserAction.class);
 	private List<User> users = new ArrayList<User>();
+	
+	private static Map<String, Clazz> classes = CategoryCache.getClasses();
 
 	private UserService userService;
 	
@@ -46,6 +51,10 @@ public class UserAction extends AbstractAction {
 		return SUCCESS;
 	}
 
+	public Map<String, Clazz> getClasses() {
+		return classes;
+	}
+	
 	public List<User> getUsers() {
 		return this.users;
 	}
