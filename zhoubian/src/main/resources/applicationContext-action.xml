@@ -32,4 +32,8 @@
 		scope="prototype" autowire="byName">
 		<property name="mapService" ref="mapService"></property>
 	</bean>
+	<bean id="infoAction" class="net.zhoubian.app.web.action.InfoAction"
+		scope="prototype" autowire="byName">
+		<property name="infoService" ref="infoService"></property>
+	</bean>
 </beans>

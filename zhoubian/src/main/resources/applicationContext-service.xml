@@ -30,4 +30,11 @@
 			</bean>
 		</property>
 	</bean>
+	<bean id="infoService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="net.zhoubian.app.service.impl.InfoServiceImpl">
+				<property name="infoDao" ref="infoDao"/>
+			</bean>
+		</property>
+	</bean>
 </beans>

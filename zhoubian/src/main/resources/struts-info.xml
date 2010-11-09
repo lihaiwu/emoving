@@ -12,5 +12,8 @@
 		<action name="area_*" method="{1}" class="areaAction">
 		<result name="switch">cityswitch.jsp</result>
 		</action>
+		<action name="info_*" method="{1}" class="infoAction">
+			<result name="addinfo">info/addinfo.jsp</result>
+		</action>
 	</package>
 </struts> 
