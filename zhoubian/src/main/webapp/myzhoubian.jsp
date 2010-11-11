@@ -71,8 +71,8 @@ body{ font-family:Verdana; font-size:14px; margin:0; }
 	<div id="mainContent">
 		<div id="sidebar">this is sidebar</div>
 		<div id="content">
-        <span style="color:#133db6">分类信息</span>&nbsp;&nbsp;<a href="#"><span style="color:#133db6">更多&gt;&gt;</span></a>
-        <span style="color:#0000FF; float:right"><a href="<%=request.getContextPath()%>/info_add.do">+提交信息</span></span>
+        <span style="color:#133db6">分类信息</span>&nbsp;&nbsp;<a href="#"><span style="color:#133db6">更多&gt;&gt;</a></span>
+        <span style="color:#0000FF; float:right"><a href="<%=request.getContextPath()%>/info_add.do">+提交信息</a></span>
         <br/>
         
         <s:iterator value="classes.keySet()" id="vkey" status="stat">
