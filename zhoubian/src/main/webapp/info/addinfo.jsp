@@ -15,6 +15,7 @@
 	src="<%=request.getContextPath()%>/dwr/interface/category.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.3.2.js"></script>
 <script type="text/javascript" defer="defer">
+	if (typeof window['DWRUtil'] == 'undefined') window.DWRUtil = dwr.util;
 
 	function loadClasses(){
 	   	category.getClasses(function(data){fillSelect('clazz', data);});
