@@ -70,10 +70,8 @@ body{ font-family:Verdana; font-size:14px; margin:0; }
 	<div id="menu"><a href="chatIndex.do">周边聊天</a>|<a href="#">周边论坛</a></div>
 	<div id="mainContent">
 		<div id="sidebar">this is sidebar</div>
-		<div id="content">
-        <span style="color:#133db6">分类信息</span>&nbsp;&nbsp;<a href="#"><span style="color:#133db6">更多&gt;&gt;</a></span>
-        <span style="color:#0000FF; float:right"><a href="<%=request.getContextPath()%>/info_add.do">+提交信息</a></span>
-        <br/>
+		<div id="content"><div>
+        <div style="float:left; width:40%;"><span style="color:#133db6;">分类信息</span>&nbsp;&nbsp;<span style="color:#133db6"><a href="#">更多&gt;&gt;</a></span></div><div style="width:60%; text-align:right"><span style="color:#0000FF;"><a href="<%=request.getContextPath()%>/info_add.do">+提交信息</a></span></div></div>
         
         <s:iterator value="classes.keySet()" id="vkey" status="stat">
             <s:if test="classes.keySet().size() > 10 && #stat.index+1 > 10">
