@@ -7,7 +7,7 @@
 <hibernate-mapping>
     <class name="net.zhoubian.app.model.Category" table="category" catalog="myzhoubian">
         <id name="categoryId" type="java.lang.String">
-            <column name="category_id" length="9" />
+            <column name="category_id" length="18" />
             <generator class="native" />
         </id>
         <property name="categoryName" type="java.lang.String">
@@ -15,6 +15,15 @@
         </property>
         <property name="sort" type="java.lang.Integer">
             <column name="sort" />
+        </property>
+        <property name="tableName" type="java.lang.String">
+        	<column name="table_name" length="20"/>
+        </property>
+        <property name="pagePath" type="java.lang.String">
+        	<column name="page_path" length="200"/>
+        </property>
+        <property name="nextCategory" type="java.lang.String">
+        	<column name="next_category" length="20"/>
         </property>
     </class>
 </hibernate-mapping>

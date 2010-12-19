@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2010-12-14 7:15:16 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="net.zhoubian.app.model.Tag" table="tag" catalog="myzhoubian">
+        <id name="tagId" type="int">
+            <column name="tag_id" />
+            <generator class="native" />
+        </id>
+        <property name="tagName" type="string">
+            <column name="tag_name" length="40" not-null="true">
+                <comment>&#177;&#234;&#199;&#169;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="categoryId" type="string">
+            <column name="category_id" length="18" not-null="true" />
+        </property>
+        <property name="fieldName" type="string">
+            <column name="field_name" length="20" not-null="true">
+                <comment>
+                &#177;&#234;&#199;&#169;&#182;&#212;&#211;&#166;&#181;&#196;&#208;&#197;&#207;&#162;&#177;&#237;&#184;&#241;&#214;&#208;&#181;&#196;&#215;&#214;&#182;&#206;&#195;&#251;</comment>
+            </column>
+        </property>
+        <property name="tagSpec" type="string">
+            <column name="tag_spec" length="200" not-null="true">
+                <comment>
+                &#177;&#234;&#199;&#169;&#182;&#168;&#210;&#229;&#163;&#172;&#178;&#201;&#211;&#195;json&#184;&#247;&#202;&#189;&#180;&#230;&#180;&#162;&#163;&#172;&#200;&#231;{1:'&#197;&#183;&#202;&#189;&#189;&#168;&#214;&#254;',2-'&#214;&#208;&#202;&#189;&#189;&#168;&#214;&#254;'}</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

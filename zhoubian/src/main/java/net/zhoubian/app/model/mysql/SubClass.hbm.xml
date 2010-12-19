@@ -16,5 +16,14 @@
         <property name="sort" type="java.lang.Integer">
             <column name="sort" />
         </property>
+        <property name="nextCategory" type="java.lang.String">
+        	<column name="next_category" length="20"/>
+        </property>
+        <property name="tableName" type="java.lang.String">
+        	<column name="table_name" length="20"/>
+        </property>
+        <property name="pagePath" type="java.lang.String">
+        	<column name="page_path" length="200"/>
+        </property>
     </class>
 </hibernate-mapping>

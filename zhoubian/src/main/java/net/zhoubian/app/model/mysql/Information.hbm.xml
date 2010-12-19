@@ -33,5 +33,62 @@
         <property name="locationId" type="java.lang.Long">
             <column name="location_id" />
         </property>
+        <property name="indexStatus" type="java.lang.String">
+        	<column name="index_status" length="1"/>
+        </property>
+        <property name="provinceId" type="java.lang.String">
+        	<column name="province_id" length="6"/>
+        </property>
+        <property name="cityId" type="java.lang.String">
+        	<column name="city_id" length="6"/>
+        </property>
+        <property name="countyId" type="java.lang.String">
+        	<column name="county_id" length="6"/>
+        </property>
+        <property name="streetId" type="java.lang.String">
+        	<column name="street_id" length="6"/>
+        </property>
+        <property name="locationDesc" type="java.lang.String">
+        	<column name="location_desc" length="200"/>
+        </property>
+        <property name="content" type="java.lang.String">
+        	<column name="content"/>
+        </property>
+        <property name="telephone" type="java.lang.String">
+        	<column name="telephone" length="20"/>
+        </property>
+        <property name="site" type="java.lang.String">
+        	<column name="site" length="40"/>
+        </property>
+        <property name="tag1" type="java.lang.Short">
+        	<column name="tag1"/>
+        </property>
+        <property name="tag2" type="java.lang.Short">
+        	<column name="tag2"/>
+        </property>
+        <property name="tag3" type="java.lang.Short">
+        	<column name="tag3"/>
+        </property>
+        <property name="tag4" type="java.lang.Short">
+        	<column name="tag4"/>
+        </property>
+        <property name="tag5" type="java.lang.Short">
+        	<column name="tag5"/>
+        </property>
+        <property name="tag6" type="java.lang.Short">
+        	<column name="tag6"/>
+        </property>
+        <property name="tag7" type="java.lang.Short">
+        	<column name="tag7"/>
+        </property>
+        <property name="tag8" type="java.lang.Short">
+        	<column name="tag8"/>
+        </property>
+        <property name="tag9" type="java.lang.Short">
+        	<column name="tag9"/>
+        </property>
+        <property name="tag10" type="java.lang.Short">
+        	<column name="tag10"/>
+        </property>
     </class>
 </hibernate-mapping>
