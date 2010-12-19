@@ -186,7 +186,7 @@ a:active {
 <!--<link type="text/css" href="<%=request.getContextPath()%>/css/ui.jqgrid.css" rel="stylesheet"/>-->
 <script src="<%=request.getContextPath()%>/js/jquery-1.4.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.bgiframe-2.1.1.js"></script>
-<script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.3&key=<%=net.zhoubian.app.util.SystemProperties.getProperty("mapkey")%>"></script>
+<script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.4&key=<%=net.zhoubian.app.util.SystemProperties.getProperty("mapkey")%>"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.widget.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.mouse.min.js"></script>
