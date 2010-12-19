@@ -1,5 +1,6 @@
 package net.zhoubian.app.web.dwr;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,31 @@ public class CategoryCombox {
 			return result;
 		for (Category c : categories)
 			result.put(c.getCategoryId(), c.getCategoryName());
+		return result;
+	}
+	public List<SubClass> getSubClassListByParent(String classId){
+		Clazz clazz = CategoryCache.getClasses().get(classId);
+		if (clazz == null)
+			return null;
+		List<SubClass> subclasses = clazz.getSubClasses();
+		if (subclasses == null)
+			return null;
+		else
+			return subclasses;
+	}
+	public List<Category> getCategoryListByParent(String categoryId, int length){
+		List<Category> result = new ArrayList<Category>();
+		SubClass sub = CategoryCache.getSubclasses().get(categoryId.substring(0,2));
+		if(sub == null)
+			return result;
+		List<Category> categories = sub.getCategories();
+		if(categories == null)
+			return result;
+		for(Category c : categories){
+			if(c.getCategoryId().length()==length){
+				result.add(c);
+			}
+		}
 		return result;
 	}
 }
