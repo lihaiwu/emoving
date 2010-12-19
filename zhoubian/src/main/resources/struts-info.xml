@@ -14,6 +14,9 @@
 		</action>
 		<action name="info_*" method="{1}" class="infoAction">
 			<result name="addinfo">info/addinfo.jsp</result>
+			<result name="selectLocation">info/selectLocation.jsp</result>
+			<result name="infodetail">info/infodetail.jsp</result>
+			<result name="tagdiv">info/tagDiv.jsp</result>
 		</action>
 	</package>
 </struts> 

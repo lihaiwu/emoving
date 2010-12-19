@@ -15,7 +15,6 @@
 		<mapping resource="net/zhoubian/app/model/mysql/Record.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/InfoNew.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/County.hbm.xml" />
-		<mapping resource="net/zhoubian/app/model/mysql/CategoryStruct.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Mypoke.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/EnterpriseApply.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/SystemParameters.hbm.xml" />
@@ -32,7 +31,6 @@
 		<mapping resource="net/zhoubian/app/model/mysql/Myapp.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Comment.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/LoginLog.hbm.xml" />
-		<mapping resource="net/zhoubian/app/model/mysql/InfoMetadata.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Keywords.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/LocationType.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/SiteManager.hbm.xml" />
@@ -65,6 +63,6 @@
 		<mapping resource="net/zhoubian/app/model/mysql/City.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Friend.hbm.xml" />
 		<mapping resource="net/zhoubian/app/model/mysql/Chat.hbm.xml" />
-		
+		<mapping resource="net/zhoubian/app/model/mysql/Tag.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
