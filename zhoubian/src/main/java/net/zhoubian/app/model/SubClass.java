@@ -15,6 +15,12 @@ public class SubClass implements java.io.Serializable {
 	private String subclassName;
 
 	private Integer sort;
+	
+	private String nextCategory;
+	
+	private String tableName;
+	
+	private String pagePath;
 
 	private List<Category> categories;
 	// Constructors
@@ -61,4 +67,30 @@ public class SubClass implements java.io.Serializable {
 	public List<Category> getCategories() {
 		return categories;
 	}
+
+	public String getNextCategory() {
+		return nextCategory;
+	}
+
+	public void setNextCategory(String nextCategory) {
+		this.nextCategory = nextCategory;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public String getPagePath() {
+		return pagePath;
+	}
+
+	public void setPagePath(String pagePath) {
+		this.pagePath = pagePath;
+	}
+	
+	
 }

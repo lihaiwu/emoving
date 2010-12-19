@@ -7,6 +7,9 @@ import java.util.Date;
  */
 
 public class Information implements java.io.Serializable {
+	
+	public static String UNINDEXED = "0";
+	public static String INDEXED = "1";
 
 	// Fields
 
@@ -27,25 +30,49 @@ public class Information implements java.io.Serializable {
 	private Long locationId;
 	
 	private String indexStatus; // 索引状态，默认为0,0:未索引 ，1:已索引
-	public static String UNINDEXED = "0";
-	public static String INDEXED = "1";
+	
+	private String provinceId;
+	
+	private String cityId;
+	
+	private String countyId;
+	
+	private String streetId;
+	
+	private String locationDesc;
+	
+	private String content;
+	
+	private String telephone;
+	
+	private String site;
+	
+	private Short tag1;
+	
+	private Short tag2;
+	
+	private Short tag3;
+	
+	private Short tag4;
+	
+	private Short tag5;
+	
+	private Short tag6;
+	
+	private Short tag7;
+	
+	private Short tag8;
+	
+	private Short tag9;
+	
+	private Short tag10;
+	
 	// Constructors
 
 	/** default constructor */
 	public Information() {
 	}
 
-	/** full constructor */
-	public Information(String title, String categoryId, Float longitude,
-			Float latitude, Date createTime, String state, Long locationId) {
-		this.title = title;
-		this.categoryId = categoryId;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.createTime = createTime;
-		this.state = state;
-		this.locationId = locationId;
-	}
 
 	// Property accessors
 
@@ -119,5 +146,187 @@ public class Information implements java.io.Serializable {
 	public String getIndexStatus() {
 		return indexStatus;
 	}
+
+
+	public String getProvinceId() {
+		return provinceId;
+	}
+
+
+	public void setProvinceId(String provinceId) {
+		this.provinceId = provinceId;
+	}
+
+
+	public String getCityId() {
+		return cityId;
+	}
+
+
+	public void setCityId(String cityId) {
+		this.cityId = cityId;
+	}
+
+
+	public String getCountyId() {
+		return countyId;
+	}
+
+
+	public void setCountyId(String countyId) {
+		this.countyId = countyId;
+	}
+
+
+	public String getStreetId() {
+		return streetId;
+	}
+
+
+	public void setStreetId(String streetId) {
+		this.streetId = streetId;
+	}
+
+
+	public String getLocationDesc() {
+		return locationDesc;
+	}
+
+
+	public void setLocationDesc(String locationDesc) {
+		this.locationDesc = locationDesc;
+	}
+
+
+	public String getContent() {
+		return content;
+	}
+
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+
+	public String getSite() {
+		return site;
+	}
+
+
+	public void setSite(String site) {
+		this.site = site;
+	}
+
+
+	public Short getTag1() {
+		return tag1;
+	}
+
+
+	public void setTag1(Short tag1) {
+		this.tag1 = tag1;
+	}
+
+
+	public Short getTag2() {
+		return tag2;
+	}
+
+
+	public void setTag2(Short tag2) {
+		this.tag2 = tag2;
+	}
+
+
+	public Short getTag3() {
+		return tag3;
+	}
+
+
+	public void setTag3(Short tag3) {
+		this.tag3 = tag3;
+	}
+
+
+	public Short getTag4() {
+		return tag4;
+	}
+
+
+	public void setTag4(Short tag4) {
+		this.tag4 = tag4;
+	}
+
+
+	public Short getTag5() {
+		return tag5;
+	}
+
+
+	public void setTag5(Short tag5) {
+		this.tag5 = tag5;
+	}
+
+
+	public Short getTag6() {
+		return tag6;
+	}
+
+
+	public void setTag6(Short tag6) {
+		this.tag6 = tag6;
+	}
+
+
+	public Short getTag7() {
+		return tag7;
+	}
+
+
+	public void setTag7(Short tag7) {
+		this.tag7 = tag7;
+	}
+
+
+	public Short getTag8() {
+		return tag8;
+	}
+
+
+	public void setTag8(Short tag8) {
+		this.tag8 = tag8;
+	}
+
+
+	public Short getTag9() {
+		return tag9;
+	}
+
+
+	public void setTag9(Short tag9) {
+		this.tag9 = tag9;
+	}
+
+
+	public Short getTag10() {
+		return tag10;
+	}
+
+
+	public void setTag10(Short tag10) {
+		this.tag10 = tag10;
+	}
+	
+	
 
 }

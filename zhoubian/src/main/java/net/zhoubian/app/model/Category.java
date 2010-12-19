@@ -13,6 +13,12 @@ public class Category implements java.io.Serializable {
 	private String categoryName;
 
 	private Integer sort;
+	
+	private String tableName;
+	
+	private String pagePath;
+	
+	private String nextCategory;
 
 	// Constructors
 
@@ -51,5 +57,31 @@ public class Category implements java.io.Serializable {
 	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public String getPagePath() {
+		return pagePath;
+	}
+
+	public void setPagePath(String pagePath) {
+		this.pagePath = pagePath;
+	}
+
+	public String getNextCategory() {
+		return nextCategory;
+	}
+
+	public void setNextCategory(String nextCategory) {
+		this.nextCategory = nextCategory;
+	}
+	
+	
 
 }
