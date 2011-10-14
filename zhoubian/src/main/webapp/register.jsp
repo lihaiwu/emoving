@@ -80,7 +80,7 @@ function checkForm(){
 		<div style="text-align:center"><input type="submit" value="提交" style="width:40px" />&nbsp;&nbsp;<input type="reset" value="重置" style="width:40px"/></div>
 		</form>
 	</div>
-	<div id="footer" align="center">周边网版权所有</div>
+	<div id="footer" align="center">周边网版权所有</div> 
 </div>
 </body>
 </html>
