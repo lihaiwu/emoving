@@ -8,9 +8,9 @@
 <meta name="Keywords" content="城市首页，周边，交友" />
 <meta name="description" content="城市首页" />
 <title>城市首页</title>
-<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.8.4.custom.css" rel="stylesheet"/>
+<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.8.18.custom.css" rel="stylesheet"/>
 <script src="<%=request.getContextPath()%>/js/jquery-1.4.2.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.bgiframe-2.1.1.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.bgiframe-2.1.2.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.widget.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.mouse.min.js"></script>

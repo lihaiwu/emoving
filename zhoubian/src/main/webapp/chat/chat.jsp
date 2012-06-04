@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/common/common.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -8,6 +7,7 @@
 <meta name="Keywords" content="我的周边，交友，聊天"/>
 <meta name="description" content="我的周边聊天室首页"/>
 <title>聊天室</title>
+<%@ include file="/common/common.jsp"%>
 		<link rel="stylesheet" type="text/css" href="ext-3.2.1/resources/css/ext-all.css" />
 		<style type="text/css">
 			.icon-chat-comments{background-image:url(images/chat/comments.png) !important;}

@@ -28,7 +28,7 @@ import org.directwebremoting.impl.DefaultScriptSessionManager;
 public class CustomSSManager extends DefaultScriptSessionManager implements org.directwebremoting.extend.InitializingBean {
 	private static Logger logger = Logger.getLogger(CustomSSManager.class);
 	public static int count = 0;
-	public static final String CHAT_ROOM = "/zhoubian/chatIndex.do";
+	public static final String CHAT_ROOM = "/chatIndex.do"; //"/zhoubian/chatIndex.do"
 	public static final String HTTP_SESSION = "HttpSession";
 	public static BinaryTree<String, ScriptSession> bt = new BinaryTree<String, ScriptSession>();
 
@@ -60,7 +60,10 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 				
 				String currentPage = scriptSession.getPage();
 				logger.debug("currentPage:" + currentPage);
-				if(!CHAT_ROOM.equals(currentPage)){
+				/*if(!CHAT_ROOM.equals(currentPage)){
+					return;
+				}*/
+				if(currentPage.indexOf(CHAT_ROOM)==-1){
 					return;
 				}
 				ScriptSession ss = (ScriptSession) httpSession.getAttribute(CHAT_ROOM);
@@ -177,6 +180,57 @@ public class CustomSSManager extends DefaultScriptSessionManager implements org.
 	        	
 	        }
 		}
+	}
+	
+	public static List<User> getRelatedUsers(Location location, int range){
+		List<User> users = new ArrayList<User>();
+		int maxDistance = 500;
+		switch(range){
+		case 1:
+			maxDistance = 500;
+			break;
+		case 2:
+			maxDistance = 1000;
+			break;
+		case 3:
+			maxDistance = 2000;
+		}
+		List<Long> codes = GridUtil.getRelatedGridCode(location.getLatitude(), location.getLongitude(), range);
+		if(codes == null){
+			codes = new ArrayList<Long>();
+			codes.add(new Long(GridUtil.getOwnGridCode(location.getLatitude(), location.getLongitude())));
+		}
+		BinaryTree.Node<String, ScriptSession> node = null;
+		Map<String, ScriptSession> data = null;
+		Map.Entry<String, ScriptSession> entry = null;
+		ScriptSession ss = null;
+		HttpSession hs = null;
+		Location loc = null;
+		User user = null;
+		for(Long code:codes){
+			logger.debug("code:" + code);
+			node = CustomSSManager.bt.find(code);
+			data = node.getData();
+			Iterator<Map.Entry<String, ScriptSession>> it = data.entrySet().iterator();
+	        while (it.hasNext()) {
+	        	entry = it.next();
+	        	ss = entry.getValue();
+	        	logger.debug(" ss:" + ss.getId());
+	        	if(!ss.isInvalidated()){
+	        		hs = (HttpSession) ss.getAttribute(HTTP_SESSION);
+	        		loc = (Location) hs.getAttribute("location");
+	        		user = (User) hs.getAttribute("user");
+	        		double latl = GridUtil.getLat1()*Math.abs((location.getLatitude()-loc.getLatitude()));
+	        		double lngl = GridUtil.getLng1(location.getLatitude())*Math.abs(location.getLongitude() - loc.getLongitude());
+	        		double distance = Math.sqrt(Math.pow(latl, 2) + Math.pow(lngl, 2));
+	        		logger.debug("latl:" + latl + " lngl:" + lngl + " distance=" + distance);
+	        		if(distance < maxDistance){
+	        			users.add(user);
+	        		}
+	        	}
+	        }
+		}
+		return users;
 	}
 	
 	public static String getRelatedUser(Location location, int range){

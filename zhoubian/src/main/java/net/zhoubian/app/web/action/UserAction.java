@@ -18,6 +18,7 @@ import net.zhoubian.app.web.cache.CategoryCache;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 
 public class UserAction extends AbstractAction {
 
@@ -66,6 +67,29 @@ public class UserAction extends AbstractAction {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+	/**
+	 * 新版的首页，包含登录表单
+	 * @return
+	 */
+	public String index1(){
+		return "index1";
+	}
+	/**
+	 * 登录验证，并返回登录结果，浏览器收到登录结果后弹出窗口让用户选择具体位置
+	 * @return
+	 */
+	public String login1(){
+		return null;
+	}
+	/**
+	 * 新版进入位置后的首页
+	 * @return
+	 */
+	public String locationIndex(){
+		request.getSession().setAttribute("cityId", "432");
+		request.getSession().setAttribute("cityName", "北京");
+		return "locationIndex";
+	}
 	public String preLogin(){
 		if(request.getSession().getAttribute("user") != null){
 			return "loginsuccess";
@@ -77,24 +101,41 @@ public class UserAction extends AbstractAction {
 		String password = request.getParameter("password");
 		User user = userService.getUserByLoginName(loginName);
 		if(user==null){
-			request.setAttribute("msg", "用户不存在!");
-			return "login";
+			//request.setAttribute("msg", "用户不存在!");
+			response.setStatus(response.SC_FORBIDDEN);
+			this.outMsg("用户不存在！");
+			return null;
 		}
 		if(!user.getPassword().equals(password)){
-			request.setAttribute("msg", "用户密码不正确!");
-			return "login";
+			//request.setAttribute("msg", "用户密码不正确!");
+			response.setStatus(response.SC_FORBIDDEN);
+			this.outMsg("用户密码不正确！");
+			return null;
 		}
 		request.getSession().setAttribute("user", user);
 		return "loginsuccess";
 	}
 	public String logout(){
-		String flag = request.getParameter("flag");
+//		String flag = request.getParameter("flag");
+//		request.getSession().invalidate();
+//		if(flag!=null && flag.equals("true")){
+//			return "login";
+//		}else{
+//			return "index";
+//		}
 		request.getSession().invalidate();
-		if(flag!=null && flag.equals("true")){
-			return "login";
-		}else{
-			return "index";
+		
+		try{
+			PrintWriter out = response.getWriter();
+			out.print("<script type=\"text/javascript\">top.location=\""+request.getContextPath()+"/user_index1.do\";</script>");
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			logger.error(e.getStackTrace());
 		}
+		//return "index";
+		return null;
 	}
 	public String register(){
 		return "register";
@@ -119,16 +160,45 @@ public class UserAction extends AbstractAction {
 		location.setCreateTime(d);
 		location.setLongitude(Float.parseFloat(longitude));
 		location.setLatitude(Float.parseFloat(latitude));
-		location.setId(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude()));
+		//location.setId(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude()));
+		location.setId((long)(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude())*1E10+Calendar.getInstance().getTimeInMillis()/1000));
 		location.setUid(user.getUid());
 		location.setStatus(Location.status_valid);
 		logger.info("location.getId() == "+location.getId());
-		mapService.saveLocation(location);
+		int n = 0;
+		boolean flag = true;
+		while(flag){
+			try{
+				if(n>0){
+					Thread.currentThread().sleep(1000);
+				}
+				mapService.saveLocation(location);
+				flag = false;
+			}catch(DataIntegrityViolationException e){
+				n++;
+				if(n>10){
+					flag = false;
+					logger.error("location id is duplicate, try times greater than 10");
+					throw e;
+				}
+				//location.setId(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude()));
+				location.setId((long)(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude())*1E10+Calendar.getInstance().getTimeInMillis()/1000));
+				logger.warn("location id is duplicate, try again...");
+				logger.warn(e.toString());
+			}catch(InterruptedException ie){
+				logger.error(ie.toString());
+			}
+		};
 		user.setDefaultLocationId(location.getId());
 		user.setCurrentLocationId(user.getDefaultLocationId());
 		user.setHomeLocationId(location.getId());
 		userService.updateUser(user);
-		return "cityindex";
+		//return "cityindex";
+		//return "locationIndex";
+		return locationIndex();
+	}
+	public String mainWindow(){
+		return "mainWindow";
 	}
 	public String goDefaultLocation(){
 		User user = (User)request.getSession().getAttribute("user");
@@ -136,14 +206,16 @@ public class UserAction extends AbstractAction {
 		userService.updateUser(user);
 		Location location = mapService.findLocationsById(user.getCurrentLocationId());
 		request.getSession().setAttribute("location", location);
-		return "myzhoubian";
+		//return "myzhoubian";
+		return locationIndex();
 	}
 
 	public String goPreviousLocation(){
 		User user = (User)request.getSession().getAttribute("user");
 		Location location = mapService.findLocationsById(user.getCurrentLocationId());
 		request.getSession().setAttribute("location", location);
-		return "myzhoubian";
+		//return "myzhoubian";
+		return locationIndex();
 	}
 	public String goSpecificLocation(){
 		String locationId = request.getParameter("locationId");
@@ -152,7 +224,8 @@ public class UserAction extends AbstractAction {
 		userService.updateUser(user);
 		Location location = mapService.findLocationsById(user.getCurrentLocationId());
 		request.getSession().setAttribute("location", location);
-		return "myzhoubian";
+		//return "myzhoubian";
+		return locationIndex();
 	}
 	public String cityindex(){
 		request.getSession().setAttribute("cityId", "432");
@@ -174,5 +247,11 @@ public class UserAction extends AbstractAction {
 			logger.error(e.toString());
 		}
 		return null;
+	}
+	public String listLocations(){
+		User user = (User)request.getSession().getAttribute("user");
+		List<Location> locations = mapService.findLocationsByUid(user.getUid());
+		request.setAttribute("locations", locations);
+		return "locationlist";
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import net.zhoubian.app.model.Information;
 import net.zhoubian.app.model.Tag;
 
-public abstract class InformationDao extends AbstractDao<Information, Integer> {
+public abstract class InformationDao extends AbstractDao<Information, Long> {
 
 	public void saveAll(List<Information> entities){
 		this.getHibernateTemplate().saveOrUpdateAll(entities);

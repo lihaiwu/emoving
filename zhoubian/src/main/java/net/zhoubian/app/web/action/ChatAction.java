@@ -181,7 +181,8 @@ public class ChatAction extends AbstractAction {
 	
 	public String chatIndex() {
 		//直接到聊天室jsp页面，在CustomSSManager的sessionCreated里插入信息到二叉树里，并给相关用户发送登录js代码
-		return SUCCESS;
+		//return SUCCESS;
+		return "talk";
 	}
 
 	public String addUser() {
@@ -262,7 +263,9 @@ public class ChatAction extends AbstractAction {
 	public String getOnlineUsers() {
 		HttpSession httpSession = request.getSession();
 		Location location = (Location) httpSession.getAttribute("location");
-		this.jsonString = CustomSSManager.getRelatedUser(location, 4);
+		/*this.jsonString = CustomSSManager.getRelatedUser(location, 4);*/
+		List<User> onlineUsers = CustomSSManager.getRelatedUsers(location, 4);
+		request.setAttribute("onlineUsers", onlineUsers);
 		
 //		this.jsonString = "[";
 //		for (Iterator<Map.Entry<String, TreeNode>> it = onlineUsers.entrySet().iterator(); it.hasNext();) {
@@ -276,7 +279,7 @@ public class ChatAction extends AbstractAction {
 //			}
 //		}
 //		this.jsonString += "]";
-		logger.debug("jsonString:" + this.jsonString);
+		/*logger.debug("jsonString:" + this.jsonString);*/
 //		this.outJson(null);
 		return SUCCESS;
 	}

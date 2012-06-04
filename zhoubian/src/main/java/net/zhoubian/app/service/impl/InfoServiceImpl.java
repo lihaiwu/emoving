@@ -29,5 +29,13 @@ public class InfoServiceImpl implements InfoService{
 	public List<Tag> getTagsByCategoryId(String categoryId){
 		return infoDao.getTagsByCategoryId(categoryId);
 	}
+	/**
+	 * 根据ID查找信息
+	 * @param id
+	 * @return
+	 */
+	public Information getInfomationById(Long id){
+		return infoDao.getObjectByID(id);
+	}
 	
 }

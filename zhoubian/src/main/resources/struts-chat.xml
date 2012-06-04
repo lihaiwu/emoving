@@ -5,7 +5,8 @@
 <struts>
 	<package name="simple" namespace="/" extends="struts-default">
 		<action name="getOnlineUsers" class="chatAction" method="getOnlineUsers">
-			<result name="success">common/json.jsp</result>
+			<!-- <result name="success">common/json.jsp</result> -->
+			<result name="success">talk/onlineuser.jsp</result>
 		</action>
 		<action name="chatLogin" class="chatAction" method="login">
 			<result name="success">index.html</result>
@@ -14,6 +15,7 @@
 		</action>
 		<action name="chatIndex" class="chatAction" method="chatIndex">
 			<result name="success">chat/chat.jsp</result>
+			<result name="talk">talk/talk.jsp</result>
 		</action>
 		<action name="chatWithIndex" class="chatWithAction" method="chatIndex">
 			<result name="success">chat/chatWith.jsp</result>

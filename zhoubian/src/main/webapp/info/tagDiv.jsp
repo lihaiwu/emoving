@@ -5,11 +5,14 @@
 <label>标签：</label>
 <s:iterator value="#request.tagList" status="tagstatus" id="tag">
 <div style="margin-left:80px;">
-<span style="color:blue;"><s:property value="tag.tagName"/></span>&nbsp;&nbsp;
-<s:iterator value="tag.items.keySet()" id="item" status="itemstatus">
-<input type="radio" name="<s:property value="tag.fieldName"/>" value="<s:property value='item.value'/>"/><s:property value='item.name'/>&nbsp;&nbsp;
+<span style="color:blue;"><s:property value="#tag.tagName"/>：</span>&nbsp;&nbsp;
+<s:iterator value="#tag.items.entrySet()" id="tagItem" status="itemstatus">
+<input type="radio" name="info.<s:property value='#tag.fieldName'/>" value="<s:property value='#tagItem.key'/>"/><s:property value='#tagItem.value'/>&nbsp;&nbsp;
 </s:iterator><br/>
 </div>
+<script type="text/javascript">
+$("input[name='info.<s:property value="#tag.fieldName"/>'][value='<s:property value="#request.tagValues.get(#tagstatus.index)"/>']").attr('checked','true');
+</script>
 </s:iterator>
 </s:if>
 <!--

@@ -1,12 +1,15 @@
 package net.zhoubian.app.web.action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
@@ -17,6 +20,8 @@ import com.opensymphony.xwork2.ActionSupport;
 @SuppressWarnings("serial")
 public  class AbstractAction extends ActionSupport implements SessionAware, ServletResponseAware, ServletRequestAware,
 ServletContextAware{
+	
+	private static Log logger = LogFactory.getLog(AbstractAction.class);
 
 	protected HttpServletResponse response;
 
@@ -69,9 +74,38 @@ ServletContextAware{
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
 		try {
-			response.getWriter().print(json);
+			PrintWriter pw = response.getWriter();
+			pw.print(json);
+			pw.flush();
+			pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	protected void outMsg(String msg){
+		response.setContentType("text/html");
+		response.setCharacterEncoding("utf-8");
+		try{
+			PrintWriter pw = response.getWriter();
+			pw.print(msg);
+			pw.flush();
+			pw.close();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	protected void outError(String error, HttpServletResponse response){
+		try{
+			response.setContentType("text/html;charset=GBK");
+			PrintWriter pw = response.getWriter();
+			pw.print("<script type=\"text/javascript\">");
+			pw.print("alert(\""+error+"\");history.go(\"-1\");");
+			pw.print("</script>");
+			pw.flush();
+			pw.close();
+		}catch(Exception e){
+			logger.error(e.toString());
 		}
 	}
 }

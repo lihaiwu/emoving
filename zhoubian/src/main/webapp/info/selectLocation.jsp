@@ -7,9 +7,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>选择位置</title>
-<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.8.4.custom.css" rel="stylesheet"/>
+<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.8.18.custom.css" rel="stylesheet"/>
 <script src="<%=request.getContextPath()%>/js/jquery-1.4.2.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.bgiframe-2.1.1.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.bgiframe-2.1.2.js"></script>
 <script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.4&key=<%=net.zhoubian.app.util.SystemProperties.getProperty("mapkey")%>"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.widget.min.js"></script>
@@ -133,6 +133,9 @@ $(document).ready(function(){
 	mapoption.overviewMap = SHOW;
 	mapObj = new MMap("map_canvas",mapoption);
 	$(".MFMP_Business").css("display","none");
+	if("<s:property value='#parameters.lngX'/>"!=""){
+		addPoint("<s:property value='#parameters.lngX'/>","<s:property value='#parameters.latY'/>");
+	}
 });
 function pic_before(obj){
 	obj.className = obj.className+"_hover";
@@ -159,6 +162,18 @@ function drawPoint_(param){
 	mapObj.addOverlay(Mmarker,false);
 	mapObj.setOverlayEditableById('point1',true);
 	
+}
+function addPoint(lngX,latY){
+	var markerOption = new MMarkerOptions();
+	markerOption.imageUrl = "<%=request.getContextPath()%>/images/list_03.png"
+	markerOption.picAgent = false;
+	markerOption.imageAlign = 5;
+	markerOption.canShowTip = false;
+	var ll = new MLngLat(lngX,latY);
+	var Mmarker = new MMarker(ll,markerOption);
+	Mmarker.id = "point1";
+	mapObj.addOverlay(Mmarker,false);
+	mapObj.setOverlayEditableById('point1',true);
 }
 function searchPoiBase(){
 	   var mls = new MLocalSearch();

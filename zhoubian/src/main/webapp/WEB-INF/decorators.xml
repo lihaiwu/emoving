@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<decorators defaultdir="/decorators">
+    <excludes>
+        <pattern>/user_login.do</pattern>
+        <pattern>/index.jsp</pattern>
+        <pattern>/user_index1.do</pattern>
+        <pattern>/chatIndex.do</pattern>
+    </excludes>
+	<decorator name="main" page="main.jsp">
+        <pattern>/user_locationIndex.do</pattern>
+        <pattern>/user_go*Location.do</pattern>
+        <pattern>/map_mylocation.do</pattern>
+        <pattern>/map_addUserLocation.do</pattern>
+    </decorator>
+</decorators>

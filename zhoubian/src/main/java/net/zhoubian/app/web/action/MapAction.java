@@ -14,6 +14,7 @@ import net.zhoubian.app.util.GridUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 
 public class MapAction extends AbstractAction{
 	private static Log logger = LogFactory.getLog(MapAction.class);
@@ -47,12 +48,36 @@ public class MapAction extends AbstractAction{
 		location.setCreateTime(d);
 		location.setLongitude(Float.parseFloat(longitude));
 		location.setLatitude(Float.parseFloat(latitude));
-		location.setId(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude()));
+		//location.setId(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude()));
+		location.setId((long)(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude())*1E10+Calendar.getInstance().getTimeInMillis()/1000));
 		User user = (User)request.getSession().getAttribute("user");
 		location.setUid(user.getUid());
 		location.setStatus(Location.status_valid);
 		logger.info("location.getId() == "+location.getId());
-		mapService.saveLocation(location);
+		int n = 0;
+		boolean flag = true;
+		while(flag){
+			try{
+				if(n>0){
+					Thread.currentThread().sleep(1000);
+				}
+				mapService.saveLocation(location);
+				flag = false;
+			}catch(DataIntegrityViolationException e){
+				n++;
+				if(n>10){
+					flag = false;
+					logger.error("location id is duplicate, try times greater than 10");
+					throw e;
+				}
+				//location.setId(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude()));
+				location.setId((long)(GridUtil.getOwnGridCode(location.getLatitude(),location.getLongitude())*1E10+Calendar.getInstance().getTimeInMillis()/1000));
+				logger.warn("location id is duplicate, try again...");
+				logger.warn(e.toString());
+			}catch(InterruptedException ie){
+				logger.error(ie.toString());
+			}
+		};
 		return mylocation();
 	}
 	public String mylocation(){

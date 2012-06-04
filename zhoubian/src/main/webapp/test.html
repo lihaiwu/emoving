@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>test</title>
+<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+<style type="text/css">
+body{
+margin:10px;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+$(document).ready(function(){
+       //alert($(document).width() + "," + $(document).height());
+       //var o = $("#myspan").offset();
+       //alert(o.top + "," + o.left );
+       var e = document.getElementById("myspan");
+       var d = $("#displaydiv");
+       d.append(e.id+"<br/>");
+       d.append(e.offsetParent.id+"<br/>");
+       d.append(e.offsetParent.offsetParent.id+"<br/>");
+       d.append(e.offsetParent.offsetParent.offsetParent.id+"<br/>");
+       d.append(e.offsetParent.offsetParent.offsetParent.offsetParent.id+"<br/>");
+});
+function showSize(){
+       var o = $("#myspan").offset();
+       alert(o.top);
+}
+ 
+function getTopPos(inputObj)
+{
+         if (inputObj == null)
+             return 0;
+         var returnValue = inputObj.offsetTop;
+         while((inputObj = inputObj.offsetParent) != null){
+           if(inputObj.tagName!='HTML'){
+                     returnValue -=inputObj.scrollTop;
+               returnValue += inputObj.offsetTop;
+               if(document.all)returnValue+=inputObj.clientTop;
+                     /*if(inputObj.offsetParent != null && inputObj.parentNode != null && inputObj.offsetParent.tagName!='HTML' && inputObj.offsetParent.scrollTop == 0 && inputObj.parentNode.id != inputObj.offsetParent.id){
+                           returnValue -= inputObj.parentNode.scrollTop;
+                     }*/
+           }
+         }
+         //if (window == top) returnValue -= 94; //don't count pagelet header
+ 
+         return returnValue;
+}
+ 
+function showTop(){
+       var o = document.getElementById("myspan");
+       alert(getTopPos(o));
+}
+</script>
+hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!hello world!
+<table id="outertable">
+<tr>
+<td id="outertd">
+<div id='mydiv' style="height:100px;overflow-x:scroll;">
+<table id="innertable">
+<tr>
+<td id='mytd'>
+<!-- lalalalsafdsafds<br/>lalalalsafdsafds<br/>lalalalsafdsafds<br/>lalalalsafdsafds<br/>lalalalsafdsafds<br/><span id="myspan">*#*#*#*#*#*#*#</span><br/>lalalalsafdsafds<br/>lalalalsafdsafds<br/>lalalalsafdsafds<br/>lalalalsafdsafds<br/>lalalalsafdsafds<br/>lalalalsafdsafds<br/> -->
+<span id="myspan">*#*#*#*#*#*#*#</span>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+<a href="javascript:showSize();">showSize</a>
+<a href="javascript:showTop();">showTop</a>
+<div id="displaydiv"></div>
+</body>
+</html>

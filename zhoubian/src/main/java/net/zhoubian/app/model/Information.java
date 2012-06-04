@@ -10,6 +10,8 @@ public class Information implements java.io.Serializable {
 	
 	public static String UNINDEXED = "0";
 	public static String INDEXED = "1";
+	public static String STATUS_UNVALID = "0";
+	public static String STATUS_VALID = "1";
 
 	// Fields
 
@@ -24,6 +26,8 @@ public class Information implements java.io.Serializable {
 	private Float latitude;
 
 	private Date createTime;
+	
+	private Date updateTime;
 
 	private String state;
 
@@ -119,6 +123,18 @@ public class Information implements java.io.Serializable {
 	public Date getCreateTime() {
 		return this.createTime;
 	}
+	
+	
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;

@@ -45,11 +45,10 @@ a:active {
 	text-decoration: underline;
 }
 #container{margin:auto 0; padding:0px; border:0px; width:100%; height:100%;}
-#header{height:100px; background:#9c6; width:100%;}
 #menu {height:30px; background:#693; width:100%; }
 #mainContent{margin:0px; width:100%;}
-#sidebar{float:left; width:400px; background:#cf9; height:100%}
-#content{margin-left:400px !important; background:#ffa; position:relative; height:100%}
+#sidebar{float:left; width:250px; background:#cf9; height:100%}
+#mapcontent{margin-left:250px !important; background:#ffa; position:relative; height:100%}
 #poiTools{
 	width:52px;
 	position:absolute;
@@ -181,11 +180,16 @@ a:active {
 #tabs-1 form br{clear:left}
 #sbutton{margin-left:20px; margin-top:5px;}
 #rbutton{margin-top:5px; }
+.pagelink{
+	text-decoration:underline;
+	color:blue;
+	cursor:pointer;
+}
 </style>
-<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.8.4.custom.css" rel="stylesheet"/>
+<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.8.18.custom.css" rel="stylesheet"/>
 <!--<link type="text/css" href="<%=request.getContextPath()%>/css/ui.jqgrid.css" rel="stylesheet"/>-->
 <script src="<%=request.getContextPath()%>/js/jquery-1.4.2.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.bgiframe-2.1.1.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.bgiframe-2.1.2.js"></script>
 <script type="text/javascript" src="http://app.mapabc.com/apis?&t=flashmap&v=2.3.4&key=<%=net.zhoubian.app.util.SystemProperties.getProperty("mapkey")%>"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.ui.widget.min.js"></script>
@@ -202,9 +206,9 @@ a:active {
 <!--
 var mapObj = null;
 $(document).ready(function(){
-	$('#mainContent').height(getViewportHeight()-130);
-	$('#sidebar').height(getViewportHeight()-130);
-	$('#content').height(getViewportHeight()-130);
+	$('#mainContent').height(getViewportHeight()-115);
+	$('#sidebar').height(getViewportHeight()-115);
+	$('#mapcontent').height(getViewportHeight()-115);
 	var mapoption = new MMapOptions();
 	mapoption.zoom = 13;
 	mapoption.returnCoordType=COORD_TYPE_OFFSET;
@@ -423,13 +427,49 @@ function getViewportHeight(){
    function setCurrentCity(cityName){
 	   $("#cityName").val(cityName);
    }
+   var currentPage = 0;
+   var maxPage = Math.floor(<s:property value="#request.locations.size()"/>/5);
+   function nextPage(){
+	   if(currentPage == maxPage)
+	     return;
+	   if(currentPage == 0){
+		   $("#prePage").addClass("pagelink");
+	   }
+	   currentPage = currentPage + 1;
+	   if(currentPage == maxPage){
+		   $("#nextPage").removeClass("pagelink");
+	   }
+	   for(var i=0;i<maxPage;i++){
+		   if(i != currentPage){
+			   $("#locationPage"+i).hide();
+		   }
+	   }
+	   $("#locationPage"+currentPage).show();
+   }
+   function prePage(){
+	   if(currentPage == 0)
+	     return;
+	   if(currentPage == maxPage){
+		   $("#nextPage").addClass("pagelink");
+	   }
+	   currentPage = currentPage - 1;
+	   if(currentPage == 0){
+		   $("#prePage").removeClass("pagelink");
+	   }
+	   for(var i=0;i<maxPage;i++){
+		   if(i != currentPage){
+			   $("#locationPage"+i).hide();
+		   }
+	   }
+	   $("#locationPage"+currentPage).show();
+	   
+   }
 // -->
 </script>
 </head>
 <body>
 <%@ include file="citylist.jsp"%>
-<div id="container">
-	<div id="header">This is the Header</div>
+<div id="container" class="grid_12">
 	<div id="menu">
     	<div id="searchDiv" style="float:left">
         <form name="searchForm" method="post" action="#" onsubmit="searchPoiBase();return false;">
@@ -456,11 +496,11 @@ function getViewportHeight(){
 	<input id="lngX" type="hidden" name="lngX"/>
 	<input id="latY" type="hidden" name="latY"/>
 	<input type="hidden" name="iconUrl" id="iconUrl" value="<%=request.getContextPath()%>/images/10.gif"/>
-	<label for="locationName">位置名称：</label><input style="width:250px" id="locationName" type="text" name="locationName"/><br/>
+	<label for="locationName">位置名称：</label><input style="width:120px" id="locationName" type="text" name="locationName"/><br/>
 	<label for="subLocType">位置类型：</label><s:if test="#request.locations!=null"><select id="subLocType" name="subLocType"><option value="1">居住地</option>
 	<option value="2">办公地</option><option value="3">旅游地</option><option value="4">出差地</option><option value="5">其他</option>
 	</select></s:if><s:else><select id="subLocType" name="subLocType"><option value="1" selected="selected">居住地</option></select></s:else><br/>
-	<label for="locationDesc">位置说明：</label><textarea id="locationDesc" name="locationDesc" rows="10" cols="40"></textarea><br/>
+	<label for="locationDesc">位置说明：</label><textarea id="locationDesc" name="locationDesc" rows="10" cols="32"></textarea><br/>
 	<input id="sbutton" type="submit" value="保存" style="width:40px"/>&nbsp;&nbsp;<input id="rbutton" type="button" value="重置" style="width:40px"/>
 	</form>
 	</div>
@@ -468,6 +508,13 @@ function getViewportHeight(){
 	<div id="tabs-2" style="height:85%; overflow:auto;">
 	<div>&nbsp;&nbsp;共<%=((java.util.List)request.getAttribute("locations")).size()%>条结果</div>
 	<s:iterator value="#request.locations" status="rowstatus">
+    <s:if test="#rowstatus.first">
+    <div id="locationPage0">
+    </s:if>
+    <s:elseif test="#rowstatus.index % 5 == 0">
+    </div>
+    <div id="locationPage<s:property value='#rowstatus.count / 5'/>" style="display:none">
+    </s:elseif>
 	<s:if test="#rowstatus.odd==true">
 		<div style="background-color:#FFFFE5;">
 	</s:if>
@@ -475,7 +522,7 @@ function getViewportHeight(){
 		<div style="background-color:#F2FFE5;">
 	</s:else>
 		<table width="90%" border="0" cellpadding="0" cellspacing="0">
-		<tr><td width="20%"><input type="checkbox" value="<s:property value='id'/>" onclick="mapAddChk(this.value,'<s:property value="locationName"/>','<s:property value="locationDesc"/>','<s:property value="longitude"/>','<s:property value="latitude"/>',this.checked);"/></td><td><s:property value='locationName'/></td></tr>
+		<tr><td width="32%"><input type="checkbox" value="<s:property value='id'/>" onclick="mapAddChk(this.value,'<s:property value="locationName"/>','<s:property value="locationDesc"/>','<s:property value="longitude"/>','<s:property value="latitude"/>',this.checked);"/></td><td><s:property value='locationName'/></td></tr>
 		<tr><td>类型：</td><td>
 		<s:if test="subLocType==1">居住地</s:if>
 		<s:if test="subLocType==2">办公地</s:if>
@@ -489,13 +536,16 @@ function getViewportHeight(){
 		<tr><td>描述：</td><td><s:property value="locationDesc"/></td></tr>
 		</table>
 	</div>
+    <s:if test="#rowstatus.last">
+    </div>
+    </s:if>
 	</s:iterator>
-	<div>&nbsp;&nbsp;上一页&nbsp;&nbsp;下一页</div>
+	<div>&nbsp;&nbsp;<span id="prePage" onclick="prePage()">上一页</span>&nbsp;&nbsp;<span id="nextPage" onclick="nextPage()" <s:if test="#request.locations.size()>5">class="pagelink"</s:if>>下一页</span></div>
 	</div>
 	</s:if>
 	</div>
 		</div>
-		<div id="content">
+		<div id="mapcontent">
 		<div id="map_canvas" style="width:100%;height:100%"></div>
 		<div id="poiTools">
 			<p class="gjx_pl" style="font-weight:normal">

@@ -18,4 +18,11 @@ public interface InfoService {
 	 * @return
 	 */
 	public List<Tag> getTagsByCategoryId(String categoryId);
+	
+	/**
+	 * 根据ID查找信息
+	 * @param id
+	 * @return
+	 */
+	public Information getInfomationById(Long id);
 }

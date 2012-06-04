@@ -36,4 +36,8 @@
 		scope="prototype" autowire="byName">
 		<property name="infoService" ref="infoService"></property>
 	</bean>
+	<bean id="talkAction" class="net.zhoubian.app.web.action.TalkAction"
+		scope="prototype" autowire="byName">
+		<property name="talkService" ref="talkService"></property>
+	</bean>
 </beans>
