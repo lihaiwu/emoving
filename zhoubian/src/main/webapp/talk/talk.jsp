@@ -108,7 +108,7 @@ html,body{
     </div>
     <div id="right">
     	<div id="userlistbar">
-        	<img style="height:26px;margin:2px 0;float:left;" src="<%=request.getContextPath()%>/images/persons.gif"/><span>在线用户</span><img style="margin:7px 0;float:right;" src="<%=request.getContextPath()%>/images/refresh.gif" alt="刷新用户列表" title="刷新用户列表"/>
+        	<img style="height:26px;margin:2px 0;float:left;" src="<%=request.getContextPath()%>/images/persons.gif" onclick="refreshUserList()"/><span>在线用户</span><img style="margin:7px 0;float:right;" src="<%=request.getContextPath()%>/images/refresh.gif" alt="刷新用户列表" title="刷新用户列表"/>
         </div>
     	<div id="userlist"></div>
     </div>
@@ -143,6 +143,9 @@ function receiveChats(chat){
 		message.text = chat.text;
 		top.frames[0].addMessage(message);
 	}
+}
+function refreshUserList(){
+	$("#userlist").load("<%=request.getContextPath()%>/getOnlineUsers.do");
 }
 </script>
 </body>
