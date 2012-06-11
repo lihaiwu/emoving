@@ -108,7 +108,7 @@ html,body{
     </div>
     <div id="right">
     	<div id="userlistbar">
-        	<img style="height:26px;margin:2px 0;float:left;" src="<%=request.getContextPath()%>/images/persons.gif" onclick="refreshUserList()"/><span>在线用户</span><img style="margin:7px 0;float:right;" src="<%=request.getContextPath()%>/images/refresh.gif" alt="刷新用户列表" title="刷新用户列表"/>
+        	<img style="height:26px;margin:2px 0;float:left;" src="<%=request.getContextPath()%>/images/persons.gif"/><span>在线用户</span><img style="margin:7px 0;float:right;" src="<%=request.getContextPath()%>/images/refresh.gif" alt="刷新用户列表" title="刷新用户列表" onclick="refreshUserList()"/>
         </div>
     	<div id="userlist"></div>
     </div>
@@ -118,7 +118,7 @@ $(document).ready(function(){
 	dwr.engine.setActiveReverseAjax(true);
 	$("#content").height($(window).height()-$("#input").outerHeight()-10);
 	$("#userlist").height($(window).height()-40);
-	$("#userlist").load("<%=request.getContextPath()%>/getOnlineUsers.do");
+	$("#userlist").load("<%=request.getContextPath()%>/getOnlineUsers.do?datetime="+new Date().getTime());
 	$(window).resize(function(){
 		$("#content").height($(window).height()-$("#input").outerHeight()-10);
 		$("#userlist").height($(window).height()-40);
@@ -145,7 +145,7 @@ function receiveChats(chat){
 	}
 }
 function refreshUserList(){
-	$("#userlist").load("<%=request.getContextPath()%>/getOnlineUsers.do");
+	$("#userlist").load("<%=request.getContextPath()%>/getOnlineUsers.do?datetime="+new Date().getTime());
 }
 </script>
 </body>
